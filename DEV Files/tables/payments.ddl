@@ -3,6 +3,6 @@ create table dgmain.payments (
   payment_date            int,
   vacation_id             int,
   payment_type            text,
-  payment_amnt            number,
+  payment_amnt            int,
   card_id                 int
 );

@@ -38,7 +38,7 @@ reservation_num                     text,
 courtesy_hld_exp_date               date,
 final_payment_due_date              date,
 refurb                              text,
-total_cost                          number,
+total_cost                          int,
 cost_savings                        text,
 discount_applied                    text
 );

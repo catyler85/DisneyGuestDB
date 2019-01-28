@@ -32,8 +32,8 @@ special_requests                    text,
 reservation_num                     text,
 final_payment_due_date              date,
 refurb                              text,
-total_cost                          number,
-payments_total                      number,
+total_cost                          int,
+payments_total                      int,
 cost_savings                        text,
 discount_applied                    text
 );
