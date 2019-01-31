@@ -32,7 +32,9 @@ raise notice '%', lov_function;
 
 --build function call and execute
 proc_str                                := 'build_function_call - ';
-sql_str                                 := 'select dgmain.' || lov_function || '('''|| p_params || ''')';
+db_jsonb                                := p_params;
+db_jsonb                                := jsonb_set(db_jsonb,array['trans_id'], (t_id::text)::jsonb);
+sql_str                                 := 'select dgmain.' || lov_function || '('''|| db_jsonb || ''')';
 
 proc_str                                := 'execute_function_call';
 execute sql_str into db_jsonb;

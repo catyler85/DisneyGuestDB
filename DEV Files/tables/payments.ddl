@@ -1,3 +1,5 @@
+--drop table dgmain.payments;
+
 create table dgmain.payments (
   payment_id              int,
   payment_date            int,

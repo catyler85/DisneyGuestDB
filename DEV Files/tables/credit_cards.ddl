@@ -1,3 +1,5 @@
+--drop table dgmain.credit_cards;
+
 create table dgmain.credit_cards (
   card_id                  int,
   card_added_date          date,

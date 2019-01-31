@@ -1,4 +1,6 @@
-create table dgmain.guests_stg (
+--drop table dgmain.guests;
+
+create table dgmain.guests (
 guid                   int,
 name_prefix            text,
 first_name             text,

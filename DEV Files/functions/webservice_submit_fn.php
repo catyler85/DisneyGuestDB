@@ -23,6 +23,7 @@ $result = pg_query_params($db, "SELECT * FROM dgmain.webservice_insert_fn($1,$2)
 while ($row = pg_fetch_row($result)) {
   echo $row[0];
 }
+pg_close($db);
 }
-//pg_close($db);
+
 ?>

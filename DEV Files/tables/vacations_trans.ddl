@@ -1,6 +1,9 @@
---drop table dgmain.vacations;
+--drop table dgmain.vacations_trans;
 
-create table dgmain.vacations (
+create table dgmain.vacations_trans (
+trans_id                            int,
+load_date                           date,
+status                              text,
 vacation_id                         int,
 lead_guest_guid                     int,
 travel_group                        int,

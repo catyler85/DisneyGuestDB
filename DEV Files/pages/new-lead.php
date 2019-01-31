@@ -162,6 +162,7 @@
 		<div class="w3-half">
 			<label>How did you find Small World Vacations?</label>
 			<input id="find_small_world" name="find_small_world" type="text" class="w3-input w3-round-large" value="<?php echo $find_small_world;?>"></input>
+			<input id="source" name="source" type="hidden" value="<?php echo $source;?>"></input>
 		</div>
 		<div class="w3-quarter">
 		  <label class="fa fa-calendar-o">Check-Out</label>
@@ -214,12 +215,12 @@
 			<input id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large" value="<?php echo $cruise_addon;?>"></input>
 			<label>Would you like to add Universal?</label>
 			<input id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large" value="<?php echo $universal_addon;?>"></input>
-			<input type="hidden" name="special_occasion" value=<?php if (strpos($previous_disney_experience, 'first') > 0) {echo 'First Visit ';}else {echo '';}if (empty($special_occasion)) {echo '';}else {echo " - " .$special_occasion;} ?></input>
+			<input type="hidden" name="special_occasion" value=<?php if (strpos($previous_disney_experience, 'first') > 0) {echo 'First Visit ';}else {echo '';}if (empty($special_occasion)) {echo '';}else {echo " - " .$special_occasion;} ?>></input>
 		</div>
 
 	</div>
 	<p>Handicap Details: <?php echo $handicap_details ?></p>
-	<input type="hidden" name="handicap_details" value="$handicap_details"></input>
+	<input type="hidden" name="handicap_details" value=<?php echo $handicap_details ?>></input>
 <!--end of vacation details  card     -->
 </div>
 </div>

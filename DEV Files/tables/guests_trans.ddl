@@ -1,6 +1,9 @@
+--drop table dgmain.guests_trans;
+
 create table dgmain.guests_trans (
 trans_id                     int,
 load_date                    date,
+status                       text,
 guid                         int,
 name_prefix                  text,
 first_name                   text,
