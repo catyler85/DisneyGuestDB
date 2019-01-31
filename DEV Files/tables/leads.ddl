@@ -1,6 +1,6 @@
 --drop table dgmain.leads;
 
-create table dgmain.leads_trans (
+create table dgmain.leads (
 lead_id                             int,
 lead_guest_guid                     int,
 travel_group                        int,
