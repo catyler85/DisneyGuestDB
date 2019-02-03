@@ -18,10 +18,10 @@ $form_name  =   $_POST['form_name'];
 //echo $form_name;
 //
 require 'db_connect.php';
-$result = pg_query_params($db, "SELECT * FROM dgmain.webservice_insert_fn($1,$2)",array($form_json,$form_name));
+$result = pg_query_params($db, "call dgmain.webservice_insert_sp($1,$2)",array($form_json,$form_name));
 
 while ($row = pg_fetch_row($result)) {
-  echo $row[0];
+  echo $row[2];
 }
 pg_close($db);
 }

@@ -1,7 +1,7 @@
 CREATE OR REPLACE procedure dgmain.webservice_insert_sp(
 	INOUT    p_params       jsonb,
 	INOUT    p_trans_name   text,
-  INOUT    p_jsonb        jsonb)
+  INOUT    p_jsonb        jsonb default null)
 AS $$
 declare
   t_id                int;
