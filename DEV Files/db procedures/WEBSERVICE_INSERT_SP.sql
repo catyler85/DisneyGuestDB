@@ -10,6 +10,7 @@ declare
 	lov_function        text               := '';
 	sql_str             text               := '';
 	proc_str            text               := '';
+	rtn_code            int;
 
 begin
 
@@ -26,7 +27,7 @@ select lookup_value into lov_function from dgmain.lov_table where lookup_type = 
 raise notice '%', lov_function;
 -------------------------------------------------------------
 --build function call and execute
-proc_str                                := 'build_function_call - ';
+proc_str                                := 'build_function_call';
 db_jsonb                                := p_params;
 db_jsonb                                := jsonb_set(db_jsonb,array['trans_id'], (t_id::text)::jsonb);
 sql_str                                 := 'call dgmain.' || lov_function || '('''|| db_jsonb || ''',jsonb_build_object(''send'',''value''))';
@@ -36,9 +37,25 @@ execute sql_str;
 commit;
 
 -------------------------------------------------------------
---call trans proc function
-
-
+--call trans proc functions
+-------------------------------------------------------------
+--guid_assign
+proc_str                                := 'guid_assign_fn';
+rtn_code                                := dgmain.guid_assign_fn();
+if rtn_code = 1
+then
+  commit;
+else raise 'The process failed at %', proc_str;
+end if;
+--
+--lead process
+proc_str                                := 'leads_pr_fn';
+rtn_code                                := dgmain.leads_pr_fn();
+if rtn_code = 1
+then
+  commit;
+else raise 'The process failed at %', proc_str;
+end if;
 
 
 

@@ -1,7 +1,7 @@
 --drop table dgmain.credit_cards;
 
 create table dgmain.credit_cards (
-  card_id                  int,
+  card_id                  int primary key,
   card_added_date          date,
   guid                     int,
   card_type                text,

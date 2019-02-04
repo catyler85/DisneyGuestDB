@@ -1,7 +1,7 @@
 --drop table dgmain.leads;
 
 create table dgmain.leads (
-lead_id                             int,
+lead_id                             int primary key,
 lead_guest_guid                     int,
 travel_group                        int,
 check_in                            date,

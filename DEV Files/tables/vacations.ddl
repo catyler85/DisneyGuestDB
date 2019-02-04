@@ -1,7 +1,7 @@
 --drop table dgmain.vacations;
 
 create table dgmain.vacations (
-vacation_id                         int,
+vacation_id                         int primary key,
 lead_guest_guid                     int,
 travel_group                        int,
 check_in                            date,

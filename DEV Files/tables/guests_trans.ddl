@@ -21,5 +21,6 @@ email                        text,
 phone                        text,
 cell                         text,
 fax                          text,
-preferred_contact_method     text
+preferred_contact_method     text,
+dg_id                        int
 );

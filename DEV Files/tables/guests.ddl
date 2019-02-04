@@ -1,7 +1,7 @@
 --drop table dgmain.guests;
 
 create table dgmain.guests (
-guid                   int,
+guid                   int primary key,
 name_prefix            text,
 first_name             text,
 middle_name            text,

@@ -6,5 +6,6 @@ load_date            date,
 status               text,
 key_name             text,
 key_value            text,
-guid                 int
+guid                 int,
+dg_id                int
 );
