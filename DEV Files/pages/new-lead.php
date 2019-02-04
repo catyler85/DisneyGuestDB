@@ -31,6 +31,7 @@
   <div class="w3-cell">
 	<div class="w3-container w3-panel w3-card w3-pale-red w3-margin">
   	<h3>Lead Guest</h3><label><?php echo $country; ?></label>
+		<input type="hidden" name="country" value=<?php echo $country; ?>></input>
         <div class="w3-row-padding" style="margin:0 -16px;">
           <div class="w3-half">
 						<label class="w3-small">First Name</label>

@@ -56,6 +56,15 @@ then
   commit;
 else raise 'The process failed at %', proc_str;
 end if;
+--
+--loads
+proc_str                                := 'final_load_fn';
+rtn_code                                := dgmain.final_load_fn();
+if rtn_code = 1
+then
+  commit;
+else raise 'The process failed at %', proc_str;
+end if;
 
 
 

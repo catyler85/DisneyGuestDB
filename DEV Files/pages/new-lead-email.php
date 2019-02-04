@@ -18,7 +18,7 @@
   <form method="POST" class="w3-container w3-responsive" action="new-lead.php" id="email_box">
 	  <textarea class="w3-input w3-margin" rows="20" cols="15" name="lead_email_text" id="lead_email_text">
 	  </textarea>
-		<input class="w3-button w3-pink w3-hover-purple" type='submit' name='submit' id="submit" >
+		<input class="w3-button w3-pink w3-round-large w3-hover-purple" type='submit' name='submit' id="submit" >
 	</form>
 </div>
 <!--javascript section -->
