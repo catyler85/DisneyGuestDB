@@ -20,28 +20,14 @@ begin
 --load guests to final table
 ----------------------------------------------------
   for g_rec in
-    select
-       guid
-     , max(name_prefix) name_prefix
-     , max(first_name) first_name
-     , max(middle_name) middle_name
-     , max(last_name) last_name
-     , max(name_suffix) name_suffix
-     , max(address1) address1
-     , max(address2) address2
-     , max(address3) address3
-     , max(city) city
-     , max(state) state
-     , max(zip) zip
-     , max(country) country
-     , max(email) email
-     , max(phone) phone
-     , max(cell) cell
-     , max(fax) fax
-     , max(preferred_contact_method) preferred_contact_method
-    from dgmain.guests_trans
-    where status = 'P'
-    group by guid
+    select * from (
+      select
+         a.*
+       , row_number() over (partition by a.guid order by a.dg_id desc) rn
+      from dgmain.guests_trans a
+      where status = 'P'
+    ) x1
+    where rn = 1
   loop
 
     insert into dgmain.guests as a
@@ -49,7 +35,8 @@ begin
     (g_rec.guid, g_rec.name_prefix, g_rec.first_name, g_rec.middle_name, g_rec.last_name,
     g_rec.name_suffix, g_rec.address1, g_rec.address2, g_rec.address3, g_rec.city,
     g_rec.state, g_rec.zip, g_rec.country, g_rec.email, g_rec.phone, g_rec.cell, g_rec.fax,
-    g_rec.preferred_contact_method, db_current_date )
+    g_rec.preferred_contact_method, db_current_date, g_rec.child_flag,
+    g_rec.age_at_travel, g_rec.last_travel_date )
     on conflict(guid) do update
       set guid                         = g_rec.guid,
           name_prefix                  = g_rec.name_prefix,
@@ -69,7 +56,10 @@ begin
           cell                         = g_rec.cell,
           fax                          = g_rec.fax,
           preferred_contact_method     = g_rec.preferred_contact_method,
-          last_updated                 = db_current_date
+          last_updated                 = db_current_date,
+          child_flag                   = g_rec.child_flag,
+          age_at_travel                = g_rec.age_at_travel,
+          last_travel_date             = g_rec.last_travel_date
     where a.guid = g_rec.guid;
 
   end loop;

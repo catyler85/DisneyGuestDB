@@ -71,6 +71,7 @@ begin
 	    guest_rec.fax                                  := coalesce((p_params ->> 'fax')::text,'');
 	    guest_rec.preferred_contact_method             := coalesce((p_params ->> 'preferred_contact_method')::text,'');
 			guest_rec.dg_id                                := nextval('dgmain.dg_id_seq');
+			guest_rec.last_room                            := (p_params -> 'Adults' -> i::text ->> 'room')::text;
 
 			insert into guest_rec_temp values (guest_rec.*);
       ------------------------------------------------
@@ -164,6 +165,7 @@ begin
 		  guest_rec.zip                                  := coalesce((p_params ->> 'zip')::text,'');
 		  guest_rec.country                              := coalesce((p_params ->> 'country')::text,'');
 			guest_rec.dg_id                                := nextval('dgmain.dg_id_seq');
+			guest_rec.last_room                            := (p_params -> 'Adults' -> i::text ->> 'room')::text;
 
 			insert into guest_rec_temp values (guest_rec.*);
 
@@ -261,6 +263,10 @@ begin
 		  guest_rec.zip                                  := coalesce((p_params ->> 'zip')::text,'');
 		  guest_rec.country                              := coalesce((p_params ->> 'country')::text,'');
 			guest_rec.dg_id                                := nextval('dgmain.dg_id_seq');
+			guest_rec.child_flag                           := true;
+			guest_rec.age_at_travel                        := (p_params -> 'Children' -> (i - adult_num)::text ->> 'age')::int;
+			guest_rec.last_travel_date                     := (p_params ->> 'check_in')::timestamp;
+			guest_rec.last_room                            := (p_params -> 'Children' -> (i - adult_num)::text ->> 'room')::text;
 
 		  insert into guest_rec_temp values (guest_rec.*);
 

@@ -22,5 +22,9 @@ phone                        text,
 cell                         text,
 fax                          text,
 preferred_contact_method     text,
-dg_id                        int
+dg_id                        int,
+child_flag                   boolean,
+age_at_travel                int,
+last_travel_date             date,
+last_room                    text
 );
