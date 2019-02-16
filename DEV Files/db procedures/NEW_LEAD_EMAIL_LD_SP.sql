@@ -7,6 +7,7 @@ declare
   new_lead                  jsonb;
   db_jsonb                  jsonb;
 	db_current_date           date               := current_date;
+	db_int                    int;
 	v_message                 text;
 	v_proc_step               text;
 
@@ -76,73 +77,73 @@ begin
 			--key lookup values
 			--
 			--name|address
-			if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
-				insert into key_lookup_temp
-				values
-				(guest_rec.trans_id
-					, db_current_date
-					, 'I'
-					, 'name|address'
-					,  lower(guest_rec.name_prefix || guest_rec.first_name
-					|| guest_rec.middle_name  || guest_rec.last_name
-					|| guest_rec.name_suffix
-					|| '|'
-					|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
-					, null
-					, guest_rec.dg_id);
-			end if;
+			--if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
+			--	insert into key_lookup_temp
+			--	values
+			--	(guest_rec.trans_id
+			--		, db_current_date
+			--		, 'I'
+			--		, 'name|address'
+			--		,  lower(guest_rec.first_name
+			--		|| guest_rec.middle_name  || guest_rec.last_name
+			--		|| guest_rec.name_suffix
+			--		|| '|'
+			--		|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
+			--		, null
+			--		, guest_rec.dg_id);
+			--end if;
 
-				--name|email
-				if guest_rec.email is not null then
-					insert into key_lookup_temp
-					values
-					(guest_rec.trans_id
-					, db_current_date
-					, 'I'
-					, 'name|email'
-					,  lower(guest_rec.name_prefix || guest_rec.first_name
-					|| guest_rec.middle_name  || guest_rec.last_name
-					|| guest_rec.name_suffix
-					|| '|'
-					|| guest_rec.email)
-					, null
-					, guest_rec.dg_id);
-			end if;
-				--
-				--name|phone
-				if guest_rec.phone is not null then
-					insert into key_lookup_temp
-					values
-					(guest_rec.trans_id
-					, db_current_date
-					, 'I'
-					, 'name|phone'
-					,  lower(guest_rec.name_prefix || guest_rec.first_name
-					 || guest_rec.middle_name  || guest_rec.last_name
-					 || guest_rec.name_suffix
-					 || '|'
-					 || guest_rec.phone)
-					 , null
-					, guest_rec.dg_id);
-			end if;
-				--
-				--name|cell
-				if guest_rec.cell is not null then
-					insert into key_lookup_temp
-					values
-					(guest_rec.trans_id
-						, db_current_date
-						, 'I'
-						, 'name|cell'
-						,  lower(guest_rec.name_prefix || guest_rec.first_name
-						|| guest_rec.middle_name  || guest_rec.last_name
-						|| guest_rec.name_suffix
-						|| '|'
-						|| guest_rec.cell)
-						, null
-						, guest_rec.dg_id);
-					end if;
-
+			--	--name|email
+			--	if guest_rec.email is not null then
+			--		insert into key_lookup_temp
+			--		values
+			--		(guest_rec.trans_id
+			--		, db_current_date
+			--		, 'I'
+			--		, 'name|email'
+			--		,  lower(guest_rec.first_name
+			--		|| guest_rec.middle_name  || guest_rec.last_name
+			--		|| guest_rec.name_suffix
+			--		|| '|'
+			--		|| guest_rec.email)
+			--		, null
+			--		, guest_rec.dg_id);
+			--end if;
+			--	--
+			--	--name|phone
+			--	if guest_rec.phone is not null then
+			--		insert into key_lookup_temp
+			--		values
+			--		(guest_rec.trans_id
+			--		, db_current_date
+			--		, 'I'
+			--		, 'name|phone'
+			--		,  lower(guest_rec.first_name
+			--		 || guest_rec.middle_name  || guest_rec.last_name
+			--		 || guest_rec.name_suffix
+			--		 || '|'
+			--		 || guest_rec.phone)
+			--		 , null
+			--		, guest_rec.dg_id);
+			--end if;
+			--	--
+			--	--name|cell
+			--	if guest_rec.cell is not null then
+			--		insert into key_lookup_temp
+			--		values
+			--		(guest_rec.trans_id
+			--			, db_current_date
+			--			, 'I'
+			--			, 'name|cell'
+			--			,  lower(guest_rec.first_name
+			--			|| guest_rec.middle_name  || guest_rec.last_name
+			--			|| guest_rec.name_suffix
+			--			|| '|'
+			--			|| guest_rec.cell)
+			--			, null
+			--			, guest_rec.dg_id);
+			--		end if;
+      select * into db_int from key_lookup_temp_ld_fn(guest_rec);
 			guest_rec                                      := null;
 				------------------------------------------------
 		elsif i between 2 and adult_num
@@ -167,75 +168,77 @@ begin
 			insert into guest_rec_temp values (guest_rec.*);
 
 				------------------------------------------------
+				------------------------------------------------
 				--key lookup values
 				--
 				--name|address
-				if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
-					insert into key_lookup_temp
-					values
-					(guest_rec.trans_id
-						, db_current_date
-						, 'I'
-						, 'name|address'
-						,  lower(guest_rec.name_prefix || guest_rec.first_name
-						|| guest_rec.middle_name  || guest_rec.last_name
-						|| guest_rec.name_suffix
-						|| '|'
-						|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
-            , null
-						, guest_rec.dg_id);
-				end if;
+				--if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
+				--	insert into key_lookup_temp
+				--	values
+				--	(guest_rec.trans_id
+				--		, db_current_date
+				--		, 'I'
+				--		, 'name|address'
+				--		,  lower(guest_rec.first_name
+				--		|| guest_rec.middle_name  || guest_rec.last_name
+				--		|| guest_rec.name_suffix
+				--		|| '|'
+				--		|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
+				--		, null
+				--		, guest_rec.dg_id);
+				--end if;
 
-					--name|email
-					if guest_rec.email is not null then
-						insert into key_lookup_temp
-						values
-						(guest_rec.trans_id
-						, db_current_date
-						, 'I'
-						, 'name|email'
-						,  lower(guest_rec.name_prefix || guest_rec.first_name
-						|| guest_rec.middle_name  || guest_rec.last_name
-						|| guest_rec.name_suffix
-						|| '|'
-						|| guest_rec.email)
-            , null
-						, guest_rec.dg_id);
-				end if;
-					--
-					--name|phone
-					if guest_rec.phone is not null then
-						insert into key_lookup_temp
-						values
-						(guest_rec.trans_id
-						, db_current_date
-						, 'I'
-						, 'name|phone'
-						,  lower(guest_rec.name_prefix || guest_rec.first_name
-						 || guest_rec.middle_name  || guest_rec.last_name
-						 || guest_rec.name_suffix
-						 || '|'
-						 || guest_rec.phone)
-             , null
-						, guest_rec.dg_id);
-				end if;
-					--
-					--name|cell
-					if guest_rec.cell is not null then
-						insert into key_lookup_temp
-						values
-						(guest_rec.trans_id
-							, db_current_date
-							, 'I'
-							, 'name|cell'
-							,  lower(guest_rec.name_prefix || guest_rec.first_name
-							|| guest_rec.middle_name  || guest_rec.last_name
-							|| guest_rec.name_suffix
-							|| '|'
-							|| guest_rec.cell)
-	            , null
-							, guest_rec.dg_id);
-						end if;
+				--	--name|email
+				--	if guest_rec.email is not null then
+				--		insert into key_lookup_temp
+				--		values
+				--		(guest_rec.trans_id
+				--		, db_current_date
+				--		, 'I'
+				--		, 'name|email'
+				--		,  lower(guest_rec.first_name
+				--		|| guest_rec.middle_name  || guest_rec.last_name
+				--		|| guest_rec.name_suffix
+				--		|| '|'
+				--		|| guest_rec.email)
+				--		, null
+				--		, guest_rec.dg_id);
+				--end if;
+				--	--
+				--	--name|phone
+				--	if guest_rec.phone is not null then
+				--		insert into key_lookup_temp
+				--		values
+				--		(guest_rec.trans_id
+				--		, db_current_date
+				--		, 'I'
+				--		, 'name|phone'
+				--		,  lower(guest_rec.first_name
+				--		 || guest_rec.middle_name  || guest_rec.last_name
+				--		 || guest_rec.name_suffix
+				--		 || '|'
+				--		 || guest_rec.phone)
+				--		 , null
+				--		, guest_rec.dg_id);
+				--end if;
+				--	--
+				--	--name|cell
+				--	if guest_rec.cell is not null then
+				--		insert into key_lookup_temp
+				--		values
+				--		(guest_rec.trans_id
+				--			, db_current_date
+				--			, 'I'
+				--			, 'name|cell'
+				--			,  lower(guest_rec.first_name
+				--			|| guest_rec.middle_name  || guest_rec.last_name
+				--			|| guest_rec.name_suffix
+				--			|| '|'
+				--			|| guest_rec.cell)
+				--			, null
+				--			, guest_rec.dg_id);
+				--		end if;
+	      select * into db_int from key_lookup_temp_ld_fn(guest_rec);
 
 				guest_rec                                      := null;
 					------------------------------------------------
@@ -262,75 +265,77 @@ begin
 		  insert into guest_rec_temp values (guest_rec.*);
 
 				------------------------------------------------
+				------------------------------------------------
 				--key lookup values
 				--
 				--name|address
-				if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
-					insert into key_lookup_temp
-					values
-					(guest_rec.trans_id
-						, db_current_date
-						, 'I'
-						, 'name|address'
-						,  lower(guest_rec.name_prefix || guest_rec.first_name
-						|| guest_rec.middle_name  || guest_rec.last_name
-						|| guest_rec.name_suffix
-						|| '|'
-						|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
-            , null
-						, guest_rec.dg_id);
-				end if;
+				--if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
+				--	insert into key_lookup_temp
+				--	values
+				--	(guest_rec.trans_id
+				--		, db_current_date
+				--		, 'I'
+				--		, 'name|address'
+				--		,  lower(guest_rec.first_name
+				--		|| guest_rec.middle_name  || guest_rec.last_name
+				--		|| guest_rec.name_suffix
+				--		|| '|'
+				--		|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
+				--		, null
+				--		, guest_rec.dg_id);
+				--end if;
 
-					--name|email
-					if guest_rec.email is not null then
-						insert into key_lookup_temp
-						values
-						(guest_rec.trans_id
-						, db_current_date
-						, 'I'
-						, 'name|email'
-						,  lower(guest_rec.name_prefix || guest_rec.first_name
-						|| guest_rec.middle_name  || guest_rec.last_name
-						|| guest_rec.name_suffix
-						|| '|'
-						|| guest_rec.email)
-            , null
-						, guest_rec.dg_id);
-				end if;
-					--
-					--name|phone
-					if guest_rec.phone is not null then
-						insert into key_lookup_temp
-						values
-						(guest_rec.trans_id
-						, db_current_date
-						, 'I'
-						, 'name|phone'
-						,  lower(guest_rec.name_prefix || guest_rec.first_name
-						 || guest_rec.middle_name  || guest_rec.last_name
-						 || guest_rec.name_suffix
-						 || '|'
-						 || guest_rec.phone)
-             , null
-						, guest_rec.dg_id);
-				end if;
-					--
-					--name|cell
-					if guest_rec.cell is not null then
-						insert into key_lookup_temp
-						values
-						(guest_rec.trans_id
-							, db_current_date
-							, 'I'
-							, 'name|cell'
-							,  lower(guest_rec.name_prefix || guest_rec.first_name
-							|| guest_rec.middle_name  || guest_rec.last_name
-							|| guest_rec.name_suffix
-							|| '|'
-							|| guest_rec.cell)
-	            , null
-							, guest_rec.dg_id);
-						end if;
+				--	--name|email
+				--	if guest_rec.email is not null then
+				--		insert into key_lookup_temp
+				--		values
+				--		(guest_rec.trans_id
+				--		, db_current_date
+				--		, 'I'
+				--		, 'name|email'
+				--		,  lower(guest_rec.first_name
+				--		|| guest_rec.middle_name  || guest_rec.last_name
+				--		|| guest_rec.name_suffix
+				--		|| '|'
+				--		|| guest_rec.email)
+				--		, null
+				--		, guest_rec.dg_id);
+				--end if;
+				--	--
+				--	--name|phone
+				--	if guest_rec.phone is not null then
+				--		insert into key_lookup_temp
+				--		values
+				--		(guest_rec.trans_id
+				--		, db_current_date
+				--		, 'I'
+				--		, 'name|phone'
+				--		,  lower(guest_rec.first_name
+				--		 || guest_rec.middle_name  || guest_rec.last_name
+				--		 || guest_rec.name_suffix
+				--		 || '|'
+				--		 || guest_rec.phone)
+				--		 , null
+				--		, guest_rec.dg_id);
+				--end if;
+				--	--
+				--	--name|cell
+				--	if guest_rec.cell is not null then
+				--		insert into key_lookup_temp
+				--		values
+				--		(guest_rec.trans_id
+				--			, db_current_date
+				--			, 'I'
+				--			, 'name|cell'
+				--			,  lower(guest_rec.first_name
+				--			|| guest_rec.middle_name  || guest_rec.last_name
+				--			|| guest_rec.name_suffix
+				--			|| '|'
+				--			|| guest_rec.cell)
+				--			, null
+				--			, guest_rec.dg_id);
+				--		end if;
+	      select * into db_int from key_lookup_temp_ld_fn(guest_rec);
 
 				guest_rec                                      := null;
 					------------------------------------------------
