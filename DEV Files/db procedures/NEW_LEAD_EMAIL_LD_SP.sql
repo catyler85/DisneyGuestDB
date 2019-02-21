@@ -50,7 +50,10 @@ begin
   for i in 1..guest_num
 	loop
     if i = 1 then
-		  guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
+      db_int                                         := nextval('dgmain.dg_id_seq');
+			p_params                                       := jsonb_set(p_params, array['Adults', '1'::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
+			--
+			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
 	    guest_rec.load_date                            := db_current_date;
 			guest_rec.status                               := 'I';
 	    guest_rec.name_prefix                          := coalesce((p_params ->> 'name_prefix')::text,'');
@@ -70,86 +73,20 @@ begin
 	    guest_rec.cell                                 := coalesce((p_params ->> 'cell')::text,'');
 	    guest_rec.fax                                  := coalesce((p_params ->> 'fax')::text,'');
 	    guest_rec.preferred_contact_method             := coalesce((p_params ->> 'preferred_contact_method')::text,'');
-			guest_rec.dg_id                                := nextval('dgmain.dg_id_seq');
+			guest_rec.dg_id                                := db_int;
 			guest_rec.last_room                            := (p_params -> 'Adults' -> i::text ->> 'room')::text;
 
 			insert into guest_rec_temp values (guest_rec.*);
       ------------------------------------------------
-			--key lookup values
-			--
-			--name|address
-			--if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
-			--	insert into key_lookup_temp
-			--	values
-			--	(guest_rec.trans_id
-			--		, db_current_date
-			--		, 'I'
-			--		, 'name|address'
-			--		,  lower(guest_rec.first_name
-			--		|| guest_rec.middle_name  || guest_rec.last_name
-			--		|| guest_rec.name_suffix
-			--		|| '|'
-			--		|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
-			--		, null
-			--		, guest_rec.dg_id);
-			--end if;
-
-			--	--name|email
-			--	if guest_rec.email is not null then
-			--		insert into key_lookup_temp
-			--		values
-			--		(guest_rec.trans_id
-			--		, db_current_date
-			--		, 'I'
-			--		, 'name|email'
-			--		,  lower(guest_rec.first_name
-			--		|| guest_rec.middle_name  || guest_rec.last_name
-			--		|| guest_rec.name_suffix
-			--		|| '|'
-			--		|| guest_rec.email)
-			--		, null
-			--		, guest_rec.dg_id);
-			--end if;
-			--	--
-			--	--name|phone
-			--	if guest_rec.phone is not null then
-			--		insert into key_lookup_temp
-			--		values
-			--		(guest_rec.trans_id
-			--		, db_current_date
-			--		, 'I'
-			--		, 'name|phone'
-			--		,  lower(guest_rec.first_name
-			--		 || guest_rec.middle_name  || guest_rec.last_name
-			--		 || guest_rec.name_suffix
-			--		 || '|'
-			--		 || guest_rec.phone)
-			--		 , null
-			--		, guest_rec.dg_id);
-			--end if;
-			--	--
-			--	--name|cell
-			--	if guest_rec.cell is not null then
-			--		insert into key_lookup_temp
-			--		values
-			--		(guest_rec.trans_id
-			--			, db_current_date
-			--			, 'I'
-			--			, 'name|cell'
-			--			,  lower(guest_rec.first_name
-			--			|| guest_rec.middle_name  || guest_rec.last_name
-			--			|| guest_rec.name_suffix
-			--			|| '|'
-			--			|| guest_rec.cell)
-			--			, null
-			--			, guest_rec.dg_id);
-			--		end if;
       select * into db_int from key_lookup_temp_ld_fn(guest_rec);
 			guest_rec                                      := null;
 				------------------------------------------------
 		elsif i between 2 and adult_num
 		then
-		  guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
+		  db_int                                         := nextval('dgmain.dg_id_seq');
+		  p_params                                       := jsonb_set(p_params, array['Adults', i::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
+			--
+			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
 		  guest_rec.load_date                            := db_current_date;
 			guest_rec.status                               := 'I';
 		  guest_rec.name_prefix                          := split_part((p_params -> 'Adults' -> i::text ->> 'name')::text,' ',1);
@@ -164,90 +101,21 @@ begin
 		  guest_rec.state                                := coalesce((p_params ->> 'state')::text,'');
 		  guest_rec.zip                                  := coalesce((p_params ->> 'zip')::text,'');
 		  guest_rec.country                              := coalesce((p_params ->> 'country')::text,'');
-			guest_rec.dg_id                                := nextval('dgmain.dg_id_seq');
+			guest_rec.dg_id                                := db_int;
 			guest_rec.last_room                            := (p_params -> 'Adults' -> i::text ->> 'room')::text;
 
 			insert into guest_rec_temp values (guest_rec.*);
-
-				------------------------------------------------
-				------------------------------------------------
-				--key lookup values
-				--
-				--name|address
-				--if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
-				--	insert into key_lookup_temp
-				--	values
-				--	(guest_rec.trans_id
-				--		, db_current_date
-				--		, 'I'
-				--		, 'name|address'
-				--		,  lower(guest_rec.first_name
-				--		|| guest_rec.middle_name  || guest_rec.last_name
-				--		|| guest_rec.name_suffix
-				--		|| '|'
-				--		|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
-				--		, null
-				--		, guest_rec.dg_id);
-				--end if;
-
-				--	--name|email
-				--	if guest_rec.email is not null then
-				--		insert into key_lookup_temp
-				--		values
-				--		(guest_rec.trans_id
-				--		, db_current_date
-				--		, 'I'
-				--		, 'name|email'
-				--		,  lower(guest_rec.first_name
-				--		|| guest_rec.middle_name  || guest_rec.last_name
-				--		|| guest_rec.name_suffix
-				--		|| '|'
-				--		|| guest_rec.email)
-				--		, null
-				--		, guest_rec.dg_id);
-				--end if;
-				--	--
-				--	--name|phone
-				--	if guest_rec.phone is not null then
-				--		insert into key_lookup_temp
-				--		values
-				--		(guest_rec.trans_id
-				--		, db_current_date
-				--		, 'I'
-				--		, 'name|phone'
-				--		,  lower(guest_rec.first_name
-				--		 || guest_rec.middle_name  || guest_rec.last_name
-				--		 || guest_rec.name_suffix
-				--		 || '|'
-				--		 || guest_rec.phone)
-				--		 , null
-				--		, guest_rec.dg_id);
-				--end if;
-				--	--
-				--	--name|cell
-				--	if guest_rec.cell is not null then
-				--		insert into key_lookup_temp
-				--		values
-				--		(guest_rec.trans_id
-				--			, db_current_date
-				--			, 'I'
-				--			, 'name|cell'
-				--			,  lower(guest_rec.first_name
-				--			|| guest_rec.middle_name  || guest_rec.last_name
-				--			|| guest_rec.name_suffix
-				--			|| '|'
-				--			|| guest_rec.cell)
-				--			, null
-				--			, guest_rec.dg_id);
-				--		end if;
-	      select * into db_int from key_lookup_temp_ld_fn(guest_rec);
-
-				guest_rec                                      := null;
-					------------------------------------------------
+			------------------------------------------------
+	    select * into db_int from key_lookup_temp_ld_fn(guest_rec);
+			guest_rec                                      := null;
+			------------------------------------------------
 
 		elsif i > adult_num
 		then
-		  guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
+		  db_int                                         := nextval('dgmain.dg_id_seq');
+		  p_params                                       := jsonb_set(p_params, array['Children', (i - adult_num)::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
+		  --
+			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
 		  guest_rec.load_date                            := db_current_date;
 			guest_rec.status                               := 'I';
 		  guest_rec.name_prefix                          := split_part((p_params -> 'Children' -> (i - adult_num)::text ->> 'name')::text,' ',1);
@@ -262,89 +130,17 @@ begin
 		  guest_rec.state                                := coalesce((p_params ->> 'state')::text,'');
 		  guest_rec.zip                                  := coalesce((p_params ->> 'zip')::text,'');
 		  guest_rec.country                              := coalesce((p_params ->> 'country')::text,'');
-			guest_rec.dg_id                                := nextval('dgmain.dg_id_seq');
+			guest_rec.dg_id                                := db_int;
 			guest_rec.child_flag                           := true;
 			guest_rec.age_at_travel                        := (p_params -> 'Children' -> (i - adult_num)::text ->> 'age')::int;
 			guest_rec.last_travel_date                     := (p_params ->> 'check_in')::timestamp;
 			guest_rec.last_room                            := (p_params -> 'Children' -> (i - adult_num)::text ->> 'room')::text;
 
 		  insert into guest_rec_temp values (guest_rec.*);
-
-				------------------------------------------------
-				------------------------------------------------
-				--key lookup values
-				--
-				--name|address
-				--if guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip is not null then
-				--	insert into key_lookup_temp
-				--	values
-				--	(guest_rec.trans_id
-				--		, db_current_date
-				--		, 'I'
-				--		, 'name|address'
-				--		,  lower(guest_rec.first_name
-				--		|| guest_rec.middle_name  || guest_rec.last_name
-				--		|| guest_rec.name_suffix
-				--		|| '|'
-				--		|| guest_rec.address1 || guest_rec.city || guest_rec.state || guest_rec.zip)
-				--		, null
-				--		, guest_rec.dg_id);
-				--end if;
-
-				--	--name|email
-				--	if guest_rec.email is not null then
-				--		insert into key_lookup_temp
-				--		values
-				--		(guest_rec.trans_id
-				--		, db_current_date
-				--		, 'I'
-				--		, 'name|email'
-				--		,  lower(guest_rec.first_name
-				--		|| guest_rec.middle_name  || guest_rec.last_name
-				--		|| guest_rec.name_suffix
-				--		|| '|'
-				--		|| guest_rec.email)
-				--		, null
-				--		, guest_rec.dg_id);
-				--end if;
-				--	--
-				--	--name|phone
-				--	if guest_rec.phone is not null then
-				--		insert into key_lookup_temp
-				--		values
-				--		(guest_rec.trans_id
-				--		, db_current_date
-				--		, 'I'
-				--		, 'name|phone'
-				--		,  lower(guest_rec.first_name
-				--		 || guest_rec.middle_name  || guest_rec.last_name
-				--		 || guest_rec.name_suffix
-				--		 || '|'
-				--		 || guest_rec.phone)
-				--		 , null
-				--		, guest_rec.dg_id);
-				--end if;
-				--	--
-				--	--name|cell
-				--	if guest_rec.cell is not null then
-				--		insert into key_lookup_temp
-				--		values
-				--		(guest_rec.trans_id
-				--			, db_current_date
-				--			, 'I'
-				--			, 'name|cell'
-				--			,  lower(guest_rec.first_name
-				--			|| guest_rec.middle_name  || guest_rec.last_name
-				--			|| guest_rec.name_suffix
-				--			|| '|'
-				--			|| guest_rec.cell)
-				--			, null
-				--			, guest_rec.dg_id);
-				--		end if;
-	      select * into db_int from key_lookup_temp_ld_fn(guest_rec);
-
-				guest_rec                                      := null;
-					------------------------------------------------
+			------------------------------------------------
+      select * into db_int from key_lookup_temp_ld_fn(guest_rec);
+			guest_rec                                      := null;
+			------------------------------------------------
 		end if;
 	end loop;
 	--------------------------------------------------------------------------
@@ -381,7 +177,7 @@ begin
 	lead_rec.memory_maker                          := (p_params ->> 'memory_maker')::text;
 	lead_rec.universal_addon                       := (p_params ->> 'universal_addon')::text;
 	lead_rec.cruise_addon                          := (p_params ->> 'cruise_addon')::text;
-	lead_rec.special_requests                      := (p_params ->> 'special_occasion')::text;
+	lead_rec.special_requests                      := (p_params ->> 'special_requests')::text;
 
 	insert into dgmain.leads_trans values(lead_rec.*);
 	--------------------------------------------------------------------------

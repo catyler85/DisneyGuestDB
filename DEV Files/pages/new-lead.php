@@ -216,6 +216,7 @@
 			<input id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large" value="<?php echo $cruise_addon;?>"></input>
 			<label>Would you like to add Universal?</label>
 			<input id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large" value="<?php echo $universal_addon;?>"></input>
+      <input type="hidden" name="special_requests" value=<?php echo $special_requests; ?>></input>
 			<input type="hidden" name="special_occasion" value=<?php if (strpos($previous_disney_experience, 'first') > 0) {echo 'First Visit ';}else {echo '';}if (empty($special_occasion)) {echo '';}else {echo " - " .$special_occasion;} ?>></input>
 		</div>
 
@@ -384,6 +385,10 @@
   </div>
 <!--javascript section -->
 	<script>
+  //Identify form_name and submit form data on submit click
+	var form = document.getElementById( "new_lead_form" );
+	src = "../js_functions/submit_form_data.js";
+
   //submit on "Enter"
 	document.addEventListener("keyup", function(event) {
 	  event.preventDefault();
