@@ -7,6 +7,7 @@
        include_once($path);
     ?>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="../js_functions/submit_form_data.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -24,7 +25,7 @@
 </div>
 <br>
 <!-- ../disney-guest-db.php -->
-<form action="../disney-guest-db.php" id="new_lead_form" name="new_lead_form" method="post">
+<form action="#" id="new_lead_form" name="new_lead_form" method="post">
 	<input type="hidden" name="form_name" value="new_lead_form"></input>
 <div class="w3-container w3-cell-row">
 	<!-- Lead Guest Contact Info -->
@@ -385,17 +386,20 @@
   </div>
 <!--javascript section -->
 	<script>
-  //Identify form_name and submit form data on submit click
-	var form = document.getElementById( "new_lead_form" );
-	src = "../js_functions/submit_form_data.js";
 
-  //submit on "Enter"
-	document.addEventListener("keyup", function(event) {
-	  event.preventDefault();
-	  if (event.keyCode === 13) {
-	    document.getElementById("submit").click();
-	  }
-	});
+
+	//Identify form_name and submit form data on submit click
+	//var form = $( #new_lead_form ).serialize();
+	//src = "../js_functions/submit_form_data.js";
+
+  //$(#new_lead_form).on('submit', function(){
+
+	//	$.post("../db_files/webservice_submit_fn.php", form, function(data, status){
+  //  alert("Data: " + data + "\nStatus: " + status);
+  //});
+
+	//});
+
 
 	// Get the modal
 	var modal = document.getElementById('one_note_modal');
@@ -432,11 +436,26 @@ function copy_function() {
   /* Copy the text inside the text field */
   document.execCommand("copy");
 
-}
-
+};
+//submit on "Enter"
+document.addEventListener("keyup", function(event) {
+	event.preventDefault();
+	if (event.keyCode === 13) {
+		document.getElementById("submit").click();
+	}
+});
+//submit the form
 function form_submit() {
+  var x, form_assign = '';
 
-  document.new_lead_form.submit();
+	form_assign = document.getElementById('new_lead_form');
+	x = submit_form_data(form_assign);
 
-}
+	if (x === 'error') {
+		alert("something went wrong");
+	}else {
+		window.location.href = "../disney-guest-db.php";
+	}
+
+};
 	</script>

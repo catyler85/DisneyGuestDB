@@ -1,42 +1,12 @@
-(function() {
-	function toJSONString( form ) {
-		//var obj = {};
-		//var elements = form.querySelectorAll( "input, select, textarea, radio, checkbox, hidden" );
-		//for( var i = 0; i < elements.length; ++i ) {
-		//	var element = elements[i];
-		//	var name = element.name;
-		//	var value = element.value;
+function submit_form_data(p_form) {
+	var form = $( p_form ).serialize();
+	$.post("../db_files/webservice_submit_fn.php", form, function(result,status){
+    if (status === "success") {
+    	return result;
+    }else {
+    	return "error";
+    }
 
-		//	if( name ) {
-		//		obj[ name ] = value;
-		//	}
-		//}
-    var FD = new FormData(form);
-		//return JSON.stringify( obj );
-    //return obj.serializearray();
-    return FD;
-	}
+	}, "json");
 
-	document.addEventListener( "DOMContentLoaded", function() {
-		//var form = document.getElementById( "test" );
-    var obj, dbParam, xmlhttp, myObj, x, txt = "";
-		form.addEventListener( "submit", function( e ) {
-			e.preventDefault();
-            xmlhttp = new XMLHttpRequest();
-			//dbParam = toJSONString( this );
-
-      xmlhttp.open("POST", "../db_files/webservice_submit_fn.php", true);
-      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.send( this );
-
-      window.location.href = "../disney-guest-db.php";
-
-		}, false);
-
-	});
-
-})();
-
-xmlhttp.open("POST", "../db_files/webservice_submit_fn.php", true);
-xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xmlhttp.send(dbParam);
+};

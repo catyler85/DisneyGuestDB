@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+
+<p>Click on each tr element to alert its index position in the table:</p>
+
+<table id="mytable">
+  <tr onclick="myFunction(this)">
+    <td>sue</td>
+    <td>25</td>
+  </tr>
+  <tr onclick="myFunction(this)">
+    <td>sally</td>
+    <td>29</td>
+  </tr>
+  <tr onclick="myFunction(this)">
+    <td>steve</td>
+    <td>23</td>
+  </tr>
+</table>
+
+<script>
+function myFunction(x) {
+var table = document.getElementById('mytable');
+
+  alert("Age is: " + table.rows[x.rowIndex].cells[1].innerHTML);
+}
+</script>
+
+</body>
+</html>

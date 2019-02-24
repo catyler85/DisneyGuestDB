@@ -7,6 +7,8 @@ declare
   t_id                int;
   j_msg               jsonb;
 	db_jsonb            jsonb;
+	return_msg          jsonb;
+	return_params       jsonb;
 	lov_function        text               := '';
 	sql_str             text               := '';
 	proc_str            text               := '';
@@ -33,7 +35,7 @@ db_jsonb                                := jsonb_set(db_jsonb,array['trans_id'],
 sql_str                                 := 'call dgmain.' || lov_function || '('''|| db_jsonb || ''',jsonb_build_object(''send'',''value''))';
 --
 proc_str                                := 'execute_function_call';
-execute sql_str;
+execute sql_str into return_params, return_msg;
 commit;
 
 -------------------------------------------------------------
@@ -70,13 +72,14 @@ end if;
 
 --assign return message
 proc_str                                := 'assign_return_message';
-if db_jsonb ->> 'rtn_code' <> '1'
+if (return_msg ->> 'rtn_code' <> '1')
 then
   j_msg                                 := '{"rtn_code":-1,"message":"There was an issue in function call"}';
+	p_jsonb                               := j_msg;
 else
-  j_msg                                 := '{"rtn_code":1,"message":"Success!"}';
+  p_jsonb                               := return_msg;
 end if;
-p_jsonb  := j_msg;
+
 --return p_jsonb;
 /*
 exception when others then
