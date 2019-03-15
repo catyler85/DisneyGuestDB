@@ -11,10 +11,10 @@ require 'db_connect.php';
 $result = pg_query_params($db, "call dgmain.webservice_insert_sp($1,$2)",array($form_json,$form_name));
 
 while ($row = pg_fetch_row($result)) {
-  //$obj = json_decode($row[2]);
+  $obj = json_decode($row[2], TRUE);
 
   //$form_values =  $obj->{'travel_group'};
-  $form_values =  $row[2];
+  $form_values =  $obj;
 }
 pg_close($db);
 
