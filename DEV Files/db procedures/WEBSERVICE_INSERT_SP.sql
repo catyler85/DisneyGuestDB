@@ -9,6 +9,7 @@ declare
 	db_jsonb            jsonb;
 	return_msg          jsonb;
 	return_params       jsonb;
+	f_rec               record;
 	lov_function        text               := '';
 	sql_str             text               := '';
 	proc_str            text               := '';
@@ -16,6 +17,8 @@ declare
 
 begin
 
+return_msg                               := jsonb_build_object('ws_insert_sp','');
+return_params                            := jsonb_build_object('ws_insert_sp','');
 
 --insert params to webservice_trans table
 t_id                                     := nextval('dgmain.trans_id_seq');
@@ -25,56 +28,40 @@ values
 -------------------------------------------------------------
 --get function name
 proc_str                                := 'get_function_name';
-select lookup_value into lov_function from dgmain.lov_table where lookup_type = 'function' and lookup_key = p_trans_name;
-raise notice '%', lov_function;
--------------------------------------------------------------
---build function call and execute
-proc_str                                := 'build_function_call';
-db_jsonb                                := p_params;
-db_jsonb                                := jsonb_set(db_jsonb,array['trans_id'], (t_id::text)::jsonb);
-sql_str                                 := 'call dgmain.' || lov_function || '('''|| db_jsonb || ''',jsonb_build_object(''send'',''value''))';
---
-proc_str                                := 'execute_function_call';
-execute sql_str into return_params, return_msg;
-commit;
+for f_rec in
+  (select * from dgmain.lov_table
+  where lookup_type = 'procedure'
+  and lookup_key = p_trans_name
+  order by lookup_seq)
+loop
+  lov_function                            := f_rec.lookup_value;
 
--------------------------------------------------------------
---call trans proc functions
--------------------------------------------------------------
---guid_assign
-proc_str                                := 'guid_assign_fn';
-rtn_code                                := dgmain.guid_assign_fn();
-if rtn_code = 1
-then
+	raise notice '%', lov_function;
+  -------------------------------------------------------------
+  --build function call and execute
+  proc_str                                := 'build_function_call';
+  db_jsonb                                := p_params;
+  db_jsonb                                := jsonb_set(db_jsonb,array['trans_id'], (t_id::text)::jsonb);
+  sql_str                                 := 'call dgmain.' || lov_function || '('''|| db_jsonb || ''',jsonb_build_object(''send'',''value''))';
+  --
+  proc_str                                := 'execute_function_call';
+  execute sql_str into db_jsonb, j_msg;
+	if j_msg ->> 'rtn_code' = '1'
+	then
+	return_params                           := return_params || db_jsonb;
+	return_msg                              := return_msg || j_msg;
   commit;
-else raise 'The process failed at %', proc_str;
-end if;
---
---lead process
-proc_str                                := 'leads_pr_fn';
-rtn_code                                := dgmain.leads_pr_fn();
-if rtn_code = 1
-then
-  commit;
-else raise 'The process failed at %', proc_str;
-end if;
---
---loads
-proc_str                                := 'final_load_fn';
-rtn_code                                := dgmain.final_load_fn();
-if rtn_code = 1
-then
-  commit;
-else raise 'The process failed at %', proc_str;
-end if;
+	else raise 'The process failed at % call', lov_function;
+	end if;
 
+end loop;
 
 
 --assign return message
 proc_str                                := 'assign_return_message';
 if (return_msg ->> 'rtn_code' <> '1')
 then
-  j_msg                                 := '{"rtn_code":-1,"message":"There was an issue in function call"}';
+  j_msg                                 := '{"rtn_code":-1,"message":"There was an issue in function call ' || lov_function || '"}';
 	p_jsonb                               := j_msg;
 else
   p_jsonb                               := return_msg;

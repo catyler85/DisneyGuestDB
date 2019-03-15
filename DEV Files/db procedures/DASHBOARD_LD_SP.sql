@@ -46,13 +46,13 @@ end loop;
 for lookup_rec in
 select a.lookup_json::json from lookup_temp a
 loop
-  v_table := v_table || '<tr>' ||chr(10);
+  v_table := v_table || '<tr onclick=''row_select(this)''>' ||chr(10);
+	v_table := v_table || chr(9) || '<td class=''w3-hide''>' || (lookup_rec.lookup_json ->> 'lead_id')::text || '</td>' ||chr(10);
+	v_table := v_table || chr(9) || '<td class=''w3-hide''>' || 'lead_id' || '</td>' ||chr(10);
   v_table := v_table || chr(9) || '<td>' || (lookup_rec.lookup_json ->> 'lead_guest')::text  || '</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td>' || (lookup_rec.lookup_json ->> 'check_in')::text || '</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td>' || (lookup_rec.lookup_json ->> 'check_out')::text || '</td>' ||chr(10);
+  v_table := v_table || chr(9) || '<td>' || to_char(to_date(lookup_rec.lookup_json ->> 'check_in','yyyy-mm-dd'),'mm/dd/yy')::text || '</td>' ||chr(10);
+  v_table := v_table || chr(9) || '<td>' || to_char(to_date(lookup_rec.lookup_json ->> 'check_out','yyyy-mm-dd'),'mm/dd/yy')::text || '</td>' ||chr(10);
   v_table := v_table || chr(9) || '<td>' || (lookup_rec.lookup_json ->> 'resort')::text || '</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td class=''w3-hide''>' || (lookup_rec.lookup_json ->> 'lead_id')::text || '</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td class=''w3-hide''>' || (lookup_rec.lookup_json ->> 'room_array')::text || '</td>' ||chr(10);
   v_table := v_table || '</tr>' ||chr(10);
 end loop;
 
