@@ -3,7 +3,7 @@ resort_id    int primary key,
 location     text,
 resort_name  text,
 	resort_type text,
-	rooms       jsonb[],
+	rooms       text[],
 	dining      jsonb[],
 	entertainment jsonb[]
 );
