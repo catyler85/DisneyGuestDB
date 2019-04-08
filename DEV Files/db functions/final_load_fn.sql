@@ -109,6 +109,7 @@ begin
         , total_cost
         , cost_savings
         , discount_applied
+        , notes
       from dgmain.leads_trans
       where status = 'P'
     loop
@@ -125,7 +126,7 @@ begin
        l_rec.ticket_valid_thru, l_rec.transportation, l_rec.travel_insurance,
        l_rec.memory_maker, l_rec.universal_addon, l_rec.cruise_addon, l_rec.special_requests,
        l_rec.reservation_num, l_rec.courtesy_hld_exp_date, l_rec.final_payment_due_date,
-       l_rec.refurb, l_rec.total_cost, l_rec.cost_savings, l_rec.discount_applied )
+       l_rec.refurb, l_rec.total_cost, l_rec.cost_savings, l_rec.discount_applied, l_rec.notes )
       on conflict(lead_id) do update
         set lead_id                         = l_rec.lead_id                   ,
             lead_guest_guid                 = l_rec.lead_guest_guid           ,
@@ -166,7 +167,8 @@ begin
             refurb                          = l_rec.refurb                    ,
             total_cost                      = l_rec.total_cost                ,
             cost_savings                    = l_rec.cost_savings              ,
-            discount_applied                = l_rec.discount_applied
+            discount_applied                = l_rec.discount_applied          ,
+            notes                           = l_rec.notes
       where a.lead_id = l_rec.lead_id;
 
     end loop;

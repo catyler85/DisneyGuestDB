@@ -48,7 +48,7 @@ begin
 
   end loop;
 
-  p_jsonb := db_jsonb || ('{"rtn_code":1,"message":"Success!"}')::jsonb;
+  p_jsonb := db_jsonb || ('{"rtn_code":"1","message":"Success!"}')::jsonb;
   raise notice '%', p_jsonb;
 
 end; $$ LANGUAGE plpgsql;

@@ -72,7 +72,7 @@ begin
 	    guest_rec.phone                                := coalesce((p_params ->> 'phone')::text,'');
 	    guest_rec.cell                                 := coalesce((p_params ->> 'cell')::text,'');
 	    guest_rec.fax                                  := coalesce((p_params ->> 'fax')::text,'');
-	    guest_rec.preferred_contact_method             := coalesce((p_params ->> 'preferred_contact_method')::text,'');
+	    guest_rec.preferred_contact_method             := coalesce((p_params ->> 'contact_preference')::text,'');
 			guest_rec.dg_id                                := db_int;
 			guest_rec.last_room                            := (p_params -> 'Adults' -> i::text ->> 'room')::text;
 
@@ -163,7 +163,7 @@ begin
 	lead_rec.children                              := p_params -> 'Children';
 	lead_rec.handicap                              := (p_params ->> 'handicap')::text;
 	lead_rec.handicap_details                      := (p_params ->> 'handicap_details')::text;
-	lead_rec.potential_discounts                   := p_params -> 'discounts';
+	lead_rec.potential_discounts                   := p_params -> 'potential_discounts';
 	lead_rec.unique_pin_info                       := (p_params ->> 'unique_pin_info')::text;
 	lead_rec.other_discount_info                   := (p_params ->> 'other_discount_info')::text;
 	lead_rec.resort                                := (p_params ->> 'resort')::text;

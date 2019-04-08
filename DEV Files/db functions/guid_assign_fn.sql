@@ -46,7 +46,8 @@ begin
         --
         insert into dgmain.guid_key_lookup
         values
-        (guid_rec.key_name, guid_rec.key_value, v_guid);
+        (guid_rec.key_name, guid_rec.key_value, v_guid)
+        on conflict(key_name, key_value, guid) do nothing;
         --
         update dgmain.guid_key_lookup_trans
           set guid = v_guid
@@ -60,7 +61,8 @@ begin
         --
         insert into dgmain.guid_key_lookup
         values
-        (guid_rec.key_name, guid_rec.key_value, v_guid);
+        (guid_rec.key_name, guid_rec.key_value, v_guid)
+        on conflict(key_name, key_value, guid) do nothing;
         --
         update dgmain.guid_key_lookup_trans
           set guid = v_guid
@@ -77,7 +79,8 @@ begin
       --
       insert into dgmain.guid_key_lookup
       values
-      (guid_rec.key_name, guid_rec.key_value, guid_rec.guid);
+      (guid_rec.key_name, guid_rec.key_value, guid_rec.guid)
+      on conflict(key_name, key_value, guid) do nothing;
       --
       update dgmain.guid_key_lookup_trans
         set guid = guid_rec.guid

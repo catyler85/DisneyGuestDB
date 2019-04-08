@@ -32,7 +32,7 @@
   <div class="w3-cell">
 	<div class="w3-container w3-panel w3-card w3-pale-red w3-margin">
   	<h3>Lead Guest</h3><label><?php echo $country; ?></label>
-		<input type="hidden" name="country" value=<?php echo $country; ?>></input>
+		<input type="hidden" name="country" value=<?php echo "'".$country."'"; ?>></input>
         <div class="w3-row-padding" style="margin:0 -16px;">
           <div class="w3-half">
 						<label class="w3-small">First Name</label>
@@ -217,13 +217,13 @@
 			<input id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large" value="<?php echo $cruise_addon;?>"></input>
 			<label>Would you like to add Universal?</label>
 			<input id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large" value="<?php echo $universal_addon;?>"></input>
-      <input type="hidden" name="special_requests" value=<?php echo $special_requests; ?>></input>
-			<input type="hidden" name="special_occasion" value=<?php if (strpos($previous_disney_experience, 'first') > 0) {echo 'First Visit ';}else {echo '';}if (empty($special_occasion)) {echo '';}else {echo " - " .$special_occasion;} ?>></input>
+      <input type="hidden" name="special_requests" value=<?php echo "'".$special_requests."'"; ?>></input>
+			<input type="hidden" name="special_occasion" value=<?php if (strpos($previous_disney_experience, 'irst') > 0) {echo "'First Visit'";}else {echo '';}if (empty($special_occasion)) {echo '';}else {echo "'".$special_occasion."'";} ?>></input>
 		</div>
 
 	</div>
 	<p>Handicap Details: <?php echo $handicap_details ?></p>
-	<input type="hidden" name="handicap_details" value=<?php echo $handicap_details ?>></input>
+	<input type="hidden" name="handicap_details" value=<?php echo "'".$handicap_details."'" ?>></input>
 <!--end of vacation details  card     -->
 </div>
 </div>

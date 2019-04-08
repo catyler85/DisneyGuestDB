@@ -51,7 +51,7 @@ for i in 1..v_int
 loop
 
   line_int := i + 1;
-  parse_rec[i] := replace(regexp_replace(trim(split_part(db_text,db_delim, line_int)),E'[\\n\\r]+','!'), e'\t', ' ');
+  parse_rec[i] := replace(regexp_replace(trim(split_part(db_text,db_delim, line_int)),E'[\\n\\r]+','~'), e'\t', ' ');
 
 end loop;
 
@@ -84,11 +84,11 @@ loop
     then
       if db_delim = chr(183)
       then
-        v_jsonb := v_jsonb || jsonb_build_object('first_name',REPLACE(split_part(parse_rec[db_int],' ',3),'!',''));
-        v_jsonb := v_jsonb || jsonb_build_object('last_name',REPLACE(split_part(parse_rec[db_int],' ',4),'!',''));
+        v_jsonb := v_jsonb || jsonb_build_object('first_name',REPLACE(split_part(parse_rec[db_int],' ',3),'~',''));
+        v_jsonb := v_jsonb || jsonb_build_object('last_name',REPLACE(split_part(parse_rec[db_int],' ',4),'~',''));
       else
-        v_jsonb := v_jsonb || jsonb_build_object('first_name',REPLACE(split_part(parse_rec[db_int],' ',4),'!',''));
-        v_jsonb := v_jsonb || jsonb_build_object('last_name',REPLACE(split_part(parse_rec[db_int],' ',5),'!',''));
+        v_jsonb := v_jsonb || jsonb_build_object('first_name',REPLACE(split_part(parse_rec[db_int],' ',4),'~',''));
+        v_jsonb := v_jsonb || jsonb_build_object('last_name',REPLACE(split_part(parse_rec[db_int],' ',5),'~',''));
       end if;
 
     end if;
@@ -99,19 +99,19 @@ loop
   if position('Address:' in parse_rec[db_int]) > 0
   then
     --find total address parts
-    select (CHAR_LENGTH(vtext) - CHAR_LENGTH(REPLACE(vtext, '!', '')))
-    / CHAR_LENGTH('!') into delim_cnt from dgmain.test_table;
+    select (CHAR_LENGTH(parse_rec[db_int]) - CHAR_LENGTH(REPLACE(parse_rec[db_int], '~', '')))
+    / CHAR_LENGTH('~') into delim_cnt ;
     --build address based on number of parts
-    if delim_cnt = 6
+    if delim_cnt = 1
     THEN
-      v_jsonb := v_jsonb || jsonb_build_object('address1',trim(leading ' ' from split_part(regexp_replace(parse_rec[db_int],E'[\\n\\r]+','!'),'!',2)));
-      v_jsonb := v_jsonb || jsonb_build_object('city',split_part(split_part(regexp_replace(parse_rec[db_int],E'[\\n\\r]+','!'),'!',3),' ',1));
-      v_jsonb := v_jsonb || jsonb_build_object('zip',split_part(split_part(regexp_replace(parse_rec[db_int],E'[\\n\\r]+','!'),'!',3),' ',2));
+      v_jsonb := v_jsonb || jsonb_build_object('address1',trim(leading ' ' from split_part(regexp_replace(replace(parse_rec[db_int],'!','~'),E'[\\n\\r]+','~'),'~',2)));
+      v_jsonb := v_jsonb || jsonb_build_object('city',split_part(split_part(regexp_replace(replace(parse_rec[db_int],'!','~'),E'[\\n\\r]+','~'),'~',3),' ',1));
+      v_jsonb := v_jsonb || jsonb_build_object('zip',split_part(split_part(regexp_replace(replace(parse_rec[db_int],'!','~'),E'[\\n\\r]+','~'),'~',3),' ',2));
     else
-      v_jsonb := v_jsonb || jsonb_build_object('address1',trim(leading ' ' from split_part(regexp_replace(parse_rec[db_int],E'[\\n\\r]+','!'),'!',2)));
-      v_jsonb := v_jsonb || jsonb_build_object('address2',trim(leading ' ' from split_part(regexp_replace(parse_rec[db_int],E'[\\n\\r]+','!'),'!',3)));
-      v_jsonb := v_jsonb || jsonb_build_object('city',split_part(split_part(regexp_replace(parse_rec[db_int],E'[\\n\\r]+','!'),'!',4),' ',1));
-      v_jsonb := v_jsonb || jsonb_build_object('zip',split_part(split_part(regexp_replace(parse_rec[db_int],E'[\\n\\r]+','!'),'!',4),' ',2));
+      v_jsonb := v_jsonb || jsonb_build_object('address1',trim(leading ' ' from split_part(regexp_replace(replace(parse_rec[db_int],'!','~'),E'[\\n\\r]+','~'),'~',2)));
+      v_jsonb := v_jsonb || jsonb_build_object('address2',trim(leading ' ' from split_part(regexp_replace(replace(parse_rec[db_int],'!','~'),E'[\\n\\r]+','~'),'~',3)));
+      v_jsonb := v_jsonb || jsonb_build_object('city',split_part(split_part(regexp_replace(replace(parse_rec[db_int],'!','~'),E'[\\n\\r]+','~'),'~',4),' ',1));
+      v_jsonb := v_jsonb || jsonb_build_object('zip',split_part(split_part(regexp_replace(replace(parse_rec[db_int],'!','~'),E'[\\n\\r]+','~'),'~',4),' ',2));
     end if;
   end if;
   --
@@ -120,7 +120,7 @@ loop
   if position('State ' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('state',REPLACE(substring(trim(parse_rec[db_int]),7),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('state',REPLACE(substring(trim(parse_rec[db_int]),7),'~',''));
 
   end if;
   --
@@ -129,7 +129,7 @@ loop
   if position('Country' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('country',REPLACE(substring(trim(parse_rec[db_int]),9),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('country',REPLACE(substring(trim(parse_rec[db_int]),9),'~',''));
 
   end if;
   --
@@ -138,7 +138,7 @@ loop
   if position('Email Address' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('email',REPLACE(split_part(trim(parse_rec[db_int]),' ',3),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('email',REPLACE(split_part(trim(parse_rec[db_int]),' ',3),'~',''));
 
   end if;
   --
@@ -147,7 +147,7 @@ loop
   if position('Telephone' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('phone',REPLACE(substring(trim(parse_rec[db_int]),11),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('phone',REPLACE(substring(trim(parse_rec[db_int]),11),'~',''));
 
   end if;
   --
@@ -156,7 +156,7 @@ loop
   if position('Cell' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('cell',REPLACE(substring(trim(parse_rec[db_int]),12),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('cell',REPLACE(substring(trim(parse_rec[db_int]),12),'~',''));
 
   end if;
   --
@@ -165,7 +165,7 @@ loop
   if position('Preferred Contact Method' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('preferred_contact_method',REPLACE(substring(trim(parse_rec[db_int]),26),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('preferred_contact_method',REPLACE(substring(trim(parse_rec[db_int]),26),'~',''));
 
   end if;
   --
@@ -174,7 +174,7 @@ loop
   if position('previous Disney experience' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('previous_disney_experience',REPLACE(substring(trim(parse_rec[db_int]),47),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('previous_disney_experience',REPLACE(substring(trim(parse_rec[db_int]),47),'~',''));
 
   end if;
   --
@@ -183,7 +183,7 @@ loop
   if position('a previous guest of Small World' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('previous_small_world',REPLACE(substring(trim(parse_rec[db_int]),48),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('previous_small_world',REPLACE(substring(trim(parse_rec[db_int]),48),'~',''));
 
   end if;
   --
@@ -194,7 +194,7 @@ loop
 
     if position('please select' in parse_rec[db_int]) = 0
     then
-      v_jsonb := v_jsonb || jsonb_build_object('find_small_world',REPLACE(substring(trim(parse_rec[db_int]),41),'!',''));
+      v_jsonb := v_jsonb || jsonb_build_object('find_small_world',REPLACE(substring(trim(parse_rec[db_int]),41),'~',''));
     end if;
 
   end if;
@@ -216,7 +216,7 @@ loop
   if position('Please select an agent' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('agent_name',REPLACE(substring(trim(parse_rec[db_int]),24),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('agent_name',REPLACE(substring(trim(parse_rec[db_int]),24),'~',''));
 
   end if;
   --
@@ -227,7 +227,7 @@ loop
 
     if position('please select' in parse_rec[db_int]) = 0
     then
-      v_jsonb := v_jsonb || jsonb_build_object('special_occasion',REPLACE(substring(trim(parse_rec[db_int]),96),'!',''));
+      v_jsonb := v_jsonb || jsonb_build_object('special_occasion',REPLACE(substring(trim(parse_rec[db_int]),96),'~',''));
     end if;
 
   end if;
@@ -237,7 +237,7 @@ loop
   if position('How many rooms would you like?' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('num_rooms',REPLACE(substring(trim(parse_rec[db_int]),32),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('num_rooms',REPLACE(substring(trim(parse_rec[db_int]),32),'~',''));
 
   end if;
   --
@@ -261,11 +261,11 @@ loop
       else
         --adult name
         adult_cnt     := adult_cnt + 1;
-        adults        := jsonb_set(adults,array['adults',(adult_cnt-1)::text],jsonb_build_object('adult_name',REPLACE(trim(substring(parse_rec[db_int],position('Name' in parse_rec[db_int])+5)),'!','')),true);
+        adults        := jsonb_set(adults,array['adults',(adult_cnt-1)::text],jsonb_build_object('adult_name',REPLACE(trim(substring(parse_rec[db_int],position('Name' in parse_rec[db_int])+5)),'~','')),true);
 
         --adult room
         db_int        := db_int + 1;
-        adults        := jsonb_set(adults,array['adults',(adult_cnt-1)::text,'room'],('"' || REPLACE(parse_rec[db_int],'!','') || '"')::jsonb,true);
+        adults        := jsonb_set(adults,array['adults',(adult_cnt-1)::text,'room'],('"' || REPLACE(parse_rec[db_int],'~','') || '"')::jsonb,true);
         --raise notice 'ROOM>db_int=%:adult_cnt=%:adult array=%:adult=%:line_value=%' ,db_int,adult_cnt,adult_cnt-1,adults,parse_rec[db_int];
         db_int        := db_int + 1;
       end if;
@@ -295,15 +295,15 @@ loop
       else
         --child name
         child_cnt     := child_cnt + 1;
-        children      := jsonb_set(children,array['children',(child_cnt-1)::text],jsonb_build_object('child_name',REPLACE(trim(substring(parse_rec[db_int],position('Name' in parse_rec[db_int])+5)),'!','')),true);
+        children      := jsonb_set(children,array['children',(child_cnt-1)::text],jsonb_build_object('child_name',REPLACE(trim(substring(parse_rec[db_int],position('Name' in parse_rec[db_int])+5)),'~','')),true);
         --raise notice 'NAME=>db_int=%:child_cnt=%:children=%', db_int,child_cnt,children;
         --child room
         db_int        := db_int + 1;
-        children      := jsonb_set(children,array['children',(child_cnt-1)::text,'room'],('"' || REPLACE(parse_rec[db_int],'!','') || '"')::jsonb,true);
+        children      := jsonb_set(children,array['children',(child_cnt-1)::text,'room'],('"' || REPLACE(parse_rec[db_int],'~','') || '"')::jsonb,true);
         --raise notice 'ROOM=>db_int=%:child_cnt=%:children=%', db_int,child_cnt,children;
         --age at travel
         db_int        := db_int + 1;
-        children      := jsonb_set(children,array['children',(child_cnt-1)::text,'age_at_travel'],('"' || REPLACE(substring(trim(parse_rec[db_int]),23),'!','') || '"')::jsonb,true);
+        children      := jsonb_set(children,array['children',(child_cnt-1)::text,'age_at_travel'],('"' || REPLACE(substring(trim(parse_rec[db_int]),23),'~','') || '"')::jsonb,true);
         --raise notice 'AGE=>db_int=%:child_cnt=%:children=%', db_int,child_cnt,children;
         db_int        := db_int + 1;
       end if;
@@ -318,7 +318,7 @@ loop
   if position('require handicap accessible' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('handicap',REPLACE(substring(trim(parse_rec[db_int]),78),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('handicap',REPLACE(substring(trim(parse_rec[db_int]),78),'~',''));
 
   end if;
   --
@@ -327,7 +327,7 @@ loop
   if position('my needs ' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('handicap_details',REPLACE(substring(trim(parse_rec[db_int]),78),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('handicap_details',REPLACE(substring(trim(parse_rec[db_int]),78),'~',''));
 
   end if;
   --
@@ -336,7 +336,7 @@ loop
   if position('estimated budget' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('budget',REPLACE(substring(trim(parse_rec[db_int]),83),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('budget',REPLACE(substring(trim(parse_rec[db_int]),83),'~',''));
 
   end if;
   --
@@ -361,9 +361,9 @@ loop
         --discount
         --db_int        := db_int + 1;
         discount_cnt  := discount_cnt + 1;
-        discount      := jsonb_set(discount,array['discounts',(discount_cnt-1)::text],jsonb_build_object('discount',regexp_replace(REPLACE(trim(split_part(parse_rec[db_int],'o   ',discount_cnt+1)),'!',''),E'[\\n\\r]+','')),true);
+        discount      := jsonb_set(discount,array['discounts',(discount_cnt-1)::text],jsonb_build_object('discount',regexp_replace(REPLACE(trim(split_part(parse_rec[db_int],'o   ',discount_cnt+1)),'~',''),E'[\\n\\r]+','')),true);
 
-        --raise notice 'DISCOUNT=>db_int=%:child_cnt=%:children=%', db_int,discount_cnt,discount;
+        raise notice 'DISCOUNT=>db_int=%:discount_cnt=%:discount=%', db_int,discount_cnt,discount;
         db_int        := db_int + 1;
     end if;
 
@@ -375,7 +375,7 @@ loop
   if position('Other' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('other_discount_info',REPLACE(substring(trim(parse_rec[db_int]),7),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('other_discount_info',REPLACE(substring(trim(parse_rec[db_int]),7),'~',''));
 
   end if;
   --
@@ -384,7 +384,7 @@ loop
   if position('Unique Pin Code' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('unique_pin_code',REPLACE(substring(trim(parse_rec[db_int]),69),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('unique_pin_code',REPLACE(substring(trim(parse_rec[db_int]),69),'~',''));
 
   end if;
   --
@@ -393,7 +393,7 @@ loop
   if position('along with your unique pin code' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('unique_pin_info',REPLACE(substring(trim(parse_rec[db_int]),115),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('unique_pin_info',REPLACE(substring(trim(parse_rec[db_int]),115),'~',''));
 
   end if;
   --
@@ -402,7 +402,7 @@ loop
   if position('Check-In Date' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('check_in',REPLACE(substring(trim(parse_rec[db_int]),15),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('check_in',REPLACE(substring(trim(parse_rec[db_int]),15),'~',''));
 
   end if;
   --
@@ -411,7 +411,7 @@ loop
   if position('Check-Out Date' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('check_out',REPLACE(substring(trim(parse_rec[db_int]),15),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('check_out',REPLACE(substring(trim(parse_rec[db_int]),15),'~',''));
 
   end if;
   --
@@ -420,7 +420,7 @@ loop
   if position('Please select your resort' in parse_rec[db_int]) > 0
   then
 
-    resort  := REPLACE(substring(trim(parse_rec[db_int]),27),'!','');
+    resort  := REPLACE(substring(trim(parse_rec[db_int]),27),'~','');
     v_jsonb := v_jsonb || jsonb_build_object('resort',resort);
     db_int  := db_int + 1;
 
@@ -431,7 +431,7 @@ loop
   if position(resort in parse_rec[db_int]) > 0
   then
     --raise notice 'resort-length:%->line_value:%', CHAR_LENGTH(resort),parse_rec[db_int];
-    v_jsonb := v_jsonb || jsonb_build_object('resort_accomodations',REPLACE(substring(trim(parse_rec[db_int]),CHAR_LENGTH(resort)+2),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('resort_accomodations',REPLACE(substring(trim(parse_rec[db_int]),CHAR_LENGTH(resort)+2),'~',''));
 
   end if;
   --
@@ -440,7 +440,7 @@ loop
   if position('For my Disney Vacation...' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('package_type',REPLACE(substring(trim(parse_rec[db_int]),27),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('package_type',REPLACE(substring(trim(parse_rec[db_int]),27),'~',''));
 
   end if;
   --
@@ -449,7 +449,7 @@ loop
   if position('Choose a Disney Resort Hotel Package that' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('resort_pakage',REPLACE(substring(trim(parse_rec[db_int]),70),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('resort_pakage',REPLACE(substring(trim(parse_rec[db_int]),70),'~',''));
 
   end if;
   --
@@ -458,7 +458,7 @@ loop
   if position('Room Only Reservation' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('resort_pakage',REPLACE(substring(trim(parse_rec[db_int]),23),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('resort_pakage',REPLACE(substring(trim(parse_rec[db_int]),23),'~',''));
 
   end if;
   --
@@ -467,7 +467,7 @@ loop
   if position('How many days of theme park passes' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('num_of_passes',REPLACE(substring(trim(parse_rec[db_int]),47),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('num_of_passes',REPLACE(substring(trim(parse_rec[db_int]),47),'~',''));
 
   end if;
   --
@@ -518,7 +518,7 @@ loop
   if position('How will you get to your Walt Disney World Resort?' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('transportation',REPLACE(substring(trim(parse_rec[db_int]),110),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('transportation',REPLACE(substring(trim(parse_rec[db_int]),110),'~',''));
 
   end if;
   --
@@ -569,7 +569,7 @@ loop
   if position('How can we make your Disney vacation special?' in parse_rec[db_int]) > 0
   then
 
-    v_jsonb := v_jsonb || jsonb_build_object('special_requests',REPLACE(substring(trim(parse_rec[db_int]),47),'!',''));
+    v_jsonb := v_jsonb || jsonb_build_object('special_requests',REPLACE(substring(trim(parse_rec[db_int]),47),'~',''));
 
   end if;
 ----------------------------------------------------------------

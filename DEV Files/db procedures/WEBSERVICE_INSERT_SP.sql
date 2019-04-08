@@ -56,10 +56,11 @@ loop
 
 end loop;
 
+call dgmain.proc_function_sp(p_params,p_jsonb);
 
 --assign return message
 proc_str                                := 'assign_return_message';
-if (return_msg ->> 'rtn_code' <> '1')
+if (p_jsonb ->> 'rtn_code' <> '1')
 then
   j_msg                                 := '{"rtn_code":-1,"message":"There was an issue in function call ' || lov_function || '"}';
 	p_jsonb                               := j_msg;

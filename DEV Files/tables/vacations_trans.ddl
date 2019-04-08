@@ -38,5 +38,6 @@ refurb                              text,
 total_cost                          int,
 payments_total                      int,
 cost_savings                        text,
-discount_applied                    text
+discount_applied                    text,
+notes                               text
 );

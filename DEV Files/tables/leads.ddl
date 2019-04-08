@@ -40,5 +40,6 @@ final_payment_due_date              date,
 refurb                              text,
 total_cost                          int,
 cost_savings                        text,
-discount_applied                    text
+discount_applied                    text,
+notes                               text
 );
