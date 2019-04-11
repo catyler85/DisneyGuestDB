@@ -55,7 +55,7 @@
 						</div>
 						<div class="w3-col m2">
 							<label class="w3-small">Guaranteed Quote?</label>
-							<select class="w3-select w3-round-large" name="guaranteed_quote">
+							<select class="w3-select w3-round-large w3-white" name="guaranteed_quote">
 								<option value="No"  <?php if (!isset($guaranteed_quote) || $guaranteed_quote === "No") {
 																										 echo "selected";
 																								}?>>No</option>
@@ -105,7 +105,7 @@
 					   </div>
 						 <div class="w3-col m2">
 					  	 <label class="w3-small">Handicap</label>
-							 <select class="w3-select w3-round-large" name="guaranteed_quote">
+							 <select class="w3-select w3-round-large  w3-white" name="guaranteed_quote">
  								<option value="No"  <?php if (!isset($handicap) || $handicap === "No") {
  																										 echo "selected";
  																								}?>>No</option>
@@ -200,7 +200,7 @@
 								</div>
 								<div class="w3-col m3">
 									<label class="w3-small">Preferred Contact Method</label>
-									<select class="w3-select w3-round-large" name="contact_preference">
+									<select class="w3-select w3-round-large w3-white" name="contact_preference">
 										<option value="No Preference"  <?php if (!isset($preferred_contact_method) || $preferred_contact_method === "No Preference") {
 																												 echo "selected";
 																										}?>>No Preference</option>
