@@ -77,9 +77,7 @@
 					  </div>
 						<div class="w3-third">
 						  <label>Special Occasion</label>
-						  <textarea name="special_occasion" class="w3-input w3-round-large" rows="6"><?php if (empty($special_occasion)) {echo '';} elseif (strpos($previous_disney_experience, 'first') > 0) {
-						  	echo 'First Visit';
-						  }else {echo " - " .$special_occasion;} ?></textarea>
+						  <textarea name="special_occasion" class="w3-input w3-round-large" rows="6"><?php if (empty($special_occasion)) {echo '';} else {echo $special_occasion;} ?></textarea>
 					  </div>
 					  <div class="w3-third">
 	              <label>Additional Notes</label>
