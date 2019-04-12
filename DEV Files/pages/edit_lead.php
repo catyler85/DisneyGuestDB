@@ -14,6 +14,7 @@
     <script src="../js_functions/submit_form_data.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   </head>
 
   <body style="background-color:LavenderBlush;">
@@ -30,7 +31,7 @@
 		<!-- ../disney-guest-db.php -->
 		<form action="#" id="new_lead_form" name="new_lead_form" method="post">
 			<input type="hidden" name="form_name" value="new_lead_form"></input>
-		  <div id="test"><?php echo var_dump($form_values['resorts']);?></div>
+		  <div id="test"><?php //echo var_dump($form_values['lead']);?></div>
 
 			<div class="w3-container w3-cell-row">
 				<!-- Vacation Info -->
@@ -68,7 +69,22 @@
 							<label class="w3-small fa fa-calendar-o">Hold Expires</label>
 							<input name="courtesy_hld_exp_date" type="date" class="w3-input w3-round-large" value="<?php if (isset($courtesy_hld_exp_date)) {echo date('Y-m-d',strtotime($courtesy_hld_exp_date));};?>"></input>
 						</div>
-
+					</div>
+					<div class="w3-row-padding w3-margin-bottom">
+						<div class="w3-third">
+              <label>Special Requests</label>
+						  <textarea name="special_requests" class="w3-input w3-round-large" rows="6"><?php echo $special_requests; ?></textarea>
+					  </div>
+						<div class="w3-third">
+						  <label>Special Occasion</label>
+						  <textarea name="special_occasion" class="w3-input w3-round-large" rows="6"><?php if (empty($special_occasion)) {echo '';} elseif (strpos($previous_disney_experience, 'first') > 0) {
+						  	echo 'First Visit';
+						  }else {echo " - " .$special_occasion;} ?></textarea>
+					  </div>
+					  <div class="w3-third">
+	              <label>Additional Notes</label>
+							  <textarea name="notes" class="w3-input w3-round-large" rows="6" ><?php echo $notes; ?></textarea>
+						</div>
 					</div>
 				  <hr>
 					<div class="w3-row-padding w3-margin-bottom">
@@ -160,7 +176,7 @@
 								</div>
 								<div class="w3-col m4">
 									<label class="w3-small">Address 3</label>
-			            <input name="address2" class="w3-input w3-round-large" type="text" placeholder="Address 3" value="<?php echo $address3;?>">
+			            <input name="address3" class="w3-input w3-round-large" type="text" placeholder="Address 3" value="<?php echo $address3;?>">
 								</div>
 							</div>
 							<div class="w3-cell-row w3-row-padding w3-margin-bottom">
@@ -219,7 +235,7 @@
 									<input name="previous_disney_experience" class="w3-input w3-round-large" type="text" placeholder="Previous Disney Experience" value="<?php echo $previous_disney_experience;?>">
 								</div>
 							</div>
-							<hr>
+							<?php echo $group_table; ?>
 							<!--end of lead guest info -->
 					</div>
 
@@ -239,11 +255,7 @@
 						<label>Would you like to add a Cruise?</label>
 						<input id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large" value="<?php echo $cruise_addon;?>"></input>
 						<label>Would you like to add Universal?</label>
-						<input id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large" value="<?php echo $universal_addon;?>"></input>
-            <label>Special Requests</label>
-						<input type="text" name="special_requests" class="w3-input w3-round-large" value=<?php echo $special_requests; ?>></input>
-						<label>Special Occasion</label>
-						<input type="text" name="special_occasion" class="w3-input w3-round-large w3-margin-bottom" value=<?php if (strpos($previous_disney_experience, 'first') > 0) {echo 'First Visit ';}else {echo '';}if (empty($special_occasion)) {echo '';}else {echo " - " .$special_occasion;} ?>></input>
+						<input id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large w3-margin-bottom" value="<?php echo $universal_addon;?>"></input>
 						</div>
 						<!--potential_discounts -->
 					<div class="w3-container w3-panel w3-card w3-pale-red w3-margin">
@@ -280,21 +292,6 @@
 					</div>
 				</div>
 			  </div>
-
-        <!--travel group -->
-				<div class="w3-cell w3-cell-row">
-				  <!-- Adults -->
-				  <div class="w3-container w3-card w3-pale-red w3-margin">
-			      <h3>Adults - <?php if (isset($adult_num)) {echo $adult_num;};?></h3>
-					  <?php echo $adult_table ?>
-				  </div>
-					<!-- Children -->
-				  <div class="w3-container w3-card w3-pale-red w3-margin">
-			      <h3>Children - <?php if (isset($child_num)) {echo $child_num;};?></h3>
-					  <?php echo $child_table ?>
-				  </div>
-			  </div>
-				<!--end travel group -->
 
 
 			</form>
@@ -453,3 +450,15 @@
 			  </div>
   </body>
 	<footer>
+		<script type="text/javascript">
+
+			function valueChanged(checkID, inputID){
+			if (document.getElementById(checkID).checked)
+					{document.getElementById(inputID).style.display = 'block';
+			}
+			else if (!document.getElementById(checkID).checked)
+					document.getElementById(inputID).style.display = 'none';
+			}
+
+		</script>
+  </footer>
