@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <title>Disney Guest DB - Verify Lead Data</title>
@@ -31,8 +34,7 @@
 		<!-- ../disney-guest-db.php -->
 		<form action="#" id="new_lead_form" name="new_lead_form" method="post">
 			<input type="hidden" name="form_name" value="new_lead_form"></input>
-		  <div id="test"><?php //echo var_dump($form_values['lead']);?></div>
-
+		  <div id="test"><?php //echo var_dump($resort_arr);//echo var_dump($form_values['resorts']); ?></div>
 			<div class="w3-container w3-cell-row">
 				<!-- Vacation Info -->
 				<div class="w3-container w3-panel w3-card w3-pale-red w3-margin c3-cell">
@@ -56,13 +58,9 @@
 						</div>
 						<div class="w3-col m2">
 							<label class="w3-small">Guaranteed Quote?</label>
-							<select class="w3-select w3-round-large w3-white" name="guaranteed_quote">
-								<option value="No"  <?php if (!isset($guaranteed_quote) || $guaranteed_quote === "No") {
-																										 echo "selected";
-																								}?>>No</option>
-								<option value="Yes" <?php if ($guaranteed_quote === "Yes") {
-																										 echo "selected";
-																								}?>>Yes</option>
+							<select class="w3-select w3-round-large w3-white" name="guaranteed_quote" value="<?=$guaranteed_quote?>">
+								<option value="No" >No</option>
+								<option value="Yes">Yes</option>
 							</select>
 						</div>
 						<div class="w3-col m2">
@@ -87,31 +85,43 @@
 				  <hr>
 					<div class="w3-row-padding w3-margin-bottom">
 						<h4>Hotel</h4>
-						<div class="w3-col m3">
+						<div class="w3-col m5">
 						  <label class="w3-small">Resort</label>
-						  <input name="resort" type="text" class="w3-input w3-round-large" value="<?php echo $resort;?>"></input>
+							<select id="resort" class="w3-select w3-round-large w3-white" name="resort" onchange="resortSelect(this, document.getElementById('resort_accomodations'))">
+								<?php echo $resort_select;  ?>
+							</select>
+						  <!--<input name="resort" type="text" class="w3-input w3-round-large" value="<?php //echo $resort;?>"></input>-->
 						</div>
-						<div class="w3-col m2">
+						<div class="w3-col m5">
 						  <label class="w3-small">Room Type</label>
-						  <input name="resort_accomodations" type="text" class="w3-input w3-round-large" value="<?php echo $resort_accomodations;?>"></input>
+							<select id="resort_accomodations" class="w3-select w3-round-large w3-white" name="resort_accomodations">
+								<?php echo $room_select;  ?>
+							</select>
+						  <!--<input name="resort_accomodations" type="text" class="w3-input w3-round-large" value="<?php //echo $resort_accomodations;?>"></input>-->
 					  </div>
 						<div class="w3-col m2">
 							<label class="w3-small">Number of Rooms</label>
 							<input name="num_rooms" type="number" class="w3-input w3-round-large" value="<?php echo $num_rooms;?>"></input>
 						</div>
+					</div>
+					<div class="w3-row-padding w3-margin-bottom">
 						<div class="w3-col m2">
 							<label class="w3-small">Room Bedding</label>
 							<input name="room_bedding" type="text" class="w3-input w3-round-large" value="<?php echo $room_bedding;?>"></input>
 						</div>
 						<div class="w3-rest">
 							<label class="w3-small">Refurb?</label>
-							<input name="refurb" type="number" class="w3-input w3-round-large" value="<?php echo $refurb;?>"></input>
+							<input name="refurb" type="text" class="w3-input w3-round-large" value="<?php echo $refurb;?>"></input>
 						</div>
 					</div>
 					 <div class="w3-row-padding w3-margin-bottom">
 					   <div class="w3-col m2">
 					  	 <label class="w3-small">Source</label>
-					  	 <input name="source" type="text" class="w3-input w3-round-large" value="<?php echo $source;?>"></input>
+					  	 <select name="source" class="w3-input w3-round-large w3-white" value="<?=$source?>">
+                 <option value="House" >House</option>
+								 <option value="Mouse" >Mouse</option>
+								 <option value="Self"  >Self</option>
+							 </select>
 					   </div>
 					   <div class="w3-col m2">
 					  	 <label class="w3-small">Transportation</label>
@@ -214,16 +224,11 @@
 								</div>
 								<div class="w3-col m3">
 									<label class="w3-small">Preferred Contact Method</label>
-									<select class="w3-select w3-round-large w3-white" name="contact_preference">
-										<option value="No Preference"  <?php if (!isset($preferred_contact_method) || $preferred_contact_method === "No Preference") {
-																												 echo "selected";
-																										}?>>No Preference</option>
-										<option value="Phone" <?php if ($preferred_contact_method === "Phone") {
-																												 echo "selected";
-																										}?>>Phone</option>
-										<option value="Email" <?php if ($preferred_contact_method === "Email") {
-																												 echo "selected";
-																										}?>>Email</option>
+									<select class="w3-select w3-round-large w3-white" name="contact_preference" value="<?=$preferred_contact_method?>">
+                    <option value="" disabled hidden>Please Select</option>
+										<option value="No Preference">No Preference</option>
+										<option value="Phone" >Phone</option>
+										<option value="Email" >Email</option>
 									</select>
 								</div>
 							</div>
@@ -242,18 +247,51 @@
 					<div class="w3-container w3-panel w3-card w3-pale-red w3-margin">
 						<h4>Tickets</h4>
 						<label>Number of Passes:</label>
-						<input id="num_of_passes" name="num_of_passes" type="text" class="w3-input w3-round-large" value="<?php echo $num_of_passes;?>"></input>
+						<select id="num_of_passes" name="num_of_passes" type="text" class="w3-input w3-round-large" value="<?=$num_of_passes?>">
+						  <option value="Two Days">Two Days</option>
+							<option value="Three Days">Three Days</option>
+							<option value="Four Days">Four Days</option>
+							<option value="Five Days">Five Days</option>
+							<option value="Six Days">Six Days</option>
+							<option value="Seven Days">Seven Days</option>
+							<option value="Eight Days">Eight Days</option>
+							<option value="Nine Days">Nine Days</option>
+							<option value="Ten Days">Ten Days</option>
+						</select>
 						<label>Ticket Type</label>
-						<input id="ticket_type" name="ticket_type" type="text" class="w3-input w3-round-large" value="<?php echo $ticket_type;?>"></input>
+						<select id="ticket_type" name="ticket_type" type="text" class="w3-input w3-round-large" value="<?=$ticket_type?>">
+						  <option value="Base">Base</option>
+						  <option value="Park Hopper">Park Hopper</option>
+						  <option value="Park Hopper Plus">Park Hopper Plus</option>
+					  </select>
 					    <h4 class="w3-padding-small">Add-ons</h4>
+						<label>Dining</label>
+						<select id="resort_pakage" name="resort_pakage" class="w3-input w3-round-large w3-white" value="<?=$resort_package?>">
+							<option value="No Dining Plan">No Dining Plan</option>
+							<option value="Disney Quick-Service Dining Plan">Disney Quick-Service Dining Plan</option>
+							<option value="Disney Dining Plan">Disney Dining Plan</option>
+							<option value="Disney Deluxe Dining Plan">Disney Deluxe Dining Plan</option>
+						</select>
 						<label>Travel Insurance</label>
-						<input id="travel_insurance" name="travel_insurance" type="text" class="w3-input w3-round-large" value="<?php echo $travel_insurance;?>"></input>
+						<select id="travel_insurance" name="travel_insurance" type="text" class="w3-input w3-round-large" value="<?=$travel_insurance?>">
+						  <option value="No">No</option>
+							<option value="Yes">Yes</option>
+						</select>
 						<label>Memory Maker</label>
-						<input id="memory_maker" name="memory_maker" type="text" class="w3-input w3-round-large" value="<?php echo $memory_maker;?>"></input>
+						<select id="memory_maker" name="memory_maker" type="text" class="w3-input w3-round-large" value="<?=$memory_maker?>">
+						  <option value="No">No</option>
+							<option value="Yes">Yes</option>
+						</select>
 						<label>Would you like to add a Cruise?</label>
-						<input id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large" value="<?php echo $cruise_addon;?>"></input>
+						<select id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large" value="<?=$cruise_addon?>">
+						  <option value="No">No</option>
+							<option value="Yes">Yes</option>
+						</select>
 						<label>Would you like to add Universal?</label>
-						<input id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large w3-margin-bottom" value="<?php echo $universal_addon;?>"></input>
+						<select id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large w3-margin-bottom" value="<?=$universal_addon?>">
+						  <option value="No">No</option>
+							<option value="Yes">Yes</option>
+						</select>
 						</div>
 						<!--potential_discounts -->
 					<div class="w3-container w3-panel w3-card w3-pale-red w3-margin">
@@ -346,11 +384,11 @@
 							  </tr>
 								<tr>
 									<td class="w3-border">House/Mouse/Self</td>
-									<td class="w3-border"><?php echo $source." - ".$find_small_world; ?></td>
+									<td class="w3-border"><?php echo $source; ?></td>
 							  </tr>
 								<tr>
 									<td class="w3-border">Celebration/1st Visit?</td>
-									<td class="w3-border"><?php if (strpos($previous_disney_experience, 'first') > 0) {
+									<td class="w3-border"><?php if (strpos($previous_disney_experience, 'first') > 0 & empty($special_occasion)) {
 									                       	echo 'First Visit ';
 																				}else {
 																					echo '';
@@ -391,13 +429,7 @@
 							  </tr>
 								<tr>
 									<td class="w3-border">Tickets # and type</td>
-									<td class="w3-border"><?php echo 'Number of Passes: '.$num_of_passes.' - Ticket Type: ';
-									                           if ($park_hopper === 'Yes' && $park_hopper_plus === 'Yes') {
-									                           	echo 'Park Hopper Plus';
-									                           } elseif ($park_hopper === 'Yes' && $park_hopper_plus === 'No') {
-									                           	echo 'Park Hopper';
-									                           } else {
-									                           	echo 'Standard';}; ?></td>
+									<td class="w3-border"><?php echo $num_of_passes.' '.$ticket_type; ?></td>
 							  </tr>
 								<tr>
 									<td class="w3-border">     Ticket Valid</td>
@@ -405,15 +437,7 @@
 							  </tr>
 								<tr>
 									<td class="w3-border">Dining?</td>
-									<td class="w3-border"><?php if (strpos($resort_pakage, 'No')) {
-									                            	echo 'No dining package';
-																							} elseif (strpos($resort_pakage, 'Quick Service plan')) {
-																								echo 'Quick Service plan';
-																							} elseif (strpos($resort_pakage, 'Table Service Dining plan')) {
-																								echo 'Table Service Dining plan';
-																							} elseif (strpos($resort_pakage, 'Deluxe Dining Plan')) {
-																								echo 'Deluxe Dining Plan';
-									                            } ?></td>
+									<td class="w3-border"><?=$resort_package?></td>
 							  </tr>
 								<tr>
 									<td class="w3-border">Memory maker</td>
@@ -450,13 +474,56 @@
 	<footer>
 		<script type="text/javascript">
 
-			function valueChanged(checkID, inputID){
-			if (document.getElementById(checkID).checked)
-					{document.getElementById(inputID).style.display = 'block';
-			}
-			else if (!document.getElementById(checkID).checked)
-					document.getElementById(inputID).style.display = 'none';
+			function childCheckbox(checkID, inputID){
+
+			  if (document.getElementById(checkID).checked)
+			  		{document.getElementById(inputID).style.display = 'block';
+			  }
+			  else if (!document.getElementById(checkID).checked)
+			  		document.getElementById(inputID).style.display = 'none';
 			}
 
+
+						function createOption(ddl, text, value) {
+						 var opt = document.createElement('option');
+						 opt.value = value;
+						 opt.text = text;
+						 ddl.options.add(opt);
+				    }
+
+				    function createOptions(optionsArray, ddl) {
+				   		 for (i = 0; i < optionsArray.length; i++) {
+				   				 createOption(ddl, optionsArray[i], optionsArray[i]);
+				   		 }
+				    }
+
+						function resortSelect(ddl1, ddl2){
+							var resorts = <?php echo json_encode($_SESSION['resorts']); ?>;
+							var ddl1Clean = ddl1.value.replace("’", "'");
+
+			        //loop through resorts
+							for (i = 0; i < resorts.length; i++) {
+
+								//find the selected option in the resort array
+								if (ddl1Clean == Object.keys(resorts[i])[0]) {
+
+			            //assign room values to ddl2keys
+									var ddl2keys = Object.values(resorts[i])[0];
+
+									//remove existing options
+									ddl2.options.length = 0;
+
+									//pass the rooms and room selection ID to populate options
+									createOptions(ddl2keys.sort(), ddl2);
+									return;
+								}else {
+										//document.getElementById("test").innerHTML = 'Sorry, there was no match!';
+										createOption(ddl2,'~Least Expensive','Least Expensive');
+								}
+							}
+					  }
+
+
 		</script>
+		<script src="../js_functions/js_functions.js"></script>
   </footer>

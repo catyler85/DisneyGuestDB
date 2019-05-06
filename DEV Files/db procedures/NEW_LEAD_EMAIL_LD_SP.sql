@@ -17,13 +17,15 @@ declare
 	--lead rec
 	lead_rec                  dgmain.leads_trans;
 	travel_group_rec          dgmain.travel_groups;
+	v_resort_name             text                     := '';
+	v_room                    text                     := '';
   --
 	--work fields
-	adult_num                  int                      := 0;
-	child_num                  int                      := 0;
-	guest_num                  int                      := 0;
-	v_sql                      text;
-	lead_id                    int;
+	adult_num                 int                      := 0;
+	child_num                 int                      := 0;
+	guest_num                 int                      := 0;
+	v_sql                     text;
+	lead_id                   int;
 
 begin
 
@@ -146,7 +148,19 @@ begin
 	--------------------------------------------------------------------------
 	v_proc_step                          := 'load lead_rec';
 	--------------------------------------------------------------------------
-  --lead rec
+	select resort_name, room into v_resort_name, v_room from (
+  select a.resort_name, a.room, similarity(a.room, l.resort_accomodations) match_value,
+  row_number() over (partition by a.resort_name order by similarity(a.room, l.resort_accomodations) desc) rn
+  from (
+  select r.resort_name, unnest(r.rooms) room
+  from dgmain.resorts r) a
+  join dgmain.leads l
+    on a.resort_name = replace(l.resort, '’', '''')
+  where l.lead_id = 101) b
+  where rn = 1;
+
+
+	--lead rec
 	lead_rec.trans_id                              := (p_params ->> 'trans_id')::text;
 	lead_rec.load_date                             := db_current_date;
 	lead_rec.status                                := 'I';
@@ -166,8 +180,8 @@ begin
 	lead_rec.potential_discounts                   := p_params -> 'potential_discounts';
 	lead_rec.unique_pin_info                       := (p_params ->> 'unique_pin_info')::text;
 	lead_rec.other_discount_info                   := (p_params ->> 'other_discount_info')::text;
-	lead_rec.resort                                := (p_params ->> 'resort')::text;
-	lead_rec.resort_accomodations                  := (p_params ->> 'resort_accomodations')::text;
+	lead_rec.resort                                := v_resort_name;
+	lead_rec.resort_accomodations                  := v_room;
 	lead_rec.package_type                          := (p_params ->> 'package_type')::text;
 	lead_rec.resort_pakage                         := (p_params ->> 'resort_pakage')::text;
 	lead_rec.num_of_passes                         := (p_params ->> 'num_of_passes')::text;

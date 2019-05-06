@@ -15,12 +15,14 @@ $special_occasion           = $special_requests            = $travel_insurance  
 $ticket_valid_thru          = $other_discount_info         = $potential_discounts       = '';
 $resort_accomodations       = $courtesy_hld_exp_date       = $final_payment_due_date    = '';
 $preferred_contact_method   = $previous_disney_experience  = $guid                      = '';
+$no_dining                  = $dining                      = $qs_dining                 = $dlx_dining = '';
 $room                       = $child_flag                  = $group_name                = '';
 $age_at_travel              = $lead_guest_flag             = $fax                       = '';
 $zip                        = $cell                        = $city                      = '';
 $email                      = $phone                       = $disney_visa               = '';
 $annual_passholder          = $military                    = $florida_resident          = '';
 $canadian_resident          = $sue_says                    = $exclusive_promo_code      = '';
+$resort_select              = $room_select                 = $source_select             = '';
 $adult_table                = $unique_pin_code             = $group_table               = $notes = '';
 $child_num                  = $adult_num                   = $guest_num                 = 0;
 
@@ -69,19 +71,6 @@ if (isset($tg_arr)) {
   $fax                                                       = $form_values['travel_group'][$i]['fax'];
   $preferred_contact_method                                  = $form_values['travel_group'][$i]['preferred_contact_method'];
 
-  if (!isset($preferred_contact_method) || $preferred_contact_method === "No Preference") {
-    $np_contact                                              = "selected";
-    $em_contact                                              = "";
-    $ph_contact                                              = "";
-  }elseif ($preferred_contact_method === "Email") {
-    $np_contact                                              = "";
-    $em_contact                                              = "selected";
-    $ph_contact                                              = "";
-  }elseif ($preferred_contact_method === "Phone") {
-    $np_contact                                              = "";
-    $em_contact                                              = "";
-    $ph_contact                                              = "selected";
-  }
 
   $cfcheckID                                                 = "'cfcheck".$i."'";
   $aatvalueID                                                = "'aatvalue".$i."'";
@@ -95,7 +84,7 @@ if (isset($tg_arr)) {
         </div>
         <div class='w3-col m1'>
           <label>Child Flag</label>
-	        <input id=$cfcheckID name='".$tg_arr_name."[".$guest_num."][child_flag]' onchange=valueChanged($cfcheckID,$aatvalueID) class='w3-check w3-round-large' type='checkbox' $cf_checked>
+	        <input id=$cfcheckID name='".$tg_arr_name."[".$guest_num."][child_flag]' onchange=childCheckbox($cfcheckID,$aatvalueID) class='w3-check w3-round-large' type='checkbox' $cf_checked>
         </div>
         <div class='w3-col m1' id=$aatvalueID style='$cf_display'>
           <label>Age at Travel</label>
@@ -175,10 +164,10 @@ if (isset($tg_arr)) {
 	      </div>
 	      <div class='w3-col m3'>
 	    	<label class='w3-small'>Preferred Contact Method</label>
-	    	<select class='w3-select w3-round-large w3-white' name='".$tg_arr_name."[".$guest_num."][contact_preference]'>
-	    		<option value='No Preference'  $np_contact>No Preference</option>
-	    		<option value='Phone'          $ph_contact>Phone</option>
-	    		<option value='Email'          $em_contact>Email</option>
+	    	<select class='w3-select w3-round-large w3-white' name='".$tg_arr_name."[".$guest_num."][contact_preference]' value='".$preferred_contact_method."'>
+	    		<option value='No Preference'>No Preference</option>
+	    		<option value='Phone'>Phone</option>
+	    		<option value='Email'>Email</option>
 	    	</select>
 	      </div>
 	    </div>";
@@ -218,10 +207,21 @@ $check_out                                                 = $form_values['lead'
 $transportation                                            = $form_values['lead']['transportation'];
 $guaranteed_quote                                          = $form_values['lead']['guaranteed_quote'];
 $reservation_num                                           = $form_values['lead']['reservation_num'];
-$resort                                                    = $form_values['lead']['resort'];
 $refurb                                                    = $form_values['lead']['refurb'];
 $resort                                                    = $form_values['lead']['resort'];
 $resort_accomodations                                      = $form_values['lead']['resort_accomodations'];
+$resort_package                                            = $form_values['lead']['resort_pakage'];
+
+if (strpos(strtolower($resort_package), "no")) {
+  $resort_package                                          = "No Dining Plan";
+}elseif (strpos(strtolower($resort_package), "quick")) {
+  $resort_package                                          = "Disney Quick-Service Dining Plan";
+}elseif (strpos(strtolower($resort_package), "deluxe")) {
+  $resort_package                                          = "Disney Deluxe Dining Plan";
+}else {
+  $resort_package                                          = "Disney Dining Plan";
+}
+
 $num_rooms                                                 = $form_values['lead']['num_rooms'];
 $room_bedding                                              = $form_values['lead']['room_bedding'];
 $room_view                                                 = $form_values['lead']['room_view'];
@@ -273,9 +273,35 @@ $total_cost                                                = $form_values['lead'
 $final_payment_due_date                                    = $form_values['lead']['final_payment_due_date'];
 
 
+//resort arrays
+$resort_arr                                                = $form_values['resorts'];
+$_SESSION["resorts"]                                       = str_replace("'",  "’",$form_values['resorts']);
+//$_SESSION["resorts"] = '';
+//ksort($resort_arr);
+foreach ($resort_arr as $key => $value) {
+  //ksort($value);
+  foreach ($value as $resort_name => $resort_rooms) {
+    if ($resort === $resort_name) {
+      $v_select = "selected";
+    }else {
+      $v_select = "";
+    }
+    $resort_select   .= "<option value='".str_replace("'",  "’", $resort_name)."' ".$v_select."  >$resort_name</option>";
+
+    if ($v_select === "selected") {
+      foreach ($resort_rooms as $room_key => $room_value) {
+        if ($resort_accomodations === $room_value) {
+          $v_select = "selected";
+        }else {
+          $v_select = "";
+        }
+        $room_select   .= "<option value='".$room_value."' ".$v_select."  >$room_value</option>";
+      }
+    }
 
 
-
+  }
+}
 
 
 ?>
