@@ -13,7 +13,7 @@
 
 <body style="background-color:LavenderBlush;">
 
-<?php require '..\db_files\new_lead_email_fn.php'?>
+<?php require '../db_files/new_lead_email_fn.php'?>
 
 <h1 class="w3-panel w3-center w3-content">Verify Lead Data</h1>
 <hr>
@@ -454,6 +454,7 @@ function form_submit() {
 	if (x === 'error') {
 		alert("something went wrong");
 	}else {
+		console.log(x);
 		window.location.href = "../disney-guest-db.php";
 	}
 

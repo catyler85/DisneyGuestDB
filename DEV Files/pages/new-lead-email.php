@@ -7,7 +7,7 @@
        include_once($path);
        $path = $_SERVER['DOCUMENT_ROOT'];
        $path .= "/db_files/webservice_submit_fn.php";
-       include("..\db_files/webservice_submit_fn.php");?>
+       include("../db_files/webservice_submit_fn.php");?>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 

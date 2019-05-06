@@ -80,91 +80,79 @@ if (isset($tg_arr)) {
 	    <div class='w3-bar w3-col-row w3-row-padding'>
         <div class='w3-col m1'>
           <label>Room:</label>
-	        <input name='".$tg_arr_name."[".$guest_num."][room]' class='w3-input w3-round-large' type='text' placeholder='Room' value='".$room."'>
+	        <input name='".$tg_arr_name."[".$guest_num."][room]' class='w3-input w3-round w3 w3-margin-bottom w3-row-padding' type='text' placeholder='Room' value='".$room."'>
         </div>
         <div class='w3-col m1'>
           <label>Child Flag</label>
-	        <input id=$cfcheckID name='".$tg_arr_name."[".$guest_num."][child_flag]' onchange=childCheckbox($cfcheckID,$aatvalueID) class='w3-check w3-round-large' type='checkbox' $cf_checked>
+	        <input id=$cfcheckID name='".$tg_arr_name."[".$guest_num."][child_flag]' onchange=childCheckbox($cfcheckID,$aatvalueID) class='w3-check w3-round w3-row-padding' type='checkbox' $cf_checked>
         </div>
         <div class='w3-col m1' id=$aatvalueID style='$cf_display'>
           <label>Age at Travel</label>
-	        <input name='".$tg_arr_name."[".$guest_num."][age_at_travel]' class='w3-input w3-round-large' type='text' placeholder='age at travel' value='".$age_at_travel."'>
+	        <input name='".$tg_arr_name."[".$guest_num."][age_at_travel]' class='w3-input w3-round w3-row-padding' type='text' placeholder='age at travel' value='".$age_at_travel."'>
         </div>
 	    </div>
 	    <div class='w3-row-padding w3-margin-bottom'>
 	      <div class='w3-col m2'>
-	        <label class='w3-small'>Prefix</label>
-	        <input name='".$tg_arr_name."[".$guest_num."][name_prefix]' class='w3-input w3-round-large' type='text' placeholder='Prefix' value='".$name_prefix."'>
+	        <input name='".$tg_arr_name."[".$guest_num."][name_prefix]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Prefix' value='".$name_prefix."'>
 	      </div>
 	      <div class='w3-col m3'>
-	        <label class='w3-small'>First Name</label>
-	        <input name='".$tg_arr_name."[".$guest_num."][first_name]' class='w3-input w3-round-large' type='text' placeholder='First Name' value='".$first_name."'>
+	        <input name='".$tg_arr_name."[".$guest_num."][first_name]' class='w3-input w3-round w3-row-padding' type='text' placeholder='First Name' value='".$first_name."'>
 	      </div>
 	      <div class='w3-col m3'>
-	        <label class='w3-small'>Middle Name</label>
-	        <input name='".$tg_arr_name."[".$guest_num."][middle_name]' class='w3-input w3-round-large' type='text' placeholder='Middle Name' value='".$middle_name."'>
+	        <input name='".$tg_arr_name."[".$guest_num."][middle_name]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Middle Name' value='".$middle_name."'>
 	      </div>
 	      <div class='w3-col m3'>
-            <label class='w3-small'>Last Name</label>
-	        <input name='".$tg_arr_name."[".$guest_num."][last_name]' class='w3-input w3-round-large' type='text' placeholder='Last Name' value='".$last_name."'>
+	        <input name='".$tg_arr_name."[".$guest_num."][last_name]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Last Name' value='".$last_name."'>
           </div>
 	      <div class='w3-col m1'>
-	        <label class='w3-small'>Suffix</label>
-	        <input name='".$tg_arr_name."[".$guest_num."][name_suffix]' class='w3-input w3-round-large' type='text' placeholder='Suffix' value='".$name_suffix."'>
+	        <input name='".$tg_arr_name."[".$guest_num."][name_suffix]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Suffix' value='".$name_suffix."'>
 	      </div>
 	    </div>
 	    <div class='w3-cell-row w3-row-padding w3-margin-bottom'>
 	      <div class='w3-col m4'>
-	        <label class='w3-small'>Address 1</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][address1]' class='w3-input w3-round-large' type='text' placeholder='Address 1' value='".$address1."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][address1]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Address 1' value='".$address1."'>
 	      </div>
 	      <div class='w3-col m4'>
-	        <label class='w3-small'>Address 2</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][address2]' class='w3-input w3-round-large' type='text' placeholder='Address 2' value='".$address2."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][address2]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Address 2' value='".$address2."'>
 	      </div>
 	      <div class='w3-col m4'>
-	    	<label class='w3-small'>Address 3</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][address3]' class='w3-input w3-round-large' type='text' placeholder='Address 3' value='".$address3."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][address3]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Address 3' value='".$address3."'>
 	      </div>
 	    </div>
 	    <div class='w3-cell-row w3-row-padding w3-margin-bottom'>
 	      <div class='w3-col m4'>
-	    	<label class='w3-small'>City</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][city]' class='w3-input w3-round-large' type='text' placeholder='City' value='".$city."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][city]' class='w3-input w3-round w3-row-padding' type='text' placeholder='City' value='".$city."'>
 	      </div>
 	      <div class='w3-col m3'>
-	    	<label class='w3-small'>State</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][state]' class='w3-input w3-round-large' type='text' placeholder='State' value='".$state."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][state]' class='w3-input w3-round w3-row-padding' type='text' placeholder='State' value='".$state."'>
 	      </div>
 	      <div class='w3-col m2'>
-	        <label class='w3-small'>Zip</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][zip]' class='w3-input w3-round-large' type='text' placeholder='Zip' value='".$zip."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][zip]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Zip' value='".$zip."'>
 	      </div>
 	      <div class='w3-col m3'>
-	    	<label class='w3-small'>Country</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][country]' class='w3-input w3-round-large' type='text' placeholder='Country' value='".$country."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][country]' class='w3-input w3-round w3-row-padding' type='text' placeholder='Country' value='".$country."'>
 	      </div>
 	    </div>
 	    <div class='w3-row-padding w3-margin-bottom'>
 	      <div class='w3-col m2'>
 	    	<label class='w3-small'>Phone</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][phone]' class='w3-input w3-round-large' type='text' placeholder='Phone' value='".$phone."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][phone]' class='w3-input w3-round w3-row-padding' type='text' placeholder='123-456-5555' value='".$phone."'>
 	      </div>
 	      <div class='w3-col m2'>
 	    	<label class='w3-small'>Cell</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][cell]' class='w3-input w3-round-large' type='text' placeholder='Cell' value='".$cell."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][cell]' class='w3-input w3-round w3-row-padding' type='text' placeholder='123-456-5555' value='".$cell."'>
 	      </div>
 	      <div class='w3-col m2'>
 	    	<label class='w3-small'>Fax</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][fax]' class='w3-input w3-round-large' type='text' placeholder='Fax' value='".$fax."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][fax]' class='w3-input w3-round w3-row-padding' type='text' placeholder='123-456-5555' value='".$fax."'>
 	      </div>
 	      <div class='w3-col m3'>
 	    	<label class='w3-small'>Email</label>
-	    	<input name='".$tg_arr_name."[".$guest_num."][email]' class='w3-input w3-round-large' type='text' placeholder='Email' value='".$email."'>
+	    	<input name='".$tg_arr_name."[".$guest_num."][email]' class='w3-input w3-round w3-row-padding' type='text' placeholder='abc@xyz.com' value='".$email."'>
 	      </div>
 	      <div class='w3-col m3'>
 	    	<label class='w3-small'>Preferred Contact Method</label>
-	    	<select class='w3-select w3-round-large w3-white' name='".$tg_arr_name."[".$guest_num."][contact_preference]' value='".$preferred_contact_method."'>
+	    	<select class='w3-select w3-round w3-row-padding w3-white' name='".$tg_arr_name."[".$guest_num."][contact_preference]' value='".$preferred_contact_method."'>
 	    		<option value='No Preference'>No Preference</option>
 	    		<option value='Phone'>Phone</option>
 	    		<option value='Email'>Email</option>
@@ -275,7 +263,7 @@ $final_payment_due_date                                    = $form_values['lead'
 
 //resort arrays
 $resort_arr                                                = $form_values['resorts'];
-$_SESSION["resorts"]                                       = str_replace("'",  "’",$form_values['resorts']);
+//$_SESSION["resorts"]                                       = str_replace("'",  "’",$form_values['resorts']);
 //$_SESSION["resorts"] = '';
 //ksort($resort_arr);
 foreach ($resort_arr as $key => $value) {

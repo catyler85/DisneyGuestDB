@@ -42,44 +42,44 @@ session_start();
 				  <div class="w3-row-padding w3-margin-bottom">
 						<div class="w3-col m2">
 							<label class="w3-small">Reservation Number</label>
-							<input name="reservation_num" type="text" class="w3-input w3-round-large" value="<?php echo $reservation_num;?>"></input>
+							<input name="reservation_num" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $reservation_num;?>"></input>
 						</div>
 						<div class="w3-col m2">
 						  <label class="w3-small">Budget</label>
-						  <input name="budget" type="text" class="w3-input w3-round-large" value="<?php echo $budget;?>"></input>
+						  <input name="budget" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $budget;?>"></input>
 						</div>
 						<div class="w3-col m2">
 							<label class="w3-small fa fa-calendar-check-o">Check-In</label>
-						  <input name="check_in" type="date" class="w3-input w3-round-large" value="<?php echo date('Y-m-d',strtotime($check_in));?>"></input>
+						  <input name="check_in" type="date" class="w3-input w3-round w3-row-padding" value="<?php echo date('Y-m-d',strtotime($check_in));?>"></input>
 						</div>
 						<div class="w3-col m2">
 						  <label class="w3-small fa fa-calendar-o">Check-Out</label>
-						  <input name="check_out" type="date" class="w3-input w3-round-large" value="<?php echo date('Y-m-d',strtotime($check_out));?>"></input>
+						  <input name="check_out" type="date" class="w3-input w3-round w3-row-padding" value="<?php echo date('Y-m-d',strtotime($check_out));?>"></input>
 						</div>
 						<div class="w3-col m2">
 							<label class="w3-small">Guaranteed Quote?</label>
-							<select class="w3-select w3-round-large w3-white" name="guaranteed_quote" value="<?=$guaranteed_quote?>">
+							<select class="w3-select w3-round w3-row-padding w3-white" name="guaranteed_quote" value="<?=$guaranteed_quote?>">
 								<option value="No" >No</option>
 								<option value="Yes">Yes</option>
 							</select>
 						</div>
 						<div class="w3-col m2">
 							<label class="w3-small fa fa-calendar-o">Hold Expires</label>
-							<input name="courtesy_hld_exp_date" type="date" class="w3-input w3-round-large" value="<?php if (isset($courtesy_hld_exp_date)) {echo date('Y-m-d',strtotime($courtesy_hld_exp_date));};?>"></input>
+							<input name="courtesy_hld_exp_date" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($courtesy_hld_exp_date)) {echo date('Y-m-d',strtotime($courtesy_hld_exp_date));};?>"></input>
 						</div>
 					</div>
 					<div class="w3-row-padding w3-margin-bottom">
 						<div class="w3-third">
               <label>Special Requests</label>
-						  <textarea name="special_requests" class="w3-input w3-round-large" rows="6"><?php echo $special_requests; ?></textarea>
+						  <textarea name="special_requests" class="w3-input w3-round w3-row-padding" rows="5"><?php echo $special_requests; ?></textarea>
 					  </div>
 						<div class="w3-third">
 						  <label>Special Occasion</label>
-						  <textarea name="special_occasion" class="w3-input w3-round-large" rows="6"><?php if (empty($special_occasion)) {echo '';} else {echo $special_occasion;} ?></textarea>
+						  <textarea name="special_occasion" class="w3-input w3-round w3-row-padding" rows="5"><?php if (empty($special_occasion)) {echo '';} else {echo $special_occasion;} ?></textarea>
 					  </div>
 					  <div class="w3-third">
 	              <label>Additional Notes</label>
-							  <textarea name="notes" class="w3-input w3-round-large" rows="6" ><?php echo $notes; ?></textarea>
+							  <textarea name="notes" class="w3-input w3-round w3-row-padding" rows="5" ><?php echo $notes; ?></textarea>
 						</div>
 					</div>
 				  <hr>
@@ -87,37 +87,37 @@ session_start();
 						<h4>Hotel</h4>
 						<div class="w3-col m5">
 						  <label class="w3-small">Resort</label>
-							<select id="resort" class="w3-select w3-round-large w3-white" name="resort" onchange="resortSelect(this, document.getElementById('resort_accomodations'))">
+							<select id="resort" class="w3-select w3-round w3-row-padding w3-white" name="resort" onchange="resortSelect(this, document.getElementById('resort_accomodations'))">
 								<?php echo $resort_select;  ?>
 							</select>
 						  <!--<input name="resort" type="text" class="w3-input w3-round-large" value="<?php //echo $resort;?>"></input>-->
 						</div>
 						<div class="w3-col m5">
 						  <label class="w3-small">Room Type</label>
-							<select id="resort_accomodations" class="w3-select w3-round-large w3-white" name="resort_accomodations">
+							<select id="resort_accomodations" class="w3-select w3-round w3-row-padding w3-white" name="resort_accomodations">
 								<?php echo $room_select;  ?>
 							</select>
 						  <!--<input name="resort_accomodations" type="text" class="w3-input w3-round-large" value="<?php //echo $resort_accomodations;?>"></input>-->
 					  </div>
 						<div class="w3-col m2">
 							<label class="w3-small">Number of Rooms</label>
-							<input name="num_rooms" type="number" class="w3-input w3-round-large" value="<?php echo $num_rooms;?>"></input>
+							<input name="num_rooms" type="number" class="w3-input w3-round w3-row-padding" value="<?php echo $num_rooms;?>"></input>
 						</div>
 					</div>
 					<div class="w3-row-padding w3-margin-bottom">
 						<div class="w3-col m2">
 							<label class="w3-small">Room Bedding</label>
-							<input name="room_bedding" type="text" class="w3-input w3-round-large" value="<?php echo $room_bedding;?>"></input>
+							<input name="room_bedding" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $room_bedding;?>"></input>
 						</div>
 						<div class="w3-rest">
 							<label class="w3-small">Refurb?</label>
-							<input name="refurb" type="text" class="w3-input w3-round-large" value="<?php echo $refurb;?>"></input>
+							<input name="refurb" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $refurb;?>"></input>
 						</div>
 					</div>
 					 <div class="w3-row-padding w3-margin-bottom">
 					   <div class="w3-col m2">
 					  	 <label class="w3-small">Source</label>
-					  	 <select name="source" class="w3-input w3-round-large w3-white" value="<?=$source?>">
+					  	 <select name="source" class="w3-input w3-round w3-row-padding w3-white" value="<?=$source?>">
                  <option value="House" >House</option>
 								 <option value="Mouse" >Mouse</option>
 								 <option value="Self"  >Self</option>
@@ -125,11 +125,11 @@ session_start();
 					   </div>
 					   <div class="w3-col m2">
 					  	 <label class="w3-small">Transportation</label>
-					  	 <input name="transportation" type="text" class="w3-input w3-round-large" value="<?php echo $transportation;?>"></input>
+					  	 <input name="transportation" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $transportation;?>"></input>
 					   </div>
 						 <div class="w3-col m2">
 					  	 <label class="w3-small">Handicap</label>
-							 <select class="w3-select w3-round-large  w3-white" name="guaranteed_quote">
+							 <select class="w3-select w3-round w3-row-padding  w3-white" name="guaranteed_quote">
  								<option value="No"  <?php if (!isset($handicap) || $handicap === "No") {
  																										 echo "selected";
  																								}?>>No</option>
@@ -140,92 +140,80 @@ session_start();
 					   </div>
 						 <div class="w3-rest">
 					  	 <label class="w3-small">Handicap Details:</label>
-					  	 <input name="handicap_details" type="text" class="w3-input w3-round-large" value="<?php echo $handicap_details;?>"></input>
+					  	 <input name="handicap_details" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $handicap_details;?>"></input>
 					   </div>
           </div>
 						<hr>
 					<!-- Lead Guest Contact Info -->
 			  	<h3 class="w3-col m2">Lead Guest</h3>
 					<div class="w3-bar"><label class="w3-col">Room:</label>
-						<input name="room" class="w3-input w3-round-large w3-col m1" type="text" placeholder="Room" value="<?php echo $room;?>">
+						<input name="room" class="w3-input w3-round w3-row-padding w3-margin-bottom w3-col m1" type="text" placeholder="Room" value="<?php echo $room;?>">
 					</div>
 					<input type="hidden" name="lead_id" value=<?php echo $lead_id; ?>></input>
 					<input type="hidden" name="lead_guest_guid" value=<?php echo $lead_guest_guid; ?>></input>
 			        <div class="w3-row-padding w3-margin-bottom">
 			          <div class="w3-col m2">
-									<label class="w3-small">Prefix</label>
-			            <input name="name_prefix" class="w3-input w3-round-large" type="text" placeholder="Prefix" value="<?php echo $name_prefix;?>">
+			            <input name="name_prefix" class="w3-input w3-round w3-row-padding" type="text" placeholder="Prefix" value="<?php echo $name_prefix;?>">
 								</div>
 							  <div class="w3-col m3">
-									<label class="w3-small">First Name</label>
-			            <input name="first_name" class="w3-input w3-round-large" type="text" placeholder="First Name" value="<?php echo $first_name;?>">
+			            <input name="first_name" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" value="<?php echo $first_name;?>">
 								</div>
 								<div class="w3-col m3">
-									<label class="w3-small">Middle Name</label>
-			            <input name="middle_name" class="w3-input w3-round-large" type="text" placeholder="Middle Name" value="<?php echo $middle_name;?>">
+			            <input name="middle_name" class="w3-input w3-round w3-row-padding" type="text" placeholder="Middle Name" value="<?php echo $middle_name;?>">
 								</div>
 								<div class="w3-col m3">
-									<label class="w3-small">Last Name</label>
-			            <input name="last_name" class="w3-input w3-round-large" type="text" placeholder="Last Name" value="<?php echo $last_name;?>">
+			            <input name="last_name" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" value="<?php echo $last_name;?>">
                 </div>
 								<div class="w3-col m1">
-									<label class="w3-small">Suffix</label>
-			            <input name="name_suffix" class="w3-input w3-round-large" type="text" placeholder="Suffix" value="<?php echo $name_suffix;?>">
+			            <input name="name_suffix" class="w3-input w3-round w3-row-padding" type="text" placeholder="Suffix" value="<?php echo $name_suffix;?>">
 			          </div>
 							</div>
-							<div class="w3-cell-row w3-row-padding w3-margin-bottom">
+							<div class="w3-row-padding w3-margin-bottom">
 								<div class="w3-col m4">
-									<label class="w3-small">Address 1</label>
-			            <input name="address1" class="w3-input w3-round-large" type="text" placeholder="Address 1" value="<?php echo $address1;?>">
+			            <input name="address1" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 1" value="<?php echo $address1;?>">
 								</div>
 							  <div class="w3-col m4">
-									<label class="w3-small">Address 2</label>
-			            <input name="address2" class="w3-input w3-round-large" type="text" placeholder="Address 2" value="<?php echo $address2;?>">
+			            <input name="address2" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 2" value="<?php echo $address2;?>">
 								</div>
 								<div class="w3-col m4">
-									<label class="w3-small">Address 3</label>
-			            <input name="address3" class="w3-input w3-round-large" type="text" placeholder="Address 3" value="<?php echo $address3;?>">
+			            <input name="address3" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 3" value="<?php echo $address3;?>">
 								</div>
 							</div>
-							<div class="w3-cell-row w3-row-padding w3-margin-bottom">
+							<div class="w3-row-padding w3-margin-bottom">
 							  <div class="w3-col m4">
-									<label class="w3-small">City</label>
-									<input name="city" class="w3-input w3-round-large" type="text" placeholder="City" value="<?php echo $city;?>">
+									<input name="city" class="w3-input w3-round w3-row-padding" type="text" placeholder="City" value="<?php echo $city;?>">
 								</div>
 							  <div class="w3-col m3">
-									<label class="w3-small">State</label>
-									<input name="state" class="w3-input w3-round-large" type="text" placeholder="State" value="<?php echo $state;?>">
+									<input name="state" class="w3-input w3-round w3-row-padding" type="text" placeholder="State" value="<?php echo $state;?>">
 								</div>
 							  <div class="w3-col m2">
-									<label class="w3-small">Zip</label>
-									<input name="zip" class="w3-input w3-round-large" type="text" placeholder="Zip" value="<?php echo $zip;?>">
+									<input name="zip" class="w3-input w3-round w3-row-padding" type="text" placeholder="Zip" value="<?php echo $zip;?>">
 								</div>
 							  <div class="w3-col m3">
-									<label class="w3-small">Country</label>
-									<input name="country" class="w3-input w3-round-large" type="text" placeholder="Country" value="<?php echo $country;?>">
+									<input name="country" class="w3-input w3-round w3-row-padding" type="text" placeholder="Country" value="<?php echo $country;?>">
 								</div>
 			        </div>
 							<div class="w3-row-padding w3-margin-bottom">
 								<div class="w3-col m2">
-									<label class="w3-small">Phone</label>
-									<input name="phone" class="w3-input w3-round-large" type="text" placeholder="Phone" value="<?php echo $phone;?>">
+					    	  <label class='w3-small'>Phone</label>
+									<input name="phone" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $phone;?>">
 								</div>
 								<div class="w3-col m2">
-									<label class="w3-small">Cell</label>
-									<input name="cell" class="w3-input w3-round-large" type="text" placeholder="Cell" value="<?php echo $cell;?>">
+					    	  <label class='w3-small'>Cell</label>
+									<input name="cell" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $cell;?>">
 								</div>
 								<div class="w3-col m2">
-									<label class="w3-small">Fax</label>
-									<input name="fax" class="w3-input w3-round-large" type="text" placeholder="Fax" value="<?php echo $fax;?>">
+					    	  <label class='w3-small'>Fax</label>
+									<input name="fax" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $fax;?>">
 								</div>
 								<div class="w3-col m3">
-									<label class="w3-small">Email</label>
-									<input name="email" class="w3-input w3-round-large" type="text" placeholder="Email" value="<?php echo $email;?>">
+					    	  <label class='w3-small'>Email</label>
+									<input name="email" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" value="<?php echo $email;?>">
 								</div>
 								<div class="w3-col m3">
 									<label class="w3-small">Preferred Contact Method</label>
-									<select class="w3-select w3-round-large w3-white" name="contact_preference" value="<?=$preferred_contact_method?>">
-                    <option value="" disabled hidden>Please Select</option>
+									<select class="w3-select w3-round w3-row-padding w3-white" name="contact_preference" value="<?=$preferred_contact_method?>">
+										<option value="" disabled hidden>Please Select</option>
 										<option value="No Preference">No Preference</option>
 										<option value="Phone" >Phone</option>
 										<option value="Email" >Email</option>
@@ -235,11 +223,11 @@ session_start();
 							<div class="w3-row-padding w3-margin-bottom">
 								<div class="w3-rest">
 									<label class="w3-small">Previous Disney Experience</label>
-									<input name="previous_disney_experience" class="w3-input w3-round-large" type="text" placeholder="Previous Disney Experience" value="<?php echo $previous_disney_experience;?>">
+									<input name="previous_disney_experience" class="w3-input w3-round w3-row-padding" type="text" placeholder="Previous Disney Experience" value="<?php echo $previous_disney_experience;?>">
 								</div>
 							</div>
 							<div id="guests"><?php echo $group_table; ?></div>
-							<button type="button" class="w3-btn w3-round-large w3-pink" id="add-guest" name="add-guest">Add Guest</button> 
+							<button type="button" class="w3-btn w3-round w3-row-padding w3-pink w3-margin-bottom" id="add-guest" name="add-guest">Add Guest</button>
 							<!--end of lead guest info -->
 					</div>
 
@@ -248,7 +236,7 @@ session_start();
 					<div class="w3-container w3-panel w3-card w3-pale-red w3-margin">
 						<h4>Tickets</h4>
 						<label>Number of Passes:</label>
-						<select id="num_of_passes" name="num_of_passes" type="text" class="w3-input w3-round-large w3-white" value="<?=$num_of_passes?>">
+						<select id="num_of_passes" name="num_of_passes" type="text" class="w3-input w3-round w3-row-padding w3-white" value="<?=$num_of_passes?>">
 						  <option value="Two Days">Two Days</option>
 							<option value="Three Days">Three Days</option>
 							<option value="Four Days">Four Days</option>
@@ -260,36 +248,36 @@ session_start();
 							<option value="Ten Days">Ten Days</option>
 						</select>
 						<label>Ticket Type</label>
-						<select id="ticket_type" name="ticket_type" type="text" class="w3-input w3-round-large w3-white" value="<?=$ticket_type?>">
+						<select id="ticket_type" name="ticket_type" type="text" class="w3-input w3-round w3-row-padding w3-white" value="<?=$ticket_type?>">
 						  <option value="Base">Base</option>
 						  <option value="Park Hopper">Park Hopper</option>
 						  <option value="Park Hopper Plus">Park Hopper Plus</option>
 					  </select>
 					    <h4 class="w3-padding-small">Add-ons</h4>
 						<label>Dining</label>
-						<select id="resort_pakage" name="resort_pakage" class="w3-input w3-round-large w3-white" value="<?=$resort_package?>">
+						<select id="resort_pakage" name="resort_pakage" class="w3-input w3-round w3-row-padding w3-white" value="<?=$resort_package?>">
 							<option value="No Dining Plan">No Dining Plan</option>
 							<option value="Disney Quick-Service Dining Plan">Disney Quick-Service Dining Plan</option>
 							<option value="Disney Dining Plan">Disney Dining Plan</option>
 							<option value="Disney Deluxe Dining Plan">Disney Deluxe Dining Plan</option>
 						</select>
 						<label>Travel Insurance</label>
-						<select id="travel_insurance" name="travel_insurance" type="text" class="w3-input w3-round-large w3-white" value="<?=$travel_insurance?>">
+						<select id="travel_insurance" name="travel_insurance" type="text" class="w3-input w3-round w3-row-padding w3-white" value="<?=$travel_insurance?>">
 						  <option value="No">No</option>
 							<option value="Yes">Yes</option>
 						</select>
 						<label>Memory Maker</label>
-						<select id="memory_maker" name="memory_maker" type="text" class="w3-input w3-round-large w3-white" value="<?=$memory_maker?>">
+						<select id="memory_maker" name="memory_maker" type="text" class="w3-input w3-round w3-row-padding w3-white" value="<?=$memory_maker?>">
 						  <option value="No">No</option>
 							<option value="Yes">Yes</option>
 						</select>
 						<label>Would you like to add a Cruise?</label>
-						<select id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large w3-white" value="<?=$cruise_addon?>">
+						<select id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round w3-row-padding w3-white" value="<?=$cruise_addon?>">
 						  <option value="No">No</option>
 							<option value="Yes">Yes</option>
 						</select>
 						<label>Would you like to add Universal?</label>
-						<select id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large w3-margin-bottom w3-white" value="<?=$universal_addon?>">
+						<select id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round w3-row-padding w3-margin-bottom w3-white" value="<?=$universal_addon?>">
 						  <option value="No">No</option>
 							<option value="Yes">Yes</option>
 						</select>
