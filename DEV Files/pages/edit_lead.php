@@ -247,7 +247,7 @@ session_start();
 					<div class="w3-container w3-panel w3-card w3-pale-red w3-margin">
 						<h4>Tickets</h4>
 						<label>Number of Passes:</label>
-						<select id="num_of_passes" name="num_of_passes" type="text" class="w3-input w3-round-large" value="<?=$num_of_passes?>">
+						<select id="num_of_passes" name="num_of_passes" type="text" class="w3-input w3-round-large w3-white" value="<?=$num_of_passes?>">
 						  <option value="Two Days">Two Days</option>
 							<option value="Three Days">Three Days</option>
 							<option value="Four Days">Four Days</option>
@@ -259,7 +259,7 @@ session_start();
 							<option value="Ten Days">Ten Days</option>
 						</select>
 						<label>Ticket Type</label>
-						<select id="ticket_type" name="ticket_type" type="text" class="w3-input w3-round-large" value="<?=$ticket_type?>">
+						<select id="ticket_type" name="ticket_type" type="text" class="w3-input w3-round-large w3-white" value="<?=$ticket_type?>">
 						  <option value="Base">Base</option>
 						  <option value="Park Hopper">Park Hopper</option>
 						  <option value="Park Hopper Plus">Park Hopper Plus</option>
@@ -273,22 +273,22 @@ session_start();
 							<option value="Disney Deluxe Dining Plan">Disney Deluxe Dining Plan</option>
 						</select>
 						<label>Travel Insurance</label>
-						<select id="travel_insurance" name="travel_insurance" type="text" class="w3-input w3-round-large" value="<?=$travel_insurance?>">
+						<select id="travel_insurance" name="travel_insurance" type="text" class="w3-input w3-round-large w3-white" value="<?=$travel_insurance?>">
 						  <option value="No">No</option>
 							<option value="Yes">Yes</option>
 						</select>
 						<label>Memory Maker</label>
-						<select id="memory_maker" name="memory_maker" type="text" class="w3-input w3-round-large" value="<?=$memory_maker?>">
+						<select id="memory_maker" name="memory_maker" type="text" class="w3-input w3-round-large w3-white" value="<?=$memory_maker?>">
 						  <option value="No">No</option>
 							<option value="Yes">Yes</option>
 						</select>
 						<label>Would you like to add a Cruise?</label>
-						<select id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large" value="<?=$cruise_addon?>">
+						<select id="cruise_addon" name="cruise_addon" type="text" class="w3-input w3-round-large w3-white" value="<?=$cruise_addon?>">
 						  <option value="No">No</option>
 							<option value="Yes">Yes</option>
 						</select>
 						<label>Would you like to add Universal?</label>
-						<select id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large w3-margin-bottom" value="<?=$universal_addon?>">
+						<select id="universal_addon" name="universal_addon" type="text" class="w3-input w3-round-large w3-margin-bottom w3-white" value="<?=$universal_addon?>">
 						  <option value="No">No</option>
 							<option value="Yes">Yes</option>
 						</select>
