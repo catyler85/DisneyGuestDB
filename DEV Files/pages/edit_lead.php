@@ -238,7 +238,8 @@ session_start();
 									<input name="previous_disney_experience" class="w3-input w3-round-large" type="text" placeholder="Previous Disney Experience" value="<?php echo $previous_disney_experience;?>">
 								</div>
 							</div>
-							<?php echo $group_table; ?>
+							<div id="guests"><?php echo $group_table; ?></div>
+							<button type="button" class="w3-btn w3-round-large w3-pink" id="add-guest" name="add-guest">Add Guest</button> 
 							<!--end of lead guest info -->
 					</div>
 
@@ -473,6 +474,19 @@ session_start();
   </body>
 	<footer>
 		<script type="text/javascript">
+		var i=100;
+		var q=200;
+
+		//add guest functions
+		$('#add-guest').click(function(){
+			i++;		$('#guests').append('<tr id="row'+i+'"><td><button type="button" class="w3-round-large w3-border material-icons guest_remove" name="remove" id="'+i+'">close</button></td><td><input type="text" name="ag'+i+'_first_name" placeholder="First Name" class="w3-input w3-row-padding w3-round" /></td><td><input type="text" name="ag'+i+'_last_name" placeholder="Last Name" class="w3-input w3-row-padding w3-round" /></td><td><input type="number" name="ag'+i+'_age" placeholder="Age" class="w3-input w3-row-padding w3-round" /></td></tr>');
+		});
+
+		$(document).on('click', '.guest_remove', function(){
+			var button_id = $(this).attr("id");
+			$('#row'+button_id+'').remove();
+		});
+
 
 			function childCheckbox(checkID, inputID){
 
