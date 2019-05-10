@@ -463,16 +463,101 @@ session_start();
 	<footer>
 		<script type="text/javascript">
 		var i=100;
-		var q=200;
 
 		//add guest functions
 		$('#add-guest').click(function(){
-			i++;		$('#guests').append('<tr id="row'+i+'"><td><button type="button" class="w3-round-large w3-border material-icons guest_remove" name="remove" id="'+i+'">close</button></td><td><input type="text" name="ag'+i+'_first_name" placeholder="First Name" class="w3-input w3-row-padding w3-round" /></td><td><input type="text" name="ag'+i+'_last_name" placeholder="Last Name" class="w3-input w3-row-padding w3-round" /></td><td><input type="number" name="ag'+i+'_age" placeholder="Age" class="w3-input w3-row-padding w3-round" /></td></tr>');
+			var long;
+			long = '<tr id="g'+i+'" ><hr>' +
+'<button type="button" class="w3-round material-icons guest_remove" name="remove" id="'+i+'">close</button>' +
+'<h3 class="w3-col m2">Guest '+i+'</h3> ' +
+'<div class="w3-bar w3-col-row w3-row-padding">' +
+'<div class="w3-col m1">' +
+'<label>Room:</label>' +
+'<input name="Adults['+i+'][room]" class="w3-input w3-round w3 w3-margin-bottom w3-row-padding" type="text" placeholder="Room" >' +
+'</div>' +
+'<div class="w3-col m1">' +
+'<label>Child Flag</label>' +
+'<input id=$cfcheckID name="Adults['+i+'][child_flag]" onchange=childCheckbox($cfcheckID,$aatvalueID) class="w3-check w3-round w3-row-padding" type="checkbox" >' +
+'</div>' +
+'<div class="w3-col m1" id=$aatvalueID style="$cf_display">' +
+'<label>Age at Travel</label>' +
+'<input name="Adults['+i+'][age_at_travel]" class="w3-input w3-round w3-row-padding" type="text" placeholder="age at travel" >' +
+'</div>' +
+'</div>' +
+'<div class="w3-row-padding w3-margin-bottom">' +
+'<div class="w3-col m2">' +
+'<input name="Adults['+i+'][name_prefix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Prefix" >' +
+'</div>' +
+'<div class="w3-col m3">' +
+'<input name="Adults['+i+'][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" >' +
+'</div>' +
+'<div class="w3-col m3">' +
+'<input name="Adults['+i+'][middle_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Middle Name" >' +
+'</div>' +
+'<div class="w3-col m3">' +
+'<input name="Adults['+i+'][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" >' +
+'</div>' +
+'<div class="w3-col m1">' +
+'<input name="Adults['+i+'][name_suffix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Suffix" >' +
+'</div>' +
+'</div>' +
+'<div class="w3-cell-row w3-row-padding w3-margin-bottom">' +
+'<div class="w3-col m4">' +
+'<input name="Adults['+i+'][address1]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 1" >' +
+'</div>' +
+'<div class="w3-col m4">' +
+'<input name="Adults['+i+'][address2]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 2" >' +
+'</div>' +
+'<div class="w3-col m4">' +
+'<input name="Adults['+i+'][address3]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 3" >' +
+'</div>' +
+'</div>' +
+'<div class="w3-cell-row w3-row-padding w3-margin-bottom">' +
+'<div class="w3-col m4">' +
+'<input name="Adults['+i+'][city]" class="w3-input w3-round w3-row-padding" type="text" placeholder="City" >' +
+'</div>' +
+'<div class="w3-col m3">' +
+'<input name="Adults['+i+'][state]" class="w3-input w3-round w3-row-padding" type="text" placeholder="State" >' +
+'</div>' +
+'<div class="w3-col m2">' +
+'<input name="Adults['+i+'][zip]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Zip" >' +
+'</div>' +
+'<div class="w3-col m3">' +
+'<input name="Adults['+i+'][country]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Country" >' +
+'</div>' +
+'</div>' +
+'<div class="w3-row-padding w3-margin-bottom">' +
+'<div class="w3-col m2">' +
+'<label class="w3-small">Phone</label>' +
+'<input name="Adults['+i+'][phone]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+'</div>' +
+'<div class="w3-col m2">' +
+'<label class="w3-small">Cell</label>' +
+'<input name="Adults['+i+'][cell]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+'</div>' +
+'<div class="w3-col m2">' +
+'<label class="w3-small">Fax</label>' +
+'<input name="Adults['+i+'][fax]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+'</div>' +
+'<div class="w3-col m3">' +
+'<label class="w3-small">Email</label>' +
+'<input name="Adults['+i+'][email]" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" >' +
+'</div>' +
+'<div class="w3-col m3">' +
+'<label class="w3-small">Preferred Contact Method</label>' +
+'<select class="w3-select w3-round w3-row-padding w3-white" name="Adults['+i+'][contact_preference]" >' +
+'<option value="No Preference">No Preference</option>' +
+'<option value="Phone">Phone</option>' +
+'<option value="Email">Email</option>' +
+'</select>' +
+'</div>' +
+'</div></tr>';
+			i++;		$('#guests').append(long);
 		});
 
 		$(document).on('click', '.guest_remove', function(){
 			var button_id = $(this).attr("id");
-			$('#row'+button_id+'').remove();
+			$('#g'+button_id+'').remove();
 		});
 
 

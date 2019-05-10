@@ -75,7 +75,8 @@ if (isset($tg_arr)) {
   $cfcheckID                                                 = "'cfcheck".$i."'";
   $aatvalueID                                                = "'aatvalue".$i."'";
   if ($lead_guest_flag != 'Y') {
-    $group_table                                              .= "<hr>
+    $group_table                                              .= "<tr id='g".$guest_num."' ><hr>
+      <button type='button' class='w3-round material-icons guest_remove' name='remove' id='".$guest_num."'>close</button>
       <h3 class='w3-col m2'>Guest ".($i+1)."</h3>
 	    <div class='w3-bar w3-col-row w3-row-padding'>
         <div class='w3-col m1'>
@@ -158,7 +159,7 @@ if (isset($tg_arr)) {
 	    		<option value='Email'>Email</option>
 	    	</select>
 	      </div>
-	    </div>";
+	    </div></tr>";
     }
   $guest_num                                                 = $i;
   }
