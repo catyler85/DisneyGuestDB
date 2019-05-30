@@ -15,7 +15,8 @@ $special_occasion           = $special_requests            = $travel_insurance  
 $ticket_valid_thru          = $other_discount_info         = $potential_discounts       = '';
 $resort_accomodations       = $courtesy_hld_exp_date       = $final_payment_due_date    = '';
 $preferred_contact_method   = $previous_disney_experience  = $guid                      = '';
-$no_dining                  = $dining                      = $qs_dining                 = $dlx_dining = '';
+$no_dining                  = $dining                      = $qs_dining                 = '';
+$rooms_str                  = $dlx_dining                  = $notes                     = '';
 $room                       = $child_flag                  = $group_name                = '';
 $age_at_travel              = $lead_guest_flag             = $fax                       = '';
 $zip                        = $cell                        = $city                      = '';
@@ -23,7 +24,7 @@ $email                      = $phone                       = $disney_visa       
 $annual_passholder          = $military                    = $florida_resident          = '';
 $canadian_resident          = $sue_says                    = $exclusive_promo_code      = '';
 $resort_select              = $room_select                 = $source_select             = '';
-$adult_table                = $unique_pin_code             = $group_table               = $notes = '';
+$adult_table                = $unique_pin_code             = $group_table               = '';
 $child_num                  = $adult_num                   = $guest_num                 = 0;
 
 //travel group info
@@ -35,11 +36,7 @@ if (isset($tg_arr)) {
   $guid                                                      = $form_values['travel_group'][$i]['guid'];
   $room                                                      = $form_values['travel_group'][$i]['room'];
   $child_flag                                                = $form_values['travel_group'][$i]['child_flag'];
-  if($child_flag){
-    $tg_arr_name                                             = "Children";
-  }else {
-    $tg_arr_name                                             = "Adults";
-  }
+
   if($child_flag){
     $cf_checked                                              = "checked";
     $cf_display                                              = "";
@@ -71,23 +68,35 @@ if (isset($tg_arr)) {
   $fax                                                       = $form_values['travel_group'][$i]['fax'];
   $preferred_contact_method                                  = $form_values['travel_group'][$i]['preferred_contact_method'];
 
+  if($child_flag){
+    $tg_arr_name                                             = "Children";
+    $rooms_str                                              .= $room." Name: ".$first_name." ".$last_name."~ Age at Travel: ".$age_at_travel."\r\n";
+  }else {
+    $tg_arr_name                                             = "Adults";
+    $rooms_str                                              .= $room." Name: ".$first_name." ".$last_name."\r\n";
+  }
 
   $cfcheckID                                                 = "'cfcheck".$i."'";
   $aatvalueID                                                = "'aatvalue".$i."'";
   if ($lead_guest_flag != 'Y') {
-    $group_table                                              .= "<tr id='g".$guest_num."' ><hr>
-      <button type='button' class='w3-round material-icons guest_remove' name='remove' id='".$guest_num."'>close</button>
-      <h3 class='w3-col m2'>Guest ".($i+1)."</h3>
+    $group_table                                              .= "<tr id='g".($i+1)."' ><td><hr>
+      <h3 id='h".($i+1)."' class='w3-col m2'>Guest ".($i+1)."</h3>
 	    <div class='w3-bar w3-col-row w3-row-padding'>
-        <div class='w3-col m1'>
+        <div class='w3-col m2'>
           <label>Room:</label>
-	        <input name='".$tg_arr_name."[".$guest_num."][room]' class='w3-input w3-round w3 w3-margin-bottom w3-row-padding' type='text' placeholder='Room' value='".$room."'>
+          <select name='".$tg_arr_name."[".$guest_num."][room]' class='w3-input w3-white w3-round w3-row-padding w3-margin-bottom' value='$room'>
+            <option value='Room 1'>Room 1</option>
+            <option value='Room 2'>Room 2</option>
+            <option value='Room 3'>Room 3</option>
+            <option value='Room 4'>Room 4</option>
+            <option value='Room 5'>Room 5</option>
+          </select>
         </div>
-        <div class='w3-col m1'>
+        <div class='w3-col m2'>
           <label>Child Flag</label>
 	        <input id=$cfcheckID name='".$tg_arr_name."[".$guest_num."][child_flag]' onchange=childCheckbox($cfcheckID,$aatvalueID) class='w3-check w3-round w3-row-padding' type='checkbox' $cf_checked>
         </div>
-        <div class='w3-col m1' id=$aatvalueID style='$cf_display'>
+        <div class='w3-col m2' id=$aatvalueID style='$cf_display'>
           <label>Age at Travel</label>
 	        <input name='".$tg_arr_name."[".$guest_num."][age_at_travel]' class='w3-input w3-round w3-row-padding' type='text' placeholder='age at travel' value='".$age_at_travel."'>
         </div>
@@ -159,7 +168,8 @@ if (isset($tg_arr)) {
 	    		<option value='Email'>Email</option>
 	    	</select>
 	      </div>
-	    </div></tr>";
+	    </div>
+        <div><button type='button' class='w3-btn w3-round w3-row-padding w3-pink w3-margin-bottom guest_remove' name='remove' id='g".($i+1)."'>Remove</button></div></td></tr>";
     }
   $guest_num                                                 = $i;
   }

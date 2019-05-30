@@ -1,4 +1,35 @@
+//------------------------------
+//submit on "Enter"
+//------------------------------
+document.addEventListener("keyup", function(event) {
+	event.preventDefault();
+	if (event.keyCode === 13) {
+		document.getElementById("submit").click();
+	}
+});
 
+//------------------------------
+//submit the form
+//------------------------------
+function form_submit(formID) {
+  var x, form_assign = '';
+
+	form_assign = document.getElementById(formID);
+	x = submit_form_data(form_assign);
+
+	if (x === 'error') {
+		alert("something went wrong");
+	}else {
+		console.log(x);
+		//window.location.href = "../disney-guest-db.php";
+	}
+
+};
+
+
+//------------------------------
+//set selection values
+//------------------------------
   $("select[value]").each(function() {
 
     $(this).val(this.getAttribute("value"));
@@ -10,8 +41,10 @@
     console.log(this);
 
 	});
-
-
+/*
+//------------------------------
+//Room type selection functions
+//------------------------------
 			function createOption(ddl, text, value) {
 			 var opt = document.createElement('option');
 			 opt.value = value;
@@ -49,4 +82,6 @@
 							createOption(ddl2,'~Least Expensive','Least Expensive');
 					}
 				}
-		  }
+		  }*/
+
+//------------------------------

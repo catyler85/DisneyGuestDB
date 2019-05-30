@@ -1,6 +1,7 @@
 function submit_form_data(p_form) {
 	var form = $( p_form ).serialize();
-	$.post("../db_files/webservice_submit_fn.php", form, function(result,status){
+	var x;
+	x = $.post("../db_files/webservice_submit_fn.php", form, function(result,status){
 
 		if (status === "success") {
 			return 'result';
@@ -9,5 +10,5 @@ function submit_form_data(p_form) {
     }
 
 	}, "json");
-return 'xresult';
+return x;
 };
