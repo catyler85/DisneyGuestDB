@@ -14,7 +14,10 @@ begin
 --key lookup values
 --
 --name|address
-if p_guest_rec.address1 || p_guest_rec.city || p_guest_rec.state || p_guest_rec.zip is not null then
+if coalesce(p_guest_rec.address1, '')
+|| coalesce(p_guest_rec.city,'')
+|| coalesce(p_guest_rec.state,'')
+|| coalesce(p_guest_rec.zip,'') <> '' then
   insert into key_lookup_temp
   values
   (p_guest_rec.trans_id
@@ -31,7 +34,7 @@ if p_guest_rec.address1 || p_guest_rec.city || p_guest_rec.state || p_guest_rec.
 end if;
 
   --name|email
-  if p_guest_rec.email is not null then
+  if coalesce(p_guest_rec.email, '') <> '' then
     insert into key_lookup_temp
     values
     (p_guest_rec.trans_id
@@ -48,7 +51,7 @@ end if;
 end if;
   --
   --name|phone
-  if p_guest_rec.phone is not null then
+  if coalesce(p_guest_rec.phone,'') <> '' then
     insert into key_lookup_temp
     values
     (p_guest_rec.trans_id
@@ -65,7 +68,7 @@ end if;
 end if;
   --
   --name|cell
-  if p_guest_rec.cell is not null then
+  if coalesce(p_guest_rec.cell, '') <> '' then
     insert into key_lookup_temp
     values
     (p_guest_rec.trans_id

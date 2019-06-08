@@ -21,7 +21,7 @@ function form_submit(formID) {
 		alert("something went wrong");
 	}else {
 		console.log(x);
-		//window.location.href = "../disney-guest-db.php";
+		window.location.href = "../disney-guest-db.php";
 	}
 
 };
