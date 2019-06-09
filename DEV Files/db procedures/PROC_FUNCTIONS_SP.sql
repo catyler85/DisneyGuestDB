@@ -18,7 +18,8 @@ begin
   rtn_code                                := dgmain.guid_assign_fn();
   if rtn_code = 1
   then
-    commit;
+    --commit;
+		null;
   else raise 'The process failed at %', proc_str;
   end if;
   --
@@ -27,7 +28,8 @@ begin
   rtn_code                                := dgmain.leads_pr_fn();
   if rtn_code = 1
   then
-    commit;
+    --commit;
+		null;
   else raise 'The process failed at %', proc_str;
   end if;
   --
@@ -36,7 +38,8 @@ begin
   rtn_code                                := dgmain.final_load_fn();
   if rtn_code = 1
   then
-    commit;
+    --commit;
+		null;
   else raise 'The process failed at %', proc_str;
   end if;
 

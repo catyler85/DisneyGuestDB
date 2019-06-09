@@ -87,7 +87,7 @@ begin
 		elsif i <= adult_num
 		then*/
 		  db_int                                         := nextval('dgmain.dg_id_seq');
-		  p_params                                       := jsonb_set(p_params, array['Adults', (i-1), 'dg_id'], ('"' || db_int || '"')::jsonb );
+		  p_params                                       := jsonb_set(p_params, array['Adults', (i-1)::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
 			--
 			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
 		  guest_rec.load_date                            := db_current_date;
@@ -121,7 +121,7 @@ begin
 		elsif i > adult_num
 		then
 		  db_int                                         := nextval('dgmain.dg_id_seq');
-		  p_params                                       := jsonb_set(p_params, array['Children', (i - (adult_num +1)), 'dg_id'], ('"' || db_int || '"')::jsonb );
+		  p_params                                       := jsonb_set(p_params, array['Children', (i - (adult_num +1))::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
 		  --
 			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
 		  guest_rec.load_date                            := db_current_date;
