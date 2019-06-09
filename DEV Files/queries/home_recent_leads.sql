@@ -5,14 +5,12 @@ with recent_leads as (
   limit 5
 ),
 lead_adult_rooms as (
-  select a.lead_id, (adult_recs.value ->> ''dg_id'')::int adult_dg_id, adult_recs.value ->> ''room'' adult_room
-  from dgmain.leads a,
-  jsonb_each(a.adults) as adult_recs
+  select a.lead_id, (jsonb_array_elements(adults) ->> ''dg_id'')::int adult_dg_id, jsonb_array_elements(adults) ->> ''room'' adult_room
+  from dgmain.leads a
 ),
 lead_child_rooms as (
-  select a.lead_id, (child_recs.value ->> ''dg_id'')::int child_dg_id, child_recs.value ->> ''room'' child_room
-  from dgmain.leads a,
-  jsonb_each(a.children) as child_recs
+  select a.lead_id, (jsonb_array_elements(children) ->> ''dg_id'')::int child_dg_id, jsonb_array_elements(children) ->> ''room'' child_room
+  from dgmain.leads a
 ),
 room_arrays as (
 	select lead_id, array_agg(room || ''|'' || guid_array) room_array

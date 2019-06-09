@@ -88,16 +88,14 @@ session_start();
 						<div class="w3-col m5">
 						  <label class="w3-small">Resort</label>
 							<select id="resort" class="w3-select w3-round w3-row-padding w3-white" name="resort" onchange="resortSelect(this, document.getElementById('resort_accomodations'))">
-								<?php echo $resort_select;  ?>
+								<?=$resort_select?>
 							</select>
-						  <!--<input name="resort" type="text" class="w3-input w3-round-large" value="<?php //echo $resort;?>"></input>-->
 						</div>
 						<div class="w3-col m5">
 						  <label class="w3-small">Room Type</label>
 							<select id="resort_accomodations" class="w3-select w3-round w3-row-padding w3-white" name="resort_accomodations">
-								<?php echo $room_select;  ?>
+								<?=$room_select?>
 							</select>
-						  <!--<input name="resort_accomodations" type="text" class="w3-input w3-round-large" value="<?php //echo $resort_accomodations;?>"></input>-->
 					  </div>
 						<div class="w3-col m2">
 							<label class="w3-small">Number of Rooms</label>

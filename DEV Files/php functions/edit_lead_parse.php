@@ -274,7 +274,7 @@ $final_payment_due_date                                    = $form_values['lead'
 
 //resort arrays
 $resort_arr                                                = $form_values['resorts'];
-//$_SESSION["resorts"]                                       = str_replace("'",  "’",$form_values['resorts']);
+$_SESSION["resorts"]                                       = str_replace("'",  "’",$form_values['resorts']);
 //$_SESSION["resorts"] = '';
 //ksort($resort_arr);
 foreach ($resort_arr as $key => $value) {

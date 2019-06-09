@@ -21,22 +21,24 @@ join dgmain.travel_groups tg
 where lead_id = $1
 ),
 lead_adults as (
-select l.lead_id,
-	   t.value ->> ''room'' room,
-	   g.*
-from form_lead l, jsonb_each(adults) t
+select lead_id, room, g.* from (
+	select l.lead_id,
+	   jsonb_array_elements(l.adults) ->> ''room'' room,
+	(jsonb_array_elements(l.adults) ->> ''dg_id'')::int dg_id
+from form_lead l) x1
 join dgmain.guests_trans gt
-  on (t.value ->> ''dg_id'')::int = gt.dg_id
+  on x1.dg_id = gt.dg_id
 join dgmain.guests g
   on gt.guid = g.guid
 ),
 lead_children as (
-select l.lead_id,
-	   t.value ->> ''room'' room,
-	   g.*
-from form_lead l, jsonb_each(children) t
+select lead_id, room, g.* from (
+	select l.lead_id,
+	   jsonb_array_elements(l.children) ->> ''room'' room,
+	(jsonb_array_elements(l.children) ->> ''dg_id'')::int dg_id
+from form_lead l) x1
 join dgmain.guests_trans gt
-  on (t.value ->> ''dg_id'')::int = gt.dg_id
+  on x1.dg_id = gt.dg_id
 join dgmain.guests g
   on gt.guid = g.guid
 )
