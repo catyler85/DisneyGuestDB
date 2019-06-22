@@ -52,10 +52,9 @@ loop
   v_table := v_table || chr(9) || '<td>' || (lookup_rec.lookup_json ->> 'lead_guest')::text  || '</td>' ||chr(10);
   v_table := v_table || chr(9) || '<td>' || to_char(to_date(lookup_rec.lookup_json ->> 'check_in','yyyy-mm-dd'),'mm/dd/yy')::text || '</td>' ||chr(10);
   v_table := v_table || chr(9) || '<td>' || to_char(to_date(lookup_rec.lookup_json ->> 'check_out','yyyy-mm-dd'),'mm/dd/yy')::text || '</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td>' || (lookup_rec.lookup_json ->> 'resort')::text || '</td>' ||chr(10);
+  v_table := v_table || chr(9) || '<td>' || coalesce((lookup_rec.lookup_json ->> 'resort')::text,'X') || '</td>' ||chr(10);
   v_table := v_table || '</tr>' ||chr(10);
 end loop;
-
 p_jsonb := jsonb_build_object('home_recent_leads', v_table) || ('{"rtn_code":1,"message":"Success!"}')::jsonb;
 
 end; $$ LANGUAGE plpgsql;

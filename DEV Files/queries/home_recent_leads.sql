@@ -25,7 +25,7 @@ room_arrays as (
   group by lead_id, room) x1
 	group by lead_id
 )
-select row_to_json( x2.*) recent_leads_json
+select to_jsonb( x2.*) recent_leads_json
 from (
 select rl.lead_id,
        g.first_name || '' '' || g.last_name as lead_guest,
