@@ -587,41 +587,79 @@ session_start();
 
 			function childCheckbox(checkID, inputID){
         const table = document.querySelectorAll('table');
-				var row, name;
+				var row, name, child_flag;
+				var guest_num, child_num = -1;
+				var adult_num = 0;
 
         //loop through each row in table
 				for (let t = 0; t <= table.length; t++) {
 	        row = table[0].rows[(t)];
 	        var inputs = row.getElementsByTagName('input');
+					var selects = row.getElementsByTagName('select');
+          //console.log("checkbox: " && inputs[0]);
+					//check if checkbox is checked
+					if (inputs[0].checked && inputs[0].type == 'checkbox') {
+						child_num++;
+						child_flag = true;
+						//rename each input in row
+						//for (var q = 0; q < inputs.length; q++) {
+						//	name = inputs[q].name;
+						//	name = name.replace('Adults', 'Children');
+						//	inputs[q].setAttribute('name', name);
+						//	//console.log(name);
+						// }
+					 //check if checkbox is unchecked
+				 }else if (!inputs[0].checked && inputs[0].type == 'checkbox') {
+						adult_num++;
+						child_flag = false;
+						//rename each input in row
+						//for (var w = 0; w < inputs.length; w++) {
+						//	name = inputs[w].name;
+						//	name = name.replace('Children', 'Adults');
+						//	inputs[w].setAttribute('name', name);
+					//		//console.log(name);
+						//}
+					}
 
           //loop through each input within a row
 					for (var i = 0; i < inputs.length; i++) {
 						name = inputs[i].name;
-            //check if checkbox is checked
-						if (inputs[i].checked && inputs[i].type == 'checkbox') {
-              //rename each input in row
-							for (var q = 0; q < inputs.length; q++) {
-								name = inputs[q].name;
-								name = name.replace('Adults', 'Children');
-								inputs[q].setAttribute('name', name);
-								//console.log(name);
 
-							}
-             //check if checkbox is unchecked
-						}else if (!inputs[i].checked && inputs[i].type == 'checkbox') {
-              //rename each input in row
-							for (var w = 0; w < inputs.length; w++) {
-								name = inputs[w].name;
-								name = name.replace('Children', 'Adults');
-								inputs[w].setAttribute('name', name);
-								//console.log(name);
-							}
-						}
-            //renumber guests
-						name = name.replace(/[0-9]/,(t+2));
+            if (child_flag) {
+            	guest_num = child_num;
+							name = name.replace('Adults', 'Children');
+							inputs[i].setAttribute('name', name);
+            }else {
+            	guest_num = adult_num;
+							name = name.replace('Children', 'Adults');
+							inputs[i].setAttribute('name', name);
+            }
+						//renumber guests
+						name = name.replace(/[0-9]/,(guest_num));
 						inputs[i].setAttribute('name', name);
 						//console.log(name);
 					}
+
+					//loop through each select within a row
+					for (var q = 0; q < selects.length; q++) {
+						name = selects[q].name;
+
+            if (child_flag) {
+            	guest_num = child_num;
+							name = name.replace('Adults', 'Children');
+							selects[q].setAttribute('name', name);
+            }else {
+            	guest_num = adult_num;
+							name = name.replace('Children', 'Adults');
+							selects[q].setAttribute('name', name);
+            }
+						//renumber guests
+						name = name.replace(/[0-9]/,(guest_num));
+						selects[q].setAttribute('name', name);
+						//console.log(name);
+					}
+
+
         }
 
 

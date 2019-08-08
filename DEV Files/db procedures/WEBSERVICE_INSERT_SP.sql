@@ -64,6 +64,7 @@ if (p_jsonb ->> 'rtn_code' <> '1')
 then
   j_msg                                 := '{"rtn_code":-1,"message":"There was an issue in function call ' || lov_function || '"}';
 	p_jsonb                               := j_msg;
+	insert into dgmain.error_log values (t_id, p_jsonb);
 else
   p_jsonb                               := return_msg;
 end if;

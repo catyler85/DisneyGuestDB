@@ -29,7 +29,7 @@ declare
 
 begin
 
-  v_lead_id                                         := nextval('dgmain.lead_id_seq');
+  v_lead_id                                         := coalesce((p_params ->> 'lead_id')::int, nextval('dgmain.lead_id_seq'));
   --temp table of guests
   drop table if exists guest_rec_temp;
 	create temp table guest_rec_temp as
@@ -145,7 +145,7 @@ begin
 	    guest_rec.preferred_contact_method             := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'contact_preference')::text,'');
 			guest_rec.dg_id                                := db_int;
 			guest_rec.child_flag                           := true;
-			guest_rec.age_at_travel                        := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'age')::int;
+			guest_rec.age_at_travel                        := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'age_at_travel')::int;
 			guest_rec.last_travel_date                     := (p_params ->> 'check_in')::timestamp;
 			guest_rec.last_room                            := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'room')::text;
 
@@ -167,7 +167,7 @@ begin
   from dgmain.resorts r) a
   join dgmain.leads l
     on a.resort_name = replace(l.resort, '’', '''')
-  where l.lead_id = 101) b
+  where l.lead_id = v_lead_id) b
   where rn = 1;
 
 
@@ -175,7 +175,7 @@ begin
 	lead_rec.trans_id                              := (p_params ->> 'trans_id')::text;
 	lead_rec.load_date                             := db_current_date;
 	lead_rec.status                                := 'I';
-	lead_rec.lead_id                               := coalesce((p_params ->> 'lead_id')::int, v_lead_id);
+	lead_rec.lead_id                               := v_lead_id;
 	lead_rec.check_in                              := (p_params ->> 'check_in')::text;
 	lead_rec.check_out                             := (p_params ->> 'check_out')::text;
 	lead_rec.guaranteed_quote                      := (p_params ->> 'guaranteed_quote')::text;

@@ -131,11 +131,11 @@ foreach ($lead as $key => $value) {
 		for ($i = 0; $i < count($adult_arr); $i++) {
 
 			${"adult" . $i} = $adult_arr[$i];
-      $adult_num      = $i + 1;
 			//$adult_table   .= "<tr><td><div'><label class='w3-small'>Adult ".$adult_num."</label><input name='a".$adult_num."-name' class='w3-input w3-round-large' type='text' placeholder='Name' value='".${"adult" . $i}->{'adult_name'}."'></div></td><td><div><label class='w3-small'>Room</label><input name='a".$adult_num."-room' class='w3-input w3-round-large' type='text' placeholder='Room' value='".${"adult" . $i}->{'room'}."'></div></td></tr>";
 			//"Adults":[{"Adult":{"name":"value","room":"value"}}]
 			$adult_table   .= "<tr><td><div><label class='w3-small'>Adult ".$adult_num."</label><input name='Adults[".$adult_num."][name]' class='w3-input w3-round-large' type='text' placeholder='Name' value='".${"adult" . $i}->{'adult_name'}."'></div></td><td><div><label class='w3-small'>Room</label><input name='Adults[".$adult_num."][room]' class='w3-input w3-round-large' type='text' placeholder='Room' value='".${"adult" . $i}->{'room'}."'></div></td></tr>";
 			$adults_str    .= "<br>Name: ".${"adult" . $i}->{'adult_name'}." Room: ".${"adult" . $i}->{'room'}."</br>";
+      $adult_num      = $i + 1;
 		}
 		$adult_table .= "</table>";
   }
@@ -148,9 +148,9 @@ foreach ($lead as $key => $value) {
 		for ($i = 0; $i < count($child_arr); $i++) {
 
 			${"child" . $i} = $child_arr[$i];
-			$child_num      = $i + 1;
 			$child_table   .= "<tr><td><div><label class='w3-small'>Child ".$child_num."</label><input name='Children[".$child_num."][name]' class='w3-input w3-round-large' type='text' placeholder='Name' value='".${"child" . $i}->{'child_name'}."'></div></td><td><div><label class='w3-small'>Room</label><input name='Children[".$child_num."][room]' class='w3-input w3-round-large' type='text' placeholder='Room' value='".${"child" . $i}->{'room'}."'></div></td><td><div><label class='w3-small'>Age at Travel</label><input name='Children[".$child_num."][age]' class='w3-input w3-round-large' type='text' placeholder='Age at Travel' value='".${"child" . $i}->{'age_at_travel'}."'></div></td></tr>";
 			$children_str  .= "<br>Name: ".${"child" . $i}->{'child_name'}." Room: ".${"child" . $i}->{'room'}." Age at Travel: ".${"child" . $i}->{'age_at_travel'}."</br>";
+			$child_num      = $i + 1;
 		}
 		$child_table .= "</table>";
 	}

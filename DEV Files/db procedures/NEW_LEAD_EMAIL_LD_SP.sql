@@ -41,8 +41,10 @@ begin
 		select * from dgmain.guid_key_lookup_trans
 		where 1 <> 1;
 
-  select max(v_adult_num) into adult_num from (select jsonb_object_keys(p_params -> 'Adults')::int as v_adult_num) a;
-	select max(v_child_num) into child_num from (select jsonb_object_keys(p_params -> 'Children')::int as v_child_num) a;
+  --select max(v_adult_num) into adult_num from (select jsonb_object_keys(p_params -> 'Adults')::int as v_adult_num) a;
+	--select max(v_child_num) into child_num from (select jsonb_object_keys(p_params -> 'Children')::int as v_child_num) a;
+	select max(v_adult_num) into adult_num from (select jsonb_array_length(p_params -> 'Adults')::int as v_adult_num) a;
+	select max(v_child_num) into child_num from (select jsonb_array_length(p_params -> 'Children')::int as v_child_num) a;
 
 	guest_num                                          := coalesce((adult_num + coalesce(child_num,0)),1);
 
@@ -53,7 +55,7 @@ begin
 	loop
     if i = 1 then
       db_int                                         := nextval('dgmain.dg_id_seq');
-			p_params                                       := jsonb_set(p_params, array['Adults', '1'::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
+			p_params                                       := jsonb_set(p_params, array['Adults', (i-1)::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
 			--
 			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
 	    guest_rec.load_date                            := db_current_date;
@@ -76,25 +78,25 @@ begin
 	    guest_rec.fax                                  := coalesce((p_params ->> 'fax')::text,'');
 	    guest_rec.preferred_contact_method             := coalesce((p_params ->> 'contact_preference')::text,'');
 			guest_rec.dg_id                                := db_int;
-			guest_rec.last_room                            := (p_params -> 'Adults' -> i::text ->> 'room')::text;
+			guest_rec.last_room                            := (p_params -> 'Adults' -> (i-1) ->> 'room')::text;
 
 			insert into guest_rec_temp values (guest_rec.*);
       ------------------------------------------------
       select * into db_int from key_lookup_temp_ld_fn(guest_rec);
 			guest_rec                                      := null;
 				------------------------------------------------
-		elsif i between 2 and adult_num
+		elsif i > 1 and i <= adult_num
 		then
 		  db_int                                         := nextval('dgmain.dg_id_seq');
-		  p_params                                       := jsonb_set(p_params, array['Adults', i::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
+		  p_params                                       := jsonb_set(p_params, array['Adults', (i-1)::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
 			--
 			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
 		  guest_rec.load_date                            := db_current_date;
 			guest_rec.status                               := 'I';
-		  guest_rec.name_prefix                          := split_part((p_params -> 'Adults' -> i::text ->> 'name')::text,' ',1);
-		  guest_rec.first_name                           := split_part((p_params -> 'Adults' -> i::text ->> 'name')::text,' ',2);
+		  guest_rec.name_prefix                          := split_part((p_params -> 'Adults' -> (i-1) ->> 'name')::text,' ',1);
+		  guest_rec.first_name                           := split_part((p_params -> 'Adults' -> (i-1) ->> 'name')::text,' ',2);
 		  guest_rec.middle_name                          := '';
-		  guest_rec.last_name                            := split_part((p_params -> 'Adults' -> i::text ->> 'name')::text,' ',3);
+		  guest_rec.last_name                            := split_part((p_params -> 'Adults' -> (i-1)->> 'name')::text,' ',3);
 		  guest_rec.name_suffix                          := '';
 		  guest_rec.address1                             := coalesce((p_params ->> 'address1')::text,'');
 		  guest_rec.address2                             := coalesce((p_params ->> 'address2')::text,'');
@@ -104,7 +106,7 @@ begin
 		  guest_rec.zip                                  := coalesce((p_params ->> 'zip')::text,'');
 		  guest_rec.country                              := coalesce((p_params ->> 'country')::text,'');
 			guest_rec.dg_id                                := db_int;
-			guest_rec.last_room                            := (p_params -> 'Adults' -> i::text ->> 'room')::text;
+			guest_rec.last_room                            := (p_params -> 'Adults' -> (i-1) ->> 'room')::text;
 
 			insert into guest_rec_temp values (guest_rec.*);
 			------------------------------------------------
@@ -115,15 +117,15 @@ begin
 		elsif i > adult_num
 		then
 		  db_int                                         := nextval('dgmain.dg_id_seq');
-		  p_params                                       := jsonb_set(p_params, array['Children', (i - adult_num)::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
+		  p_params                                       := jsonb_set(p_params, array['Children', (i - (adult_num +1))::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
 		  --
 			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
 		  guest_rec.load_date                            := db_current_date;
 			guest_rec.status                               := 'I';
-		  guest_rec.name_prefix                          := split_part((p_params -> 'Children' -> (i - adult_num)::text ->> 'name')::text,' ',1);
-		  guest_rec.first_name                           := split_part((p_params -> 'Children' -> (i - adult_num)::text ->> 'name')::text,' ',2);
+		  guest_rec.name_prefix                          := split_part((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name')::text,' ',1);
+		  guest_rec.first_name                           := split_part((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name')::text,' ',2);
 		  guest_rec.middle_name                          := '';
-		  guest_rec.last_name                            := split_part((p_params -> 'Children' -> (i - adult_num)::text ->> 'name')::text,' ',3);
+		  guest_rec.last_name                            := split_part((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name')::text,' ',3);
 		  guest_rec.name_suffix                          := '';
 		  guest_rec.address1                             := coalesce((p_params ->> 'address1')::text,'');
 		  guest_rec.address2                             := coalesce((p_params ->> 'address2')::text,'');
@@ -134,9 +136,9 @@ begin
 		  guest_rec.country                              := coalesce((p_params ->> 'country')::text,'');
 			guest_rec.dg_id                                := db_int;
 			guest_rec.child_flag                           := true;
-			guest_rec.age_at_travel                        := (p_params -> 'Children' -> (i - adult_num)::text ->> 'age')::int;
+			guest_rec.age_at_travel                        := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'age')::int;
 			guest_rec.last_travel_date                     := (p_params ->> 'check_in')::timestamp;
-			guest_rec.last_room                            := (p_params -> 'Children' -> (i - adult_num)::text ->> 'room')::text;
+			guest_rec.last_room                            := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'room')::text;
 
 		  insert into guest_rec_temp values (guest_rec.*);
 			------------------------------------------------
@@ -154,9 +156,9 @@ begin
   from (
   select r.resort_name, unnest(r.rooms) room
   from dgmain.resorts r) a
-  join dgmain.leads l
+  join (select (p_params ->> 'resort') as resort, (p_params ->> 'resort_accomodations') as resort_accomodations) l
     on a.resort_name = replace(l.resort, '’', '''')
-  where l.lead_id = 101) b
+  ) b
   where rn = 1;
 
 
