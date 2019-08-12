@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE dgmain.dashboard_ld_sp(
+CREATE OR REPLACE PROCEDURE dgmain.build_table_sp(
 	INOUT   p_params       jsonb,
   INOUT   p_jsonb        jsonb)
 
@@ -36,7 +36,7 @@ loop
   --raise notice 'v_sql: %', v_sql;
   for v_sql_rec in execute v_sql
   loop
-     insert into lookup_temp values (v_lookup_key::text, v_sql_rec.recent_leads_json::json);
+     insert into lookup_temp values (v_lookup_key::text, v_sql_rec.table_row_json::json);
   end loop;
 
 --  insert into lookup_temp values (v_lookup_key::text, lookup_json::json);
@@ -46,15 +46,8 @@ end loop;
 for lookup_rec in
 select a.lookup_json::json from lookup_temp a
 loop
-  v_table := v_table || '<tr onclick=''row_select(this)''>' ||chr(10);
-	v_table := v_table || chr(9) || '<td class=''w3-hide''>' || (lookup_rec.lookup_json ->> 'lead_id')::text || '</td>' ||chr(10);
-	v_table := v_table || chr(9) || '<td class=''w3-hide''>lead_id</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td>' || (lookup_rec.lookup_json ->> 'lead_guest')::text  || '</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td>' || to_char(to_date(lookup_rec.lookup_json ->> 'check_in','yyyy-mm-dd'),'mm/dd/yy')::text || '</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td>' || to_char(to_date(lookup_rec.lookup_json ->> 'check_out','yyyy-mm-dd'),'mm/dd/yy')::text || '</td>' ||chr(10);
-  v_table := v_table || chr(9) || '<td>' || coalesce((lookup_rec.lookup_json ->> 'resort')::text,'X') || '</td>' ||chr(10);
-  v_table := v_table || '</tr>' ||chr(10);
+  v_table := v_table || (lookup_rec.lookup_json ->> 'table_row')::text;
 end loop;
-p_jsonb := jsonb_build_object('home_recent_leads', v_table) || ('{"rtn_code":1,"message":"Success!"}')::jsonb;
+p_jsonb := jsonb_build_object('html_table', v_table) || ('{"rtn_code":1,"message":"Success!"}')::jsonb;
 
 end; $$ LANGUAGE plpgsql;
