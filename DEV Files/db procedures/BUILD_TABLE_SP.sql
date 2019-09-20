@@ -10,7 +10,8 @@ declare
   db_int                    int;
   v_lookup_key              text;
   lookup_json               json;
-  v_sql                     text;
+  v_sql_var                 text;
+	v_sql                     text;
   v_sql_rec                 record;
   v_table                   text               := '';
   v_message                 text;
@@ -18,6 +19,7 @@ declare
   --
   --work variables
   lookup_rec                record;
+	v_keyword                 text               := '';
 
 begin
 
@@ -28,13 +30,19 @@ create temp table lookup_temp (
   lookup_json json
 );
 
+
+v_keyword                                            := replace((p_params ->> 'keyword')::text, ' ', '|');
+
 for i in 1..jsonb_array_length(p_params -> 'lov_values')
 loop
   v_lookup_key                                         := (p_params -> 'lov_values' ->> (i-1))::text;
   raise notice 'lookup_key: %', v_lookup_key;
   select lookup_value into v_sql from dgmain.lov_table a where a.lookup_type = 'sql' and a.lookup_key = v_lookup_key;
   --raise notice 'v_sql: %', v_sql;
-  for v_sql_rec in execute v_sql
+
+  --prepare v_sql_var(text) as v_sql;
+
+  for v_sql_rec in execute v_sql using v_keyword
   loop
      insert into lookup_temp values (v_lookup_key::text, v_sql_rec.table_row_json::json);
   end loop;
@@ -46,7 +54,7 @@ end loop;
 for lookup_rec in
 select a.lookup_json::json from lookup_temp a
 loop
-  v_table := v_table || (lookup_rec.lookup_json ->> 'table_row')::text;
+  v_table := v_table || (lookup_rec.lookup_json ->> 'table_row_json')::text;
 end loop;
 p_jsonb := jsonb_build_object('html_table', v_table) || ('{"rtn_code":1,"message":"Success!"}')::jsonb;
 

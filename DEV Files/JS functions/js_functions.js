@@ -54,6 +54,11 @@ function form_submit(formID) {
 	  //alert("lead_id is: " + table.rows[x.rowIndex].cells[4].innerHTML);
 	  window.location.assign(dest_url+'?lookup_value='+sel_row_id+'&lookup_key='+sel_id_type);
 	}
+
+	function form_clear(x) {
+   document.getElementById(x).reset();
+	 form_submit(x);		
+	}
 /*
 //------------------------------
 //Room type selection functions

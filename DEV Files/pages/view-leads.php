@@ -25,11 +25,12 @@ session_start();
         <h2>Search</h2>
       </div>
 
-      <form class="w3-container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get">
+      <form id="lead_search" class="w3-container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get">
 				<input type="hidden" name="form_name" value="lead_search"></input>
         <label>Keyword Search</label>
         <input class="w3-input w3-border" type="text" name="keyword">
 				<button class="w3-btn w3-pink w3-hover-purple w3-margin-top">Search</button>
+				<button class="w3-btn w3-pink w3-hover-purple w3-margin-top" onclick="form_clear('lead_search')">Clear</button>
       </form>
     </div>
 

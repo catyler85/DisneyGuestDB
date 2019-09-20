@@ -16,7 +16,7 @@
 
 <body style="background-color:LavenderBlush;">
 <div class="w3-container w3-half">
-	<div class="w3-center"><h3>Recent Leads</h3></div>
+	<div class="w3-center"><h3>Recent Leads <a href="/pages/view-leads.php">(View All)</a></h3> </div>
 	<table id="recent_leads_table" class="w3-table-all w3-card-4 w3-hoverable w3-margin-left">
       <tr>
         <th class="w3-hide">row_id</th>
