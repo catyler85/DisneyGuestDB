@@ -51,7 +51,11 @@ loop
 	return_params                           := return_params || db_jsonb;
 	return_msg                              := return_msg || j_msg;
   commit;
-	else raise 'The process failed at % call', lov_function;
+	else
+	  j_msg                                 := '{"rtn_code":-1,"message":"There was an issue in function call ' || lov_function || '"}';
+	  p_jsonb                               := j_msg;
+	  insert into dgmain.error_log values (t_id, p_jsonb);
+		raise 'The process failed at % call', lov_function;
 	end if;
 
 end loop;
