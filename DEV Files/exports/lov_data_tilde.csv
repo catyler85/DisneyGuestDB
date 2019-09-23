@@ -1,0 +1,129 @@
+procedure~get_form_values~form_ld_sp~1
+sql~lead_id~"select jsonb_build_object(''resorts'',array_agg(jsonb_build_object(x1.resort_name, x1.rooms))) jsonb_rtn
+from (
+select resort_name, to_jsonb(rooms) rooms from dgmain.resorts order by resort_name) x1"~3
+sql~lead_id~"with
+form_lead as (
+select l.lead_id,
+	   l.lead_guest_guid,
+	   tg.group_name,
+	   l.adults,
+	   l.children
+from dgmain.leads l
+join dgmain.travel_groups tg
+	on l.travel_group = tg.group_id
+where lead_id = $1
+),
+lead_adults as (
+select lead_id, room, g.* from (
+	select l.lead_id,
+	   jsonb_array_elements(l.adults) ->> ''room'' room,
+	(jsonb_array_elements(l.adults) ->> ''dg_id'')::int dg_id
+from form_lead l) x1
+join dgmain.guests_trans gt
+  on x1.dg_id = gt.dg_id
+join dgmain.guests g
+  on gt.guid = g.guid
+),
+lead_children as (
+select lead_id, room, g.* from (
+	select l.lead_id,
+	   jsonb_array_elements(l.children) ->> ''room'' room,
+	(jsonb_array_elements(l.children) ->> ''dg_id'')::int dg_id
+from form_lead l) x1
+join dgmain.guests_trans gt
+  on x1.dg_id = gt.dg_id
+join dgmain.guests g
+  on gt.guid = g.guid
+)
+select jsonb_build_object(''travel_group'', array_agg(to_jsonb(x1.*))) jsonb_rtn
+from (
+select
+l.group_name,
+la.*,
+case when l.lead_guest_guid = la.guid then ''Y'' end lead_guest_flag
+from form_lead l
+left join lead_adults la
+  on l.lead_id = la.lead_id
+union all
+select l.group_name, lc.*, null lgf
+from form_lead l
+left join lead_children lc
+  on l.lead_id = lc.lead_id
+order by room, lead_guest_flag, age_at_travel nulls first
+) x1"~2
+procedure~new_lead_form~new_lead_email_ld_sp~1
+procedure~dashboard_ld~dashboard_ld_sp~1
+procedure~new_lead_form~proc_function_sp~2
+sql~lead_id~"select jsonb_build_object(''lead'', to_jsonb(x1.*)) jsonb_rtn from
+(select *
+from dgmain.leads l
+join dgmain.guests g
+  on l.lead_guest_guid = g.guid
+where l.lead_id = $1) x1"~1
+procedure~edit_lead_form~proc_function_sp~2
+procedure~edit_lead_form~edit_lead_ld_sp~1
+sql~home_recent_leads~"with recent_leads as (
+  select *
+  from dgmain.leads
+  order by lead_id desc
+  limit 5
+),
+lead_adult_rooms as (
+  select a.lead_id, (jsonb_array_elements(adults) ->> ''dg_id'')::int adult_dg_id, jsonb_array_elements(adults) ->> ''room'' adult_room
+  from dgmain.leads a
+),
+lead_child_rooms as (
+  select a.lead_id, (jsonb_array_elements(children) ->> ''dg_id'')::int child_dg_id, jsonb_array_elements(children) ->> ''room'' child_room
+  from dgmain.leads a
+),
+room_arrays as (
+	select lead_id, array_agg(room || ''|'' || guid_array) room_array
+	from (select lead_id, room, string_agg(g.guid::text, '','') guid_array
+  from (select lead_id, adult_dg_id dg_id, adult_room room from lead_adult_rooms
+	    union all
+	    select lead_id, child_dg_id, child_room from lead_child_rooms ) x1
+  join dgmain.guests_trans gt
+	on gt.dg_id = x1.dg_id
+  join dgmain.guests g
+    on gt.guid = g.guid
+  group by lead_id, room) x1
+	group by lead_id
+)
+select to_jsonb( x2.*) recent_leads_json
+from (
+select rl.lead_id,
+       g.first_name || '' '' || g.last_name as lead_guest,
+	   rl.check_in,
+	   rl.check_out,
+	   rl.resort,
+	   ra.room_array
+from recent_leads rl
+left join room_arrays ra
+  on rl.lead_id = ra.lead_id
+left join dgmain.guests g
+  on rl.lead_guest_guid = g.guid
+order by rl.lead_id desc) x2"~1
+procedure~build_table~build_table_sp~1
+sql~view_leads~"select jsonb_build_object(''table_row_json'', table_row_json) table_row_json from (
+select to_jsonb(x1.table_row) table_row_json, similarity(search_string, $1) * 10 match_num from (
+select
+''<tr onclick='"row_select(this,''''../pages/edit_lead.php'''')'">''                                              ||chr(10)
+|| chr(9) || ''<td class='"w3-hide'">'' || l.lead_id                                           || ''</td>'' ||chr(10)
+|| chr(9) || ''<td class='"w3-hide'">lead_id</td>''                                                       ||chr(10)
+|| chr(9) || ''<td>'' || l.source                                                            || ''</td>'' ||chr(10)
+|| chr(9) || ''<td>'' || g.first_name || '' '' || g.last_name                                || ''</td>'' ||chr(10)
+|| chr(9) || ''<td>'' || jsonb_array_length(l.adults) + jsonb_array_length(l.children)       || ''</td>'' ||chr(10)
+|| chr(9) || ''<td>'' || l.num_rooms                                                         || ''</td>'' ||chr(10)
+|| chr(9) || ''<td>'' || l.budget                                                            || ''</td>'' ||chr(10)
+|| chr(9) || ''<td>'' || l.check_in                                                          || ''</td>'' ||chr(10)
+|| chr(9) || ''<td>'' || l.check_out                                                         || ''</td>'' ||chr(10)
+|| chr(9) || ''<td>'' || l.resort                                                            || ''</td>'' ||chr(10)
+|| chr(9) || ''<td>'' || l.resort_accomodations                                              || ''</td>'' ||chr(10)
+|| ''</tr>'' ||chr(10) table_row, concat_ws('' '', l.*, g.*) search_string
+from dgmain.leads l
+join dgmain.guests g
+  on l.lead_guest_guid = g.guid
+) x1
+where case when coalesce($1,'''') = '''' then 1=1 else search_string @@ to_tsquery($1 || '':*'') end
+order by similarity(search_string, $1) desc) a"~1
