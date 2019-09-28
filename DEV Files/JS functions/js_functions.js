@@ -1,3 +1,5 @@
+var validation;
+
 //------------------------------
 //submit on "Enter"
 //------------------------------
@@ -13,7 +15,9 @@ document.addEventListener("keyup", function(event) {
 //------------------------------
 function form_submit(formID) {
   var x, form_assign = '';
-
+	if (!validation) {
+		alert("Please complete all required fields!");
+	}else {
 	form_assign = document.getElementById(formID);
 	x = submit_form_data(form_assign);
 
@@ -23,8 +27,9 @@ function form_submit(formID) {
 		console.log(x);
 		window.location.href = "../disney-guest-db.php";
 	}
-
+}
 };
+
 
 
 //------------------------------
@@ -53,53 +58,72 @@ function form_submit(formID) {
 	  //sessionStorage.setItem('lead_id', 'sel_lead_id');
 	  //alert("lead_id is: " + table.rows[x.rowIndex].cells[4].innerHTML);
 	  window.location.assign(dest_url+'?lookup_value='+sel_row_id+'&lookup_key='+sel_id_type);
-	}
+	};
 
 	function form_clear(x) {
    document.getElementById(x).reset();
-	 form_submit(x);		
-	}
-/*
-//------------------------------
-//Room type selection functions
-//------------------------------
-			function createOption(ddl, text, value) {
-			 var opt = document.createElement('option');
-			 opt.value = value;
-			 opt.text = text;
-			 ddl.options.add(opt);
-	    }
+	 form_submit(x);
+ };
 
-	    function createOptions(optionsArray, ddl) {
-	   		 for (i = 0; i < optionsArray.length; i++) {
-	   				 createOption(ddl, optionsArray[i], optionsArray[i]);
-	   		 }
-	    }
 
-			function resortSelect(ddl1, ddl2){
-				//var resorts = <?php echo json_encode($_SESSION['resorts']); ?>;
-				var ddl1Clean = ddl1.value.replace("’", "'");
+ function copy_function() {
+	 /* Get the table field */
+	 var copyText = document.getElementById('one_note_table');
+	 var body = document.body, range, sel;
+		 if (document.createRange && window.getSelection) {
+				 range = document.createRange();
+				 sel = window.getSelection();
+				 sel.removeAllRanges();
+				 try {
+						 range.selectNodeContents(copyText);
+						 sel.addRange(range);
+				 } catch (e) {
+						 range.selectNode(copyText);
+						 sel.addRange(range);
+				 }
+		 } else if (body.createTextRange) {
+				 range = body.createTextRange();
+				 range.moveToElementText(copyText);
+				 range.select();
+		 }
 
-        //loop through resorts
-				for (i = 0; i < resorts.length; i++) {
+	 /* Copy the text inside the text field */
+	 document.execCommand("copy");
 
-					//find the selected option in the resort array
-					if (ddl1Clean == Object.keys(resorts[i])[0]) {
+ };
+ function validationCheck(InputID,vType) {
+ 	var inpObj = document.getElementById(InputID);
+ 	var validationLocation = 'v' + InputID;
+ 	var validationMessage = '';
+	var dict = {
+		email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+		notnull: /^(?!\s*$).+/,
+		phone: /^(\s*|\(?[\d]{3}\)?[\s-]?[\d]{3}[\s-]?[\d]{4})$/
+	};
+ 	var patt = dict[vType];
+   validation = patt.test(inpObj.value);
 
-            //assign room values to ddl2keys
-						var ddl2keys = Object.values(resorts[i])[0];
+   //inpObj.checkValidity()
+ 	console.log('validate function');
+  if (!validation) {
 
-						//remove existing options
-						ddl2.options.length = 0;
+	 switch (vType) {
+	 	case 'email':
+	 		validationMessage = 'Please provide a valid email address.';
+	 		break;
+		case 'notnull':
+		  validationMessage = 'This is a required field.';
+			break;
+		case 'phone':
+			 validationMessage = 'Invalid format. 123-456-5555';
+			 break;
+	 	default:
 
-						//pass the rooms and room selection ID to populate options
-						createOptions(ddl2keys.sort(), ddl2);
-						return;
-					}else {
-							//document.getElementById("test").innerHTML = 'Sorry, there was no match!';
-							createOption(ddl2,'~Least Expensive','Least Expensive');
-					}
-				}
-		  }*/
-
-//------------------------------
+	 }
+		 document.getElementById(validationLocation).innerHTML = validationMessage;
+		 document.getElementById(InputID).classList.add('w3-border-red');
+	 }else {
+		 document.getElementById(validationLocation).innerHTML = '';
+		 document.getElementById(InputID).classList.remove('w3-border-red');
+	 }
+ };

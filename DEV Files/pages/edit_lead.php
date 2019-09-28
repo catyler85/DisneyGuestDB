@@ -167,13 +167,15 @@ session_start();
 			            <input name="Adults[0][name_prefix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Prefix" value="<?php echo $name_prefix;?>">
 								</div>
 							  <div class="w3-col m3">
-			            <input name="Adults[0][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" value="<?php echo $first_name;?>">
+			            <input id="FName" name="Adults[0][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" value="<?php echo $first_name;?>" onblur="validationCheck('Fname','notnull')">
+									<p id="vFName" class="w3-tiny w3-text-red"></p>
 								</div>
 								<div class="w3-col m3">
 			            <input name="Adults[0][middle_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Middle Name" value="<?php echo $middle_name;?>">
 								</div>
 								<div class="w3-col m3">
-			            <input name="Adults[0][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" value="<?php echo $last_name;?>">
+			            <input id="LName" name="Adults[0][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" value="<?php echo $last_name;?>" onblur="validationCheck('Lname','notnull')">
+									<p id="vLName" class="w3-tiny w3-text-red"></p>
                 </div>
 								<div class="w3-col m1">
 			            <input name="Adults[0][name_suffix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Suffix" value="<?php echo $name_suffix;?>">
@@ -181,7 +183,8 @@ session_start();
 							</div>
 							<div class="w3-row-padding w3-margin-bottom">
 								<div class="w3-col m4">
-			            <input name="Adults[0][address1]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 1" value="<?php echo $address1;?>">
+			            <input id="Address" name="Adults[0][address1]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 1" value="<?php echo $address1;?>" onblur="validationCheck('Address','notnull')">
+									<p id="vAddress" class="w3-tiny w3-text-red"></p>
 								</div>
 							  <div class="w3-col m4">
 			            <input name="Adults[0][address2]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 2" value="<?php echo $address2;?>">
@@ -192,13 +195,16 @@ session_start();
 							</div>
 							<div class="w3-row-padding w3-margin-bottom">
 							  <div class="w3-col m4">
-									<input name="Adults[0][city]" class="w3-input w3-round w3-row-padding" type="text" placeholder="City" value="<?php echo $city;?>">
+									<input id="City" name="Adults[0][city]" class="w3-input w3-round w3-row-padding" type="text" placeholder="City" value="<?php echo $city;?>" onblur="validationCheck('City','notnull')">
+									<p id="vCity" class="w3-tiny w3-text-red"></p>
 								</div>
 							  <div class="w3-col m3">
-									<input name="Adults[0][state]" class="w3-input w3-round w3-row-padding" type="text" placeholder="State" value="<?php echo $state;?>">
+									<input id="State" name="Adults[0][state]" class="w3-input w3-round w3-row-padding" type="text" placeholder="State" value="<?php echo $state;?>" onblur="validationCheck('State','notnull')">
+									<p id="vState" class="w3-tiny w3-text-red"></p>
 								</div>
 							  <div class="w3-col m2">
-									<input name="Adults[0][zip]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Zip" value="<?php echo $zip;?>">
+									<input id="Zip" name="Adults[0][zip]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Zip" value="<?php echo $zip;?>" onblur="validationCheck(this.id,'notnull')">
+									<p id="vZip" class="w3-tiny w3-text-red"></p>
 								</div>
 							  <div class="w3-col m3">
 									<input name="Adults[0][country]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Country" value="<?php echo $country;?>">
@@ -207,19 +213,23 @@ session_start();
 							<div class="w3-row-padding w3-margin-bottom">
 								<div class="w3-col m2">
 					    	  <label class='w3-small'>Phone</label>
-									<input name="Adults[0][phone]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $phone;?>">
+									<input id="Phone" name="Adults[0][phone]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $phone;?>" onblur="validationCheck('Phone','phone')">
+									<p id="vPhone" class="w3-tiny w3-text-red"></p>
 								</div>
 								<div class="w3-col m2">
 					    	  <label class='w3-small'>Cell</label>
-									<input name="Adults[0][cell]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $cell;?>">
+									<input id="Cell" name="Adults[0][cell]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $cell;?>" onblur="validationCheck('Cell','phone')">
+									<p id="vCell" class="w3-tiny w3-text-red"></p>
 								</div>
 								<div class="w3-col m2">
 					    	  <label class='w3-small'>Fax</label>
-									<input name="Adults[0][fax]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $fax;?>">
+									<input id="Fax" name="Adults[0][fax]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $fax;?>" onblur="validationCheck('Fax','phone')">
+									<p id="vFax" class="w3-tiny w3-text-red"></p>
 								</div>
 								<div class="w3-col m3">
 					    	  <label class='w3-small'>Email</label>
-									<input name="Adults[0][email]" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" value="<?php echo $email;?>">
+									<input id="Email" name="Adults[0][email]" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" value="<?php echo $email;?>" onblur="validationCheck('Email','email')">
+									<p id="vEmail" class="w3-tiny w3-text-red"></p>
 								</div>
 								<div class="w3-col m3">
 									<label class="w3-small">Preferred Contact Method</label>
@@ -477,199 +487,199 @@ session_start();
 
 		//add guest functions
 		$('#add-guest').click(function(){
-			var long;
-			var rows = document.getElementById('guests').getElementsByTagName("tr").length;
-			i = rows + 2
-			long = '<tr id="g'+i+'" ><td><hr>' +
-'<h3 id="h'+i+'" class="w3-col m2">Guest '+(rows+2)+'</h3> ' +
-'<div class="w3-bar w3-col-row w3-row-padding">' +
-'<div class="w3-col m2">' +
-'<label>Room:</label>' +
-'<input name="Adults['+i+'][room]" class="w3-input w3-round w3 w3-margin-bottom w3-row-padding" type="text" placeholder="Room" >' +
-'</div>' +
-'<div class="w3-col m2">' +
-'<label>Child Flag</label>' +
-'<input id="cfcheck'+i+'" name="Adults['+i+'][child_flag]" onchange=childCheckbox("cfcheck'+i+'","aatvalueID'+i+'") class="w3-check w3-round w3-row-padding" type="checkbox" >' +
-'</div>' +
-'<div class="w3-col m2" id="aatvalueID'+i+'" style="display:none">' +
-'<label>Age at Travel</label>' +
-'<input name="Adults['+i+'][age_at_travel]" class="w3-input w3-round w3-row-padding" type="text" placeholder="age at travel" >' +
-'</div>' +
-'</div>' +
-'<div class="w3-row-padding w3-margin-bottom">' +
-'<div class="w3-col m2">' +
-'<input name="Adults['+i+'][name_prefix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Prefix" >' +
-'</div>' +
-'<div class="w3-col m3">' +
-'<input name="Adults['+i+'][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" >' +
-'</div>' +
-'<div class="w3-col m3">' +
-'<input name="Adults['+i+'][middle_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Middle Name" >' +
-'</div>' +
-'<div class="w3-col m3">' +
-'<input name="Adults['+i+'][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" >' +
-'</div>' +
-'<div class="w3-col m1">' +
-'<input name="Adults['+i+'][name_suffix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Suffix" >' +
-'</div>' +
-'</div>' +
-'<div class="w3-cell-row w3-row-padding w3-margin-bottom">' +
-'<div class="w3-col m4">' +
-'<input name="Adults['+i+'][address1]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 1" >' +
-'</div>' +
-'<div class="w3-col m4">' +
-'<input name="Adults['+i+'][address2]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 2" >' +
-'</div>' +
-'<div class="w3-col m4">' +
-'<input name="Adults['+i+'][address3]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 3" >' +
-'</div>' +
-'</div>' +
-'<div class="w3-cell-row w3-row-padding w3-margin-bottom">' +
-'<div class="w3-col m4">' +
-'<input name="Adults['+i+'][city]" class="w3-input w3-round w3-row-padding" type="text" placeholder="City" >' +
-'</div>' +
-'<div class="w3-col m3">' +
-'<input name="Adults['+i+'][state]" class="w3-input w3-round w3-row-padding" type="text" placeholder="State" >' +
-'</div>' +
-'<div class="w3-col m2">' +
-'<input name="Adults['+i+'][zip]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Zip" >' +
-'</div>' +
-'<div class="w3-col m3">' +
-'<input name="Adults['+i+'][country]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Country" >' +
-'</div>' +
-'</div>' +
-'<div class="w3-row-padding w3-margin-bottom">' +
-'<div class="w3-col m2">' +
-'<label class="w3-small">Phone</label>' +
-'<input name="Adults['+i+'][phone]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
-'</div>' +
-'<div class="w3-col m2">' +
-'<label class="w3-small">Cell</label>' +
-'<input name="Adults['+i+'][cell]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
-'</div>' +
-'<div class="w3-col m2">' +
-'<label class="w3-small">Fax</label>' +
-'<input name="Adults['+i+'][fax]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
-'</div>' +
-'<div class="w3-col m3">' +
-'<label class="w3-small">Email</label>' +
-'<input name="Adults['+i+'][email]" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" >' +
-'</div>' +
-'<div class="w3-col m3">' +
-'<label class="w3-small">Preferred Contact Method</label>' +
-'<select class="w3-select w3-round w3-row-padding w3-white" name="Adults['+i+'][contact_preference]" >' +
-'<option value="No Preference">No Preference</option>' +
-'<option value="Phone">Phone</option>' +
-'<option value="Email">Email</option>' +
-'</select>' +
-'</div>' +
-'</div><div><button type="button" class="w3-btn w3-round w3-row-padding w3-pink w3-margin-bottom guest_remove" name="remove" id="g'+i+'">Remove</button></div></td></tr>';
-			i++;		$('#guests').append(long);
+		  var long;
+		  var rows = document.getElementById('guests').getElementsByTagName("tr").length;
+		  i = rows + 2
+		  long = '<tr id="g'+i+'" ><td><hr>' +
+		'<h3 id="h'+i+'" class="w3-col m2">Guest '+(rows+2)+'</h3> ' +
+		'<div class="w3-bar w3-col-row w3-row-padding">' +
+		'<div class="w3-col m2">' +
+		'<label>Room:</label>' +
+		'<input name="Adults['+i+'][room]" class="w3-input w3-round w3 w3-margin-bottom w3-row-padding" type="text" placeholder="Room" >' +
+		'</div>' +
+		'<div class="w3-col m2">' +
+		'<label>Child Flag</label>' +
+		'<input id="cfcheck'+i+'" name="Adults['+i+'][child_flag]" onchange=childCheckbox("cfcheck'+i+'","aatvalueID'+i+'") class="w3-check w3-round w3-row-padding" type="checkbox" >' +
+		'</div>' +
+		'<div class="w3-col m2" id="aatvalueID'+i+'" style="display:none">' +
+		'<label>Age at Travel</label>' +
+		'<input name="Adults['+i+'][age_at_travel]" class="w3-input w3-round w3-row-padding" type="text" placeholder="age at travel" >' +
+		'</div>' +
+		'</div>' +
+		'<div class="w3-row-padding w3-margin-bottom">' +
+		'<div class="w3-col m2">' +
+		'<input name="Adults['+i+'][name_prefix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Prefix" >' +
+		'</div>' +
+		'<div class="w3-col m3">' +
+		'<input name="Adults['+i+'][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" >' +
+		'</div>' +
+		'<div class="w3-col m3">' +
+		'<input name="Adults['+i+'][middle_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Middle Name" >' +
+		'</div>' +
+		'<div class="w3-col m3">' +
+		'<input name="Adults['+i+'][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" >' +
+		'</div>' +
+		'<div class="w3-col m1">' +
+		'<input name="Adults['+i+'][name_suffix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Suffix" >' +
+		'</div>' +
+		'</div>' +
+		'<div class="w3-cell-row w3-row-padding w3-margin-bottom">' +
+		'<div class="w3-col m4">' +
+		'<input name="Adults['+i+'][address1]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 1" >' +
+		'</div>' +
+		'<div class="w3-col m4">' +
+		'<input name="Adults['+i+'][address2]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 2" >' +
+		'</div>' +
+		'<div class="w3-col m4">' +
+		'<input name="Adults['+i+'][address3]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 3" >' +
+		'</div>' +
+		'</div>' +
+		'<div class="w3-cell-row w3-row-padding w3-margin-bottom">' +
+		'<div class="w3-col m4">' +
+		'<input name="Adults['+i+'][city]" class="w3-input w3-round w3-row-padding" type="text" placeholder="City" >' +
+		'</div>' +
+		'<div class="w3-col m3">' +
+		'<input name="Adults['+i+'][state]" class="w3-input w3-round w3-row-padding" type="text" placeholder="State" >' +
+		'</div>' +
+		'<div class="w3-col m2">' +
+		'<input name="Adults['+i+'][zip]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Zip" >' +
+		'</div>' +
+		'<div class="w3-col m3">' +
+		'<input name="Adults['+i+'][country]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Country" >' +
+		'</div>' +
+		'</div>' +
+		'<div class="w3-row-padding w3-margin-bottom">' +
+		'<div class="w3-col m2">' +
+		'<label class="w3-small">Phone</label>' +
+		'<input name="Adults['+i+'][phone]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+		'</div>' +
+		'<div class="w3-col m2">' +
+		'<label class="w3-small">Cell</label>' +
+		'<input name="Adults['+i+'][cell]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+		'</div>' +
+		'<div class="w3-col m2">' +
+		'<label class="w3-small">Fax</label>' +
+		'<input name="Adults['+i+'][fax]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+		'</div>' +
+		'<div class="w3-col m3">' +
+		'<label class="w3-small">Email</label>' +
+		'<input name="Adults['+i+'][email]" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" >' +
+		'</div>' +
+		'<div class="w3-col m3">' +
+		'<label class="w3-small">Preferred Contact Method</label>' +
+		'<select class="w3-select w3-round w3-row-padding w3-white" name="Adults['+i+'][contact_preference]" >' +
+		'<option value="No Preference">No Preference</option>' +
+		'<option value="Phone">Phone</option>' +
+		'<option value="Email">Email</option>' +
+		'</select>' +
+		'</div>' +
+		'</div><div><button type="button" class="w3-btn w3-round w3-row-padding w3-pink w3-margin-bottom guest_remove" name="remove" id="g'+i+'">Remove</button></div></td></tr>';
+		  i++;		$('#guests').append(long);
 		});
 
 		$(document).on('click', '.guest_remove', function(){
 
-			var button_id = this.getAttribute("id");
-			$('#'+button_id+'').remove();
+		  var button_id = this.getAttribute("id");
+		  $('#'+button_id+'').remove();
 
-      var rows = document.getElementById('guests').getElementsByTagName("tr");
-			var gnum=1;
-			for (i = 0; i < rows.length;i++) {
+		  var rows = document.getElementById('guests').getElementsByTagName("tr");
+		  var gnum=1;
+		  for (i = 0; i < rows.length;i++) {
 
-			  gnum = gnum + 1;
-				var vrow = 	document.getElementById('h'+(gnum+1));
-				if (vrow) {
-					vrow.innerHTML= "Guest " + gnum;
-				}
-			}
+		    gnum = gnum + 1;
+		    var vrow = 	document.getElementById('h'+(gnum+1));
+		    if (vrow) {
+		      vrow.innerHTML= "Guest " + gnum;
+		    }
+		  }
 		});
 
 
-			function childCheckbox(checkID, inputID){
-        const table = document.querySelectorAll('table');
-				var row, name, child_flag;
-				var guest_num, child_num = -1;
-				var adult_num = 0;
+		function childCheckbox(checkID, inputID){
+ 		 const table = document.querySelectorAll('table');
+ 		 var row, name, child_flag;
+ 		 var guest_num, child_num = -1;
+ 		 var adult_num = 0;
 
-        //loop through each row in table
-				for (let t = 0; t <= table.length; t++) {
-	        row = table[0].rows[(t)];
-	        var inputs = row.getElementsByTagName('input');
-					var selects = row.getElementsByTagName('select');
-          //console.log("checkbox: " && inputs[0]);
-					//check if checkbox is checked
-					if (inputs[0].checked && inputs[0].type == 'checkbox') {
-						child_num++;
-						child_flag = true;
-						//rename each input in row
-						//for (var q = 0; q < inputs.length; q++) {
-						//	name = inputs[q].name;
-						//	name = name.replace('Adults', 'Children');
-						//	inputs[q].setAttribute('name', name);
-						//	//console.log(name);
-						// }
-					 //check if checkbox is unchecked
-				 }else if (!inputs[0].checked && inputs[0].type == 'checkbox') {
-						adult_num++;
-						child_flag = false;
-						//rename each input in row
-						//for (var w = 0; w < inputs.length; w++) {
-						//	name = inputs[w].name;
-						//	name = name.replace('Children', 'Adults');
-						//	inputs[w].setAttribute('name', name);
-					//		//console.log(name);
-						//}
-					}
+ 		 //loop through each row in table
+ 		 for (let t = 0; t <= table.length; t++) {
+ 			 row = table[0].rows[(t)];
+ 			 var inputs = row.getElementsByTagName('input');
+ 			 var selects = row.getElementsByTagName('select');
+ 			 //console.log("checkbox: " && inputs[0]);
+ 			 //check if checkbox is checked
+ 			 if (inputs[0].checked && inputs[0].type == 'checkbox') {
+ 				 child_num++;
+ 				 child_flag = true;
+ 				 //rename each input in row
+ 				 //for (var q = 0; q < inputs.length; q++) {
+ 				 //	name = inputs[q].name;
+ 				 //	name = name.replace('Adults', 'Children');
+ 				 //	inputs[q].setAttribute('name', name);
+ 				 //	//console.log(name);
+ 				 // }
+ 				//check if checkbox is unchecked
+ 			}else if (!inputs[0].checked && inputs[0].type == 'checkbox') {
+ 				 adult_num++;
+ 				 child_flag = false;
+ 				 //rename each input in row
+ 				 //for (var w = 0; w < inputs.length; w++) {
+ 				 //	name = inputs[w].name;
+ 				 //	name = name.replace('Children', 'Adults');
+ 				 //	inputs[w].setAttribute('name', name);
+ 			 //		//console.log(name);
+ 				 //}
+ 			 }
 
-          //loop through each input within a row
-					for (var i = 0; i < inputs.length; i++) {
-						name = inputs[i].name;
+ 			 //loop through each input within a row
+ 			 for (var i = 0; i < inputs.length; i++) {
+ 				 name = inputs[i].name;
 
-            if (child_flag) {
-            	guest_num = child_num;
-							name = name.replace('Adults', 'Children');
-							inputs[i].setAttribute('name', name);
-            }else {
-            	guest_num = adult_num;
-							name = name.replace('Children', 'Adults');
-							inputs[i].setAttribute('name', name);
-            }
-						//renumber guests
-						name = name.replace(/[0-9]/,(guest_num));
-						inputs[i].setAttribute('name', name);
-						//console.log(name);
-					}
+ 				 if (child_flag) {
+ 					 guest_num = child_num;
+ 					 name = name.replace('Adults', 'Children');
+ 					 inputs[i].setAttribute('name', name);
+ 				 }else {
+ 					 guest_num = adult_num;
+ 					 name = name.replace('Children', 'Adults');
+ 					 inputs[i].setAttribute('name', name);
+ 				 }
+ 				 //renumber guests
+ 				 name = name.replace(/[0-9]/,(guest_num));
+ 				 inputs[i].setAttribute('name', name);
+ 				 //console.log(name);
+ 			 }
 
-					//loop through each select within a row
-					for (var q = 0; q < selects.length; q++) {
-						name = selects[q].name;
+ 			 //loop through each select within a row
+ 			 for (var q = 0; q < selects.length; q++) {
+ 				 name = selects[q].name;
 
-            if (child_flag) {
-            	guest_num = child_num;
-							name = name.replace('Adults', 'Children');
-							selects[q].setAttribute('name', name);
-            }else {
-            	guest_num = adult_num;
-							name = name.replace('Children', 'Adults');
-							selects[q].setAttribute('name', name);
-            }
-						//renumber guests
-						name = name.replace(/[0-9]/,(guest_num));
-						selects[q].setAttribute('name', name);
-						//console.log(name);
-					}
-
-
-        }
+ 				 if (child_flag) {
+ 					 guest_num = child_num;
+ 					 name = name.replace('Adults', 'Children');
+ 					 selects[q].setAttribute('name', name);
+ 				 }else {
+ 					 guest_num = adult_num;
+ 					 name = name.replace('Children', 'Adults');
+ 					 selects[q].setAttribute('name', name);
+ 				 }
+ 				 //renumber guests
+ 				 name = name.replace(/[0-9]/,(guest_num));
+ 				 selects[q].setAttribute('name', name);
+ 				 //console.log(name);
+ 			 }
 
 
-			  if (document.getElementById(checkID).checked){
-			  		document.getElementById(inputID).style.display = 'block';
-			  }
-			  else if (!document.getElementById(checkID).checked){
-			  		document.getElementById(inputID).style.display = 'none';
-					}
-			}
+ 		 }
+
+
+ 		 if (document.getElementById(checkID).checked){
+ 				 document.getElementById(inputID).style.display = 'block';
+ 		 }
+ 		 else if (!document.getElementById(checkID).checked){
+ 				 document.getElementById(inputID).style.display = 'none';
+ 			 }
+ 	 }
 
 
 						function createOption(ddl, text, value) {
