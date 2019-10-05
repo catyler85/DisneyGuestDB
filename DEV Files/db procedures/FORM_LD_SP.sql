@@ -39,7 +39,11 @@ begin
     order by lov.lookup_seq)
   loop
     v_sql                                      := v_sql_rec.lookup_value;
-
+		--
+    if coalesce(v_sql, '') = ''
+		then raise 'Lookup key does not match';
+		end if;
+		--
     execute v_sql into v_lookup_rec using v_lookup_value::int;
 
     db_jsonb                                   := db_jsonb || v_lookup_rec.jsonb_rtn;

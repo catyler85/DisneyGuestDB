@@ -2,10 +2,11 @@
 
 CREATE TABLE dgmain.webservice_trans
 (
-    trans_id integer,
+    trans_id integer primary key,
     trans_date date,
     params jsonb,
-    trans_name text COLLATE pg_catalog."default"
+    trans_name text COLLATE pg_catalog."default",
+    results text
 )
 WITH (
     OIDS = FALSE

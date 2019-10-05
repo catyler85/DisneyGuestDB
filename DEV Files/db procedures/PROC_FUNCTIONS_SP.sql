@@ -20,7 +20,7 @@ begin
   then
     --commit;
 		null;
-  else raise 'The process failed at %', proc_str;
+  else raise 'The process failed at % during PROC_FUNCTION_SP', proc_str;
   end if;
   --
   --lead process
@@ -30,7 +30,7 @@ begin
   then
     --commit;
 		null;
-  else raise 'The process failed at %', proc_str;
+  else raise 'The process failed at % during PROC_FUNCTION_SP', proc_str;
   end if;
   --
   --loads
@@ -40,7 +40,7 @@ begin
   then
     --commit;
 		null;
-  else raise 'The process failed at %', proc_str;
+  else raise 'The process failed at % during PROC_FUNCTION_SP', proc_str;
   end if;
 
   p_jsonb := ('{"rtn_code":1,"message":"Success!"}')::jsonb;

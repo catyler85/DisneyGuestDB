@@ -62,8 +62,16 @@ begin
 			guest_rec.status                               := 'I';
 	    guest_rec.name_prefix                          := coalesce((p_params ->> 'name_prefix')::text,'');
 	    guest_rec.first_name                           := coalesce((p_params ->> 'first_name')::text,'');
+			if coalesce(guest_rec.first_name, '') = ''
+			then
+			  raise 'First Name is required';
+			end if;
 	    guest_rec.middle_name                          := coalesce((p_params ->> 'middle_name')::text,'');
 	    guest_rec.last_name                            := coalesce((p_params ->> 'last_name')::text,'');
+			if coalesce(guest_rec.last_name, '') = ''
+			then
+			  raise 'Last Name is required';
+			end if;
 	    guest_rec.name_suffix                          := coalesce((p_params ->> 'name_suffix')::text,'');
 	    guest_rec.address1                             := coalesce((p_params ->> 'address1')::text,'');
 	    guest_rec.address2                             := coalesce((p_params ->> 'address2')::text,'');
@@ -95,8 +103,16 @@ begin
 			guest_rec.status                               := 'I';
 		  guest_rec.name_prefix                          := split_part((p_params -> 'Adults' -> (i-1) ->> 'name')::text,' ',1);
 		  guest_rec.first_name                           := split_part((p_params -> 'Adults' -> (i-1) ->> 'name')::text,' ',2);
+			if coalesce(guest_rec.first_name, '') = ''
+			then
+			  raise 'First Name is required';
+			end if;
 		  guest_rec.middle_name                          := '';
 		  guest_rec.last_name                            := split_part((p_params -> 'Adults' -> (i-1)->> 'name')::text,' ',3);
+			if coalesce(guest_rec.last_name, '') = ''
+			then
+			  raise 'Last Name is required';
+			end if;
 		  guest_rec.name_suffix                          := '';
 		  guest_rec.address1                             := coalesce((p_params ->> 'address1')::text,'');
 		  guest_rec.address2                             := coalesce((p_params ->> 'address2')::text,'');
@@ -124,8 +140,16 @@ begin
 			guest_rec.status                               := 'I';
 		  guest_rec.name_prefix                          := split_part((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name')::text,' ',1);
 		  guest_rec.first_name                           := split_part((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name')::text,' ',2);
+			if coalesce(guest_rec.first_name, '') = ''
+			then
+			  raise 'First Name is required';
+			end if;
 		  guest_rec.middle_name                          := '';
 		  guest_rec.last_name                            := split_part((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name')::text,' ',3);
+			if coalesce(guest_rec.last_name, '') = ''
+			then
+			  raise 'Last Name is required';
+			end if;
 		  guest_rec.name_suffix                          := '';
 		  guest_rec.address1                             := coalesce((p_params ->> 'address1')::text,'');
 		  guest_rec.address2                             := coalesce((p_params ->> 'address2')::text,'');

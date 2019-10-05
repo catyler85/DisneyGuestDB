@@ -28,8 +28,12 @@ declare
 	v_lead_id                   int;
 
 begin
-
-  v_lead_id                                         := coalesce((p_params ->> 'lead_id')::int, nextval('dgmain.lead_id_seq'));
+  if coalesce(nullif((p_params ->> 'lead_id'),'')::int,-1) >0
+	then
+    v_lead_id                                         := (p_params ->> 'lead_id')::int;
+	else
+	  v_lead_id                                         := nextval('dgmain.lead_id_seq');
+	end if;
   --temp table of guests
   drop table if exists guest_rec_temp;
 	create temp table guest_rec_temp as
@@ -94,8 +98,16 @@ begin
 			guest_rec.status                               := 'I';
 		  guest_rec.name_prefix                          := (p_params -> 'Adults' -> (i-1) ->> 'name_prefix');
 		  guest_rec.first_name                           := (p_params -> 'Adults' -> (i-1) ->> 'first_name');
+			if coalesce(guest_rec.first_name, '') = ''
+			then
+			  raise 'First Name is required';
+			end if;
 		  guest_rec.middle_name                          := (p_params -> 'Adults' -> (i-1) ->> 'middle_name');
 		  guest_rec.last_name                            := (p_params -> 'Adults' -> (i-1) ->> 'last_name');
+			if coalesce(guest_rec.last_name, '') = ''
+			then
+			  raise 'Last Name is required';
+			end if;
 		  guest_rec.name_suffix                          := (p_params -> 'Adults' -> (i-1) ->> 'name_suffix');
 		  guest_rec.address1                             := coalesce((p_params -> 'Adults' -> (i-1) ->> 'address1')::text,'');
 		  guest_rec.address2                             := coalesce((p_params -> 'Adults' -> (i-1) ->> 'address2')::text,'');
@@ -128,8 +140,16 @@ begin
 			guest_rec.status                               := 'I';
 		  guest_rec.name_prefix                          := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name_prefix');
 		  guest_rec.first_name                           := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'first_name');
+			if coalesce(guest_rec.first_name, '') = ''
+			then
+			  raise 'First Name is required';
+			end if;
 		  guest_rec.middle_name                          := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'middle_name');
 		  guest_rec.last_name                            := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'last_name');
+			if coalesce(guest_rec.last_name, '') = ''
+			then
+			  raise 'Last Name is required';
+			end if;
 		  guest_rec.name_suffix                          := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name_suffix');
 		  guest_rec.address1                             := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'address1')::text,'');
 		  guest_rec.address2                             := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'address2')::text,'');
@@ -165,9 +185,8 @@ begin
   from (
   select r.resort_name, unnest(r.rooms) room
   from dgmain.resorts r) a
-  join dgmain.leads l
-    on a.resort_name = replace(l.resort, '’', '''')
-  where l.lead_id = v_lead_id) b
+	join (select (p_params ->> 'resort') as resort, (p_params ->> 'resort_accomodations') as resort_accomodations) l
+    on a.resort_name = replace(l.resort, '’', '''')) b
   where rn = 1;
 
 

@@ -1,4 +1,6 @@
-var validation;
+var validation = true;
+
+
 
 //------------------------------
 //submit on "Enter"
@@ -24,7 +26,8 @@ function form_submit(formID) {
 	if (x === 'error') {
 		alert("something went wrong");
 	}else {
-		console.log(x);
+		//console.log(x);
+		//console.log($( formID ).serialize(););
 		window.location.href = "../disney-guest-db.php";
 	}
 }
@@ -43,7 +46,7 @@ function form_submit(formID) {
 
 	$("checkbox[value]").each(function() {
 
-    console.log(this);
+    //console.log(this);
 
 	});
 
@@ -91,6 +94,10 @@ function form_submit(formID) {
 	 document.execCommand("copy");
 
  };
+
+ //------------------------------
+ //form validations
+ //------------------------------
  function validationCheck(InputID,vType) {
  	var inpObj = document.getElementById(InputID);
  	var validationLocation = 'v' + InputID;
@@ -104,7 +111,7 @@ function form_submit(formID) {
    validation = patt.test(inpObj.value);
 
    //inpObj.checkValidity()
- 	console.log('validate function');
+ 	//console.log('validate function');
   if (!validation) {
 
 	 switch (vType) {
@@ -127,3 +134,128 @@ function form_submit(formID) {
 		 document.getElementById(InputID).classList.remove('w3-border-red');
 	 }
  };
+
+function sameAs(inputID,divID) {
+  if (!document.getElementById(inputID).checked) {
+  	document.getElementById(divID).style.display = "block";
+  }else if (document.getElementById(inputID).checked) {
+  	document.getElementById(divID).style.display = "none";
+  }
+
+}
+
+ //add guest functions
+ $('#add-guest').on("click", function(){
+ 	var long;
+ 	var i=0;
+ 	var rows = document.getElementById('guests').getElementsByTagName("tr").length;
+ 	i = rows + 1
+ 	long = '<tr id="g'+(rows+2)+'" ><td><hr>' +
+ '<h3 id="h'+(rows+2)+'" class="w3-col m2">Guest '+(rows+2)+'</h3> ' +
+ '<div class="w3-bar w3-col-row w3-row-padding">' +
+ '<div class="w3-col m2">' +
+ '<label>Room:</label>' +
+ '<input name="Adults['+i+'][room]" class="w3-input w3-round w3 w3-margin-bottom w3-row-padding" type="text" placeholder="Room" >' +
+ '</div>' +
+ '<div class="w3-col m2">' +
+ '<label>Child Flag</label>' +
+ '<input id="cfcheck'+i+'" name="Adults['+i+'][child_flag]" onchange=childCheckbox("cfcheck'+i+'","aatvalueID'+i+'","g'+(rows+2)+'") class="w3-check w3-round w3-row-padding" type="checkbox" >' +
+ '</div>' +
+ '<div class="w3-col m2" id="aatvalueID'+i+'" style="display:none">' +
+ '<label>Age at Travel</label>' +
+ '<input name="Adults['+i+'][age_at_travel]" class="w3-input w3-round w3-row-padding" type="text" placeholder="age at travel" >' +
+ '</div>' +
+ '</div>' +
+ '<div class="w3-row-padding w3-margin-bottom">' +
+ '<div class="w3-col m2">' +
+ '<input name="Adults['+i+'][name_prefix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Prefix" >' +
+ '</div>' +
+ '<div class="w3-col m3">' +
+ '<input name="Adults['+i+'][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" >' +
+ '</div>' +
+ '<div class="w3-col m3">' +
+ '<input name="Adults['+i+'][middle_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Middle Name" >' +
+ '</div>' +
+ '<div class="w3-col m3">' +
+ '<input name="Adults['+i+'][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" >' +
+ '</div>' +
+ '<div class="w3-col m1">' +
+ '<input name="Adults['+i+'][name_suffix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Suffix" >' +
+ '</div>' +
+ '</div>' +
+ '<div class="w3-row-padding w3-margin-bottom">' +
+ '<div class="w3-col m3">' +
+ '<label class="w3-small">Email</label>' +
+ '<input name="Adults['+i+'][email]" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" >' +
+ '</div>' +
+ '<div class="w3-col m2">' +
+ '<label class="w3-small">Phone</label>' +
+ '<input name="Adults['+i+'][phone]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+ '</div>' +
+ '<div class="w3-col m2">' +
+ '<label class="w3-small">Cell</label>' +
+ '<input name="Adults['+i+'][cell]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+ '</div>' +
+ '<div class="w3-col m2">' +
+ '<label class="w3-small">Fax</label>' +
+ '<input name="Adults['+i+'][fax]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" >' +
+ '</div>' +
+ '<div class="w3-col m3">' +
+ '<label class="w3-small">Preferred Contact Method</label>' +
+ '<select class="w3-select w3-round w3-row-padding w3-white" name="Adults['+i+'][contact_preference]" >' +
+ '<option value="No Preference">No Preference</option>' +
+ '<option value="Phone">Phone</option>' +
+ '<option value="Email">Email</option>' +
+ '</select>' +
+ '</div>' +
+ '<div class="w3-row">' +
+ '<h5>Address</h5>' +
+ '<label>Same as Lead</label>' +
+ '<input id="sameAs'+i+'"  type="checkbox" name="same_as" onchange=sameAs("sameAs'+i+'","sameAsDiv' +i+'") value="Same as Lead" class="w3-check w3-round w3-row-padding" checked/>' +
+ '<div id="sameAsDiv' +i+'" class="w3-border" style="display: none;">' +
+ '<div class="w3-cell-row w3-row-padding w3-margin-bottom w3-margin-top">' +
+ '<div class="w3-col m4">' +
+ '<input name="Adults['+i+'][address1]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 1" >' +
+ '</div>' +
+ '<div class="w3-col m4">' +
+ '<input name="Adults['+i+'][address2]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 2" >' +
+ '</div>' +
+ '<div class="w3-col m4">' +
+ '<input name="Adults['+i+'][address3]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 3" >' +
+ '</div>' +
+ '</div>' +
+ '<div class="w3-cell-row w3-row-padding w3-margin-bottom">' +
+ '<div class="w3-col m4">' +
+ '<input name="Adults['+i+'][city]" class="w3-input w3-round w3-row-padding" type="text" placeholder="City" >' +
+ '</div>' +
+ '<div class="w3-col m3">' +
+ '<input name="Adults['+i+'][state]" class="w3-input w3-round w3-row-padding" type="text" placeholder="State" >' +
+ '</div>' +
+ '<div class="w3-col m2">' +
+ '<input name="Adults['+i+'][zip]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Zip" >' +
+ '</div>' +
+ '<div class="w3-col m3">' +
+ '<input name="Adults['+i+'][country]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Country" >' +
+ '</div>' +
+ '</div>' +
+ '</div>' +
+ '</div><div><button type="button" class="w3-btn w3-round w3-row-padding w3-pink w3-margin-bottom guest_remove" name="remove" id="g'+(rows+2)+'">Remove</button></div></td></tr>';
+ 	i++;		$('#guests').append(long);
+ });
+
+ $(document).on('click', '.guest_remove', function(){
+
+ 	var button_id = this.getAttribute("id");
+ 	$('#'+button_id+'').remove();
+
+ 	var rows = document.getElementById('guests').getElementsByTagName("tr");
+ 	var gnum=1;
+ 	for (i = 0; i < rows.length;i++) {
+
+ 		gnum = gnum + 1;
+ 		var vrow = 	document.getElementById('h'+(gnum+1));
+ 		if (vrow) {
+ 			vrow.innerHTML= "Guest " + gnum;
+ 		}
+ 	}
+ });

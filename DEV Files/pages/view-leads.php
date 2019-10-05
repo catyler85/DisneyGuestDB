@@ -14,6 +14,33 @@ session_start();
     ?>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="../js_functions/js_functions.js"></script>
+		<script>
+		//------------------------------
+		//live search
+		//------------------------------
+		function showResult(str) {
+		  if (str.length==0) {
+		    document.getElementById("livesearch").innerHTML="";
+		    document.getElementById("livesearch").style.border="0px";
+		    return;
+		  }
+		  if (window.XMLHttpRequest) {
+		    // code for IE7+, Firefox, Chrome, Opera, Safari
+		    xmlhttp=new XMLHttpRequest();
+		  } else {  // code for IE6, IE5
+		    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		  xmlhttp.onreadystatechange=function() {
+		    if (this.readyState==4 && this.status==200) {
+		      document.getElementById("livesearch").innerHTML=this.responseText["html_table"];
+					console.log(this.responseText);
+		      document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+		    }
+		  }
+		  xmlhttp.open("GET","livesearch.php?form_name=lead_search&keyword="+str,true);
+		  xmlhttp.send();
+		}
+		</script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   </head>
@@ -28,7 +55,7 @@ session_start();
       <form id="lead_search" class="w3-container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get">
 				<input type="hidden" name="form_name" value="lead_search"></input>
         <label>Keyword Search</label>
-        <input class="w3-input w3-border" type="text" name="keyword">
+        <input class="w3-input w3-border" type="text" name="keyword" >
 				<button class="w3-btn w3-pink w3-hover-purple w3-margin-top">Search</button>
 				<button class="w3-btn w3-pink w3-hover-purple w3-margin-top" onclick="form_clear('lead_search')">Clear</button>
       </form>

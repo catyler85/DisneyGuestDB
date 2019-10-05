@@ -5,7 +5,8 @@
 CREATE TABLE dgmain.error_log
 (
     trans_id integer,
-    err_msg text COLLATE pg_catalog."default"
+    err_msg text COLLATE pg_catalog."default",
+    err_time timestamp
 )
 WITH (
     OIDS = FALSE
