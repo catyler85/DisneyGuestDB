@@ -1,4 +1,4 @@
-var validation = true;
+var validation = false;
 
 
 
@@ -15,18 +15,19 @@ document.addEventListener("keyup", function(event) {
 //------------------------------
 //submit the form
 //------------------------------
-function form_submit(formID) {
+function form_submit(formID,ValidationARR) {
   var x, form_assign = '';
+	validationCheck(ValidationARR,-1);
 	if (!validation) {
 		alert("Please complete all required fields!");
 	}else {
-	form_assign = document.getElementById(formID);
-	x = submit_form_data(form_assign);
+	  form_assign = document.getElementById(formID);
+	  x = submit_form_data(form_assign);
 
-	if (x === 'error') {
-		alert("something went wrong");
-	}else {
-		//console.log(x);
+	  if (x === 'error') {
+	  	alert("something went wrong");
+	  }else {
+	  	//console.log(x);
 		//console.log($( formID ).serialize(););
 		window.location.href = "../disney-guest-db.php";
 	}
@@ -94,12 +95,19 @@ function form_submit(formID) {
 	 document.execCommand("copy");
 
  };
+ function findObjectByKey(array, key) {
+     if (!array[key]) {
+             return null;
+         }else {
+         	   return array[key];
+         }
 
+ }
  //------------------------------
  //form validations
  //------------------------------
- function validationCheck(InputID,vType) {
- 	var inpObj = document.getElementById(InputID);
+ 	function validationField(InputID, vType) {
+	var inpObj = document.getElementById(InputID);
  	var validationLocation = 'v' + InputID;
  	var validationMessage = '';
 	var dict = {
@@ -107,6 +115,7 @@ function form_submit(formID) {
 		notnull: /^(?!\s*$).+/,
 		phone: /^(\s*|\(?[\d]{3}\)?[\s-]?[\d]{3}[\s-]?[\d]{4})$/
 	};
+
  	var patt = dict[vType];
    validation = patt.test(inpObj.value);
 
@@ -134,6 +143,19 @@ function form_submit(formID) {
 		 document.getElementById(InputID).classList.remove('w3-border-red');
 	 }
  };
+
+ function validationCheck(ValidationARR,vInputID) {
+  var type;
+	if (vInputID === -1) {
+		for (var key in ValidationARR) {
+      validationField(key, ValidationARR[key]);
+    }
+  }else {
+  	type = findObjectByKey(ValidationARR, vInputID);
+		console.log("type: " + type + " ID: " + vInputID);
+		validationField(vInputID, type);
+  }
+}
 
 function sameAs(inputID,divID) {
   if (!document.getElementById(inputID).checked) {
@@ -171,13 +193,15 @@ function sameAs(inputID,divID) {
  '<input name="Adults['+i+'][name_prefix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Prefix" >' +
  '</div>' +
  '<div class="w3-col m3">' +
- '<input name="Adults['+i+'][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" >' +
+ '<input id="FName'+i+'" name="Adults['+i+'][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" >' +
+ '<p id="vFName'+i+'" class="w3-tiny w3-text-red"></p>' +
  '</div>' +
  '<div class="w3-col m3">' +
  '<input name="Adults['+i+'][middle_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Middle Name" >' +
  '</div>' +
  '<div class="w3-col m3">' +
- '<input name="Adults['+i+'][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" >' +
+ '<input id="LName'+i+'" name="Adults['+i+'][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" >' +
+ '<p id="vLName'+i+'" class="w3-tiny w3-text-red"></p>' +
  '</div>' +
  '<div class="w3-col m1">' +
  '<input name="Adults['+i+'][name_suffix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Suffix" >' +

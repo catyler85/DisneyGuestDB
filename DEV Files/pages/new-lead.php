@@ -11,6 +11,7 @@ session_start();
        include_once($path);
 			 include("../db_files/variables.php");
     ?>
+
     <script src="../js_functions/submit_form_data.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -23,7 +24,7 @@ session_start();
     <hr>
 		<div class="w3-container w3-center">
 			<button class="w3-btn w3-round-large w3-pink" onclick="document.getElementById('one_note_modal').style.display='block'">View for One Note</button>
-			<button class="w3-btn w3-round-large w3-pink" id="submit" onclick="form_submit('edit_lead_form')">Submit</button>
+			<button class="w3-btn w3-round-large w3-pink" id="submit" onclick="form_submit('edit_lead_form',validationARR)">Submit</button>
 
 		</div>
 		<br>

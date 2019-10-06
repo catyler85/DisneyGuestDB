@@ -1,3 +1,14 @@
+<script type="text/javascript">
+  var validationARR = {Email:"email"
+                     , Phone:"phone"
+                     , Cell:"phone"
+                     , Fax:"phone"
+                     , FName:"notnull"
+                     , LName:"notnull"
+                     , CheckIn:"notnull"
+                     , CheckOut:"notnull"
+                     , numRooms:"notnull"}
+</script>
 <form action="#" id="edit_lead_form" name="edit_lead_form" method="post">
   <input type="hidden" name="form_name" value="edit_lead_form"></input>
   <div id="test"></div>
@@ -16,11 +27,13 @@
         </div>
         <div class="w3-col m2">
           <label class="w3-small fa fa-calendar-check-o">Check-In</label>
-          <input name="check_in" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_in)) {echo date('Y-m-d',strtotime($check_in));};?>" required></input>
+          <input id="CheckIn" name="check_in" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_in)) {echo date('Y-m-d',strtotime($check_in));};?>" onblur="validationCheck(validationARR,this.id)" required></input>
+          <p id="vCheckIn" class="w3-tiny w3-text-red"></p>
         </div>
         <div class="w3-col m2">
           <label class="w3-small fa fa-calendar-o">Check-Out</label>
-          <input name="check_out" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_out)) {echo date('Y-m-d',strtotime($check_out));};?>" required></input>
+          <input id="CheckOut" name="check_out" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_out)) {echo date('Y-m-d',strtotime($check_out));};?>" onblur="validationCheck(validationARR,this.id)" required></input>
+          <p id="vCheckOut" class="w3-tiny w3-text-red"></p>
         </div>
         <div class="w3-col m2">
           <label class="w3-small">Guaranteed Quote?</label>
@@ -65,7 +78,8 @@
         </div>
         <div class="w3-col m2">
           <label class="w3-small">Number of Rooms</label>
-          <input name="num_rooms" type="number" class="w3-input w3-round w3-row-padding" value="<?php echo $num_rooms;?>"></input>
+          <input id="numRooms" name="num_rooms" type="number" class="w3-input w3-round w3-row-padding" value="<?php echo $num_rooms;?>" onblur="validationCheck(validationARR,this.id)"></input>
+          <p id="vnumRooms" class="w3-tiny w3-text-red"></p>
         </div>
       </div>
       <div class="w3-row-padding w3-margin-bottom">
@@ -133,14 +147,14 @@
               <input name="Adults[0][name_prefix]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Prefix" value="<?php echo $name_prefix;?>">
             </div>
             <div class="w3-col m3">
-              <input id="FName" name="Adults[0][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" value="<?php echo $first_name;?>" onblur="validationCheck(this.id,'notnull')" required>
+              <input id="FName" name="Adults[0][first_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="First Name" value="<?php echo $first_name;?>" onblur="validationCheck(validationARR,this.id)" required>
               <p id="vFName" class="w3-tiny w3-text-red"></p>
             </div>
             <div class="w3-col m3">
               <input name="Adults[0][middle_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Middle Name" value="<?php echo $middle_name;?>">
             </div>
             <div class="w3-col m3">
-              <input id="LName" name="Adults[0][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" value="<?php echo $last_name;?>" onblur="validationCheck(this.id,'notnull')" required>
+              <input id="LName" name="Adults[0][last_name]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Last Name" value="<?php echo $last_name;?>" onblur="validationCheck(validationARR,this.id)" required>
               <p id="vLName" class="w3-tiny w3-text-red"></p>
             </div>
             <div class="w3-col m1">
@@ -150,22 +164,22 @@
           <div class="w3-row-padding w3-margin-bottom">
             <div class="w3-col m3">
               <label class='w3-small'>Email</label>
-              <input id="Email" name="Adults[0][email]" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" value="<?php echo $email;?>" onblur="validationCheck('Email','email')">
+              <input id="Email" name="Adults[0][email]" class="w3-input w3-round w3-row-padding" type="text" placeholder="abc@xyz.com" value="<?php echo $email;?>" onblur="validationCheck(validationARR,this.id)">
               <p id="vEmail" class="w3-tiny w3-text-red"></p>
             </div>
             <div class="w3-col m2">
               <label class='w3-small'>Phone</label>
-              <input id="Phone" name="Adults[0][phone]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $phone;?>" onblur="validationCheck('Phone','phone')">
+              <input id="Phone" name="Adults[0][phone]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $phone;?>" onblur="validationCheck(validationARR,this.id)">
               <p id="vPhone" class="w3-tiny w3-text-red"></p>
             </div>
             <div class="w3-col m2">
               <label class='w3-small'>Cell</label>
-              <input id="Cell" name="Adults[0][cell]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $cell;?>" onblur="validationCheck('Cell','phone')">
+              <input id="Cell" name="Adults[0][cell]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $cell;?>" onblur="validationCheck(validationARR,this.id)">
               <p id="vCell" class="w3-tiny w3-text-red"></p>
             </div>
             <div class="w3-col m2">
               <label class='w3-small'>Fax</label>
-              <input id="Fax" name="Adults[0][fax]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $fax;?>" onblur="validationCheck('Fax','phone')">
+              <input id="Fax" name="Adults[0][fax]" class="w3-input w3-round w3-row-padding" type="text" placeholder="123-456-5555" value="<?php echo $fax;?>" onblur="validationCheck(validationARR,this.id)">
               <p id="vFax" class="w3-tiny w3-text-red"></p>
             </div>
             <div class="w3-col m3">

@@ -26,8 +26,7 @@ session_start();
     <hr>
 		<div class="w3-container w3-center">
 			<button class="w3-btn w3-round-large w3-pink" onclick="document.getElementById('one_note_modal').style.display='block'">View for One Note</button>
-			<button class="w3-btn w3-round-large w3-pink" onclick="document.getElementById('launch_email').style.display='block'">Send Email</button>
-			<button class="w3-btn w3-round-large w3-pink" id="submit" onclick="form_submit('edit_lead_form')">Submit</button>
+			<button class="w3-btn w3-round-large w3-pink" id="submit" onclick="form_submit('edit_lead_form',validationARR)">Submit</button>
 
 		</div>
 		<br>
