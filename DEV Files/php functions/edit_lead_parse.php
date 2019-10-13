@@ -78,7 +78,7 @@ if (isset($tg_arr)) {
 
   $cfcheckID                                                 = "'cfcheck".$i."'";
   $aatvalueID                                                = "'aatvalue".$i."'";
-  if ($lead_guest_flag != 'Y') {
+  if ($lead_guest_flag != 'Y' && isset($first_name)) {
     $group_table                                              .= "<tr id='g".($i+1)."' ><td><hr>
       <h3 id='h".($i+1)."' class='w3-col m2'>Guest ".($i+1)."</h3>
 	    <div class='w3-bar w3-col-row w3-row-padding'>

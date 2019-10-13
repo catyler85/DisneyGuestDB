@@ -16,21 +16,40 @@ document.addEventListener("keyup", function(event) {
 //submit the form
 //------------------------------
 function form_submit(formID,ValidationARR) {
-  var x, form_assign = '';
+  var x, y, form_assign = '';
+	var myObj;
+
+  document.getElementById('loading').style.display='block';
+
 	validationCheck(ValidationARR,-1);
 	if (!validation) {
+    document.getElementById('loading').style.display='none';
 		alert("Please complete all required fields!");
 	}else {
 	  form_assign = document.getElementById(formID);
 	  x = submit_form_data(form_assign);
 
-	  if (x === 'error') {
-	  	alert("something went wrong");
-	  }else {
-	  	//console.log(x);
-		//console.log($( formID ).serialize(););
-		window.location.href = "../disney-guest-db.php";
-	}
+		x.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				//window.location.href = "../disney-guest-db.php";
+				y = this.responseText;
+
+				myObj = JSON.parse(y);
+
+			  if (myObj.rtn_code === -1) {
+		      var err_msg = myObj.message.split(':')[2];
+					alert(err_msg);
+			  }else {
+					//console.log(x);
+					console.log(myObj.message);
+				  //console.log($( formID ).serialize(););
+				  window.location.href = "../disney-guest-db.php";
+			}
+
+			}
+		};
+
+
 }
 };
 
@@ -110,14 +129,36 @@ function form_submit(formID,ValidationARR) {
 	var inpObj = document.getElementById(InputID);
  	var validationLocation = 'v' + InputID;
  	var validationMessage = '';
+	var start = new Date(document.getElementById('startdate').value);
+	var end = new Date(document.getElementById('enddate').value);
 	var dict = {
 		email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 		notnull: /^(?!\s*$).+/,
-		phone: /^(\s*|\(?[\d]{3}\)?[\s-]?[\d]{3}[\s-]?[\d]{4})$/
+		phone: /^(\s*|\(?[\d]{3}\)?[\s-]?[\d]{3}[\s-]?[\d]{4})$/,
+		startdate: /^(?!\s*$).+/,
+		enddate: /^(?!\s*$).+/
 	};
 
  	var patt = dict[vType];
-   validation = patt.test(inpObj.value);
+  if (vType === "startdate") {
+	  var nextWeek = new Date(start.setDate(start.getDate() + 7));
+		var month = nextWeek.getMonth() + 1;
+
+  	document.getElementById('enddate').value = nextWeek.getFullYear() + '-' +  month.toString().padStart(2,'0') + '-' + nextWeek.getDate();
+		validation = patt.test(inpObj.value);
+  }else if (vType === 'enddate') {
+
+		//start = document.getElementById('startdate').value;
+    //end = ;
+		validation = patt.test(inpObj.value);
+
+		if (end < start) {
+  		validation = false;
+  	}
+  }else {
+  	validation = patt.test(inpObj.value);
+  }
+
 
    //inpObj.checkValidity()
  	//console.log('validate function');
@@ -133,6 +174,12 @@ function form_submit(formID,ValidationARR) {
 		case 'phone':
 			 validationMessage = 'Invalid format. 123-456-5555';
 			 break;
+		case 'startdate':
+		   validationMessage = 'This is a required field.';
+	     break;
+		case 'enddate':
+	 		 validationMessage = 'This must be a later date.';
+	 	   break;
 	 	default:
 
 	 }

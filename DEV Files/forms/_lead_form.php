@@ -1,3 +1,4 @@
+<script src="http://www.datejs.com/build/date.js" type="text/javascript"></script>
 <script type="text/javascript">
   var validationARR = {Email:"email"
                      , Phone:"phone"
@@ -5,8 +6,8 @@
                      , Fax:"phone"
                      , FName:"notnull"
                      , LName:"notnull"
-                     , CheckIn:"notnull"
-                     , CheckOut:"notnull"
+                     , startdate:"startdate"
+                     , enddate:"enddate"
                      , numRooms:"notnull"}
 </script>
 <form action="#" id="edit_lead_form" name="edit_lead_form" method="post">
@@ -27,13 +28,13 @@
         </div>
         <div class="w3-col m2">
           <label class="w3-small fa fa-calendar-check-o">Check-In</label>
-          <input id="CheckIn" name="check_in" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_in)) {echo date('Y-m-d',strtotime($check_in));};?>" onblur="validationCheck(validationARR,this.id)" required></input>
-          <p id="vCheckIn" class="w3-tiny w3-text-red"></p>
+          <input id="startdate" name="check_in" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_in)) {echo date('Y-m-d',strtotime($check_in));};?>" onblur="validationCheck(validationARR,this.id)" required></input>
+          <p id="vstartdate" class="w3-tiny w3-text-red"></p>
         </div>
         <div class="w3-col m2">
           <label class="w3-small fa fa-calendar-o">Check-Out</label>
-          <input id="CheckOut" name="check_out" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_out)) {echo date('Y-m-d',strtotime($check_out));};?>" onblur="validationCheck(validationARR,this.id)" required></input>
-          <p id="vCheckOut" class="w3-tiny w3-text-red"></p>
+          <input id="enddate" name="check_out" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_out)) {echo date('Y-m-d',strtotime($check_out));};?>" onblur="validationCheck(validationARR,this.id)" required></input>
+          <p id="venddate" class="w3-tiny w3-text-red"></p>
         </div>
         <div class="w3-col m2">
           <label class="w3-small">Guaranteed Quote?</label>
