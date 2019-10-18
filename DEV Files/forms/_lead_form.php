@@ -18,32 +18,34 @@
     <div class="w3-container w3-panel w3-card w3-pale-red w3-margin c3-cell">
       <h3>Vacation Details</h3>
       <div class="w3-row-padding w3-margin-bottom">
-        <div class="w3-col m2">
+        <div class="w3-col m4">
           <label class="w3-small">Reservation Number</label>
           <input name="reservation_num" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $reservation_num;?>"></input>
         </div>
-        <div class="w3-col m2">
-          <label class="w3-small">Budget</label>
-          <input name="budget" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $budget;?>"></input>
-        </div>
-        <div class="w3-col m2">
+        <div class="w3-col m4">
           <label class="w3-small fa fa-calendar-check-o">Check-In</label>
           <input id="startdate" name="check_in" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_in)) {echo date('Y-m-d',strtotime($check_in));};?>" onblur="validationCheck(validationARR,this.id)" required></input>
           <p id="vstartdate" class="w3-tiny w3-text-red"></p>
         </div>
-        <div class="w3-col m2">
+        <div class="w3-col m4">
           <label class="w3-small fa fa-calendar-o">Check-Out</label>
           <input id="enddate" name="check_out" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($check_out)) {echo date('Y-m-d',strtotime($check_out));};?>" onblur="validationCheck(validationARR,this.id)" required></input>
           <p id="venddate" class="w3-tiny w3-text-red"></p>
         </div>
-        <div class="w3-col m2">
+      </div>
+      <div class="w3-row-padding w3-margin-bottom">
+        <div class="w3-col m4">
+          <label class="w3-small">Budget</label>
+          <input name="budget" type="text" class="w3-input w3-round w3-row-padding" value="<?php echo $budget;?>"></input>
+        </div>
+        <div class="w3-col m4">
           <label class="w3-small">Guaranteed Quote?</label>
           <select class="w3-select w3-round w3-row-padding w3-white" name="guaranteed_quote" value="<?=$guaranteed_quote?>">
             <option value="No" >No</option>
             <option value="Yes">Yes</option>
           </select>
         </div>
-        <div class="w3-col m2">
+        <div class="w3-col m4">
           <label class="w3-small fa fa-calendar-o">Hold Expires</label>
           <input name="courtesy_hld_exp_date" type="date" class="w3-input w3-round w3-row-padding" value="<?php if (isset($courtesy_hld_exp_date)) {echo date('Y-m-d',strtotime($courtesy_hld_exp_date));};?>"></input>
         </div>

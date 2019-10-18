@@ -27,4 +27,33 @@ $resort_select              = $room_select                 = $source_select     
 $adult_table                = $unique_pin_code             = $group_table               = null;
 $child_num                  = $adult_num                   = $guest_num                 = 0;
 
+include_once ("../db_files/form_values_ld.php");
+//resort arrays
+$resort_arr                                                = $form_values['resorts'];
+$_SESSION["resorts"]                                       = str_replace("'",  "’",$form_values['resorts']);
+foreach ($resort_arr as $key => $value) {
+  //ksort($value);
+  foreach ($value as $resort_name => $resort_rooms) {
+    if ($resort === $resort_name) {
+      $v_select = "selected";
+    }else {
+      $v_select = "";
+    }
+    $resort_select   .= "<option value='".str_replace("'",  "’", $resort_name)."' ".$v_select."  >$resort_name</option>";
+
+    if ($v_select === "selected") {
+      foreach ($resort_rooms as $room_key => $room_value) {
+        if ($resort_accomodations === $room_value) {
+          $v_select = "selected";
+        }else {
+          $v_select = "";
+        }
+        $room_select   .= "<option value='".$room_value."' ".$v_select."  >$room_value</option>";
+      }
+    }
+
+
+  }
+}
+
  ?>

@@ -15,18 +15,20 @@ document.addEventListener("keyup", function(event) {
 //------------------------------
 //submit the form
 //------------------------------
-function form_submit(formID,ValidationARR) {
+function form_submit(formID,ValidationARR,clickID) {
   var x, y, form_assign = '';
 	var myObj;
 
-  document.getElementById('loading').style.display='block';
+
 
 	validationCheck(ValidationARR,-1);
 	if (!validation) {
-    document.getElementById('loading').style.display='none';
+    //document.getElementById('loading').style.display='none';
 		alert("Please complete all required fields!");
 	}else {
-	  form_assign = document.getElementById(formID);
+    document.getElementById('loading').style.display='block';
+
+		form_assign = document.getElementById(formID);
 	  x = submit_form_data(form_assign);
 
 		x.onreadystatechange = function() {
@@ -43,7 +45,12 @@ function form_submit(formID,ValidationARR) {
 					//console.log(x);
 					console.log(myObj.message);
 				  //console.log($( formID ).serialize(););
-				  window.location.href = "../disney-guest-db.php";
+					if (clickID === 'submit') {
+					  window.location.href = "../disney-guest-db.php";
+					}else {
+						document.getElementById('loading').style.display='none';
+					}
+
 			}
 
 			}
@@ -282,8 +289,8 @@ function sameAs(inputID,divID) {
  '<div class="w3-row">' +
  '<h5>Address</h5>' +
  '<label>Same as Lead</label>' +
- '<input id="sameAs'+i+'"  type="checkbox" name="same_as" onchange=sameAs("sameAs'+i+'","sameAsDiv' +i+'") value="Same as Lead" class="w3-check w3-round w3-row-padding" checked/>' +
- '<div id="sameAsDiv' +i+'" class="w3-border" style="display: none;">' +
+ '<input id="Adults['+i+'][sameAs]"  type="checkbox" name="Adults['+i+'][sameAs]" onchange=sameAs("sameAs'+i+'","sameAsDiv' +i+'") class="w3-check w3-round w3-row-padding" checked/>' +
+ '<div id="Adults['+i+'][sameAs]Div" class="w3-border" style="display: none;">' +
  '<div class="w3-cell-row w3-row-padding w3-margin-bottom w3-margin-top">' +
  '<div class="w3-col m4">' +
  '<input name="Adults['+i+'][address1]" class="w3-input w3-round w3-row-padding" type="text" placeholder="Address 1" >' +

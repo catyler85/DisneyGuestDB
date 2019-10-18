@@ -57,39 +57,7 @@ begin
 	loop
     --if i = 1 then
     if i <= adult_num then
-    /*  db_int                                         := nextval('dgmain.dg_id_seq');
-			p_params                                       := jsonb_set(p_params, array['Adults', '1'::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
-			--
-			guest_rec.trans_id                             := (p_params ->> 'trans_id')::text;
-	    guest_rec.load_date                            := db_current_date;
-			guest_rec.status                               := 'I';
-	    guest_rec.name_prefix                          := coalesce((p_params 'Adults' -> i::text ->> 'name_prefix')::text,'');
-	    guest_rec.first_name                           := coalesce((p_params 'Adults' -> i::text ->> 'first_name')::text,'');
-	    guest_rec.middle_name                          := coalesce((p_params 'Adults' -> i::text ->> 'middle_name')::text,'');
-	    guest_rec.last_name                            := coalesce((p_params 'Adults' -> i::text ->> 'last_name')::text,'');
-	    guest_rec.name_suffix                          := coalesce((p_params 'Adults' -> i::text ->> 'name_suffix')::text,'');
-	    guest_rec.address1                             := coalesce((p_params 'Adults' -> i::text ->> 'address1')::text,'');
-	    guest_rec.address2                             := coalesce((p_params 'Adults' -> i::text ->> 'address2')::text,'');
-	    guest_rec.address3                             := coalesce((p_params 'Adults' -> i::text ->> 'address3')::text,'');
-	    guest_rec.city                                 := coalesce((p_params 'Adults' -> i::text ->> 'city')::text,'');
-	    guest_rec.state                                := coalesce((p_params 'Adults' -> i::text ->> 'state')::text,'');
-	    guest_rec.zip                                  := coalesce((p_params 'Adults' -> i::text ->> 'zip')::text,'');
-	    guest_rec.country                              := coalesce((p_params 'Adults' -> i::text ->> 'country')::text,'');
-	    guest_rec.email                                := coalesce((p_params 'Adults' -> i::text ->> 'email')::text,'');
-	    guest_rec.phone                                := coalesce((p_params 'Adults' -> i::text ->> 'phone')::text,'');
-	    guest_rec.cell                                 := coalesce((p_params 'Adults' -> i::text ->> 'cell')::text,'');
-	    guest_rec.fax                                  := coalesce((p_params 'Adults' -> i::text ->> 'fax')::text,'');
-	    guest_rec.preferred_contact_method             := coalesce((p_params 'Adults' -> i::text ->> 'contact_preference')::text,'');
-			guest_rec.dg_id                                := db_int;
-			guest_rec.last_room                            := (p_params -> 'Adults' -> i::text ->> 'room')::text;
 
-			insert into guest_rec_temp values (guest_rec.*);
-      ------------------------------------------------
-      select * into db_int from key_lookup_temp_ld_fn(guest_rec);
-			guest_rec                                      := null;
-				------------------------------------------------
-		elsif i <= adult_num
-		then*/
 		  db_int                                         := nextval('dgmain.dg_id_seq');
 		  p_params                                       := jsonb_set(p_params, array['Adults', (i-1)::text, 'dg_id'], ('"' || db_int || '"')::jsonb );
 			--
@@ -109,13 +77,24 @@ begin
 			  raise 'Last Name is required';
 			end if;
 		  guest_rec.name_suffix                          := (p_params -> 'Adults' -> (i-1) ->> 'name_suffix');
-		  guest_rec.address1                             := coalesce((p_params -> 'Adults' -> (i-1) ->> 'address1')::text,'');
-		  guest_rec.address2                             := coalesce((p_params -> 'Adults' -> (i-1) ->> 'address2')::text,'');
-		  guest_rec.address3                             := coalesce((p_params -> 'Adults' -> (i-1) ->> 'address3')::text,'');
-		  guest_rec.city                                 := coalesce((p_params -> 'Adults' -> (i-1) ->> 'city')::text,'');
-		  guest_rec.state                                := coalesce((p_params -> 'Adults' -> (i-1) ->> 'state')::text,'');
-		  guest_rec.zip                                  := coalesce((p_params -> 'Adults' -> (i-1) ->> 'zip')::text,'');
-		  guest_rec.country                              := coalesce((p_params -> 'Adults' -> (i-1) ->> 'country')::text,'');
+			if (p_params -> 'Adults' -> (i-1) ->> 'sameAs' = 'on')
+			then
+		    guest_rec.address1                           := coalesce((p_params -> 'Adults' -> (0) ->> 'address1')::text,'');
+		    guest_rec.address2                           := coalesce((p_params -> 'Adults' -> (0) ->> 'address2')::text,'');
+		    guest_rec.address3                           := coalesce((p_params -> 'Adults' -> (0) ->> 'address3')::text,'');
+		    guest_rec.city                               := coalesce((p_params -> 'Adults' -> (0) ->> 'city')::text,'');
+		    guest_rec.state                              := coalesce((p_params -> 'Adults' -> (0) ->> 'state')::text,'');
+		    guest_rec.zip                                := coalesce((p_params -> 'Adults' -> (0) ->> 'zip')::text,'');
+		    guest_rec.country                            := coalesce((p_params -> 'Adults' -> (0) ->> 'country')::text,'');
+			else
+			  guest_rec.address1                           := coalesce((p_params -> 'Adults' -> (i-1) ->> 'address1')::text,'');
+		    guest_rec.address2                           := coalesce((p_params -> 'Adults' -> (i-1) ->> 'address2')::text,'');
+		    guest_rec.address3                           := coalesce((p_params -> 'Adults' -> (i-1) ->> 'address3')::text,'');
+		    guest_rec.city                               := coalesce((p_params -> 'Adults' -> (i-1) ->> 'city')::text,'');
+		    guest_rec.state                              := coalesce((p_params -> 'Adults' -> (i-1) ->> 'state')::text,'');
+		    guest_rec.zip                                := coalesce((p_params -> 'Adults' -> (i-1) ->> 'zip')::text,'');
+		    guest_rec.country                            := coalesce((p_params -> 'Adults' -> (i-1) ->> 'country')::text,'');
+			end if;
 	    guest_rec.email                                := coalesce((p_params -> 'Adults' -> (i-1) ->> 'email')::text,'');
 	    guest_rec.phone                                := coalesce((p_params -> 'Adults' -> (i-1) ->> 'phone')::text,'');
 	    guest_rec.cell                                 := coalesce((p_params -> 'Adults' -> (i-1) ->> 'cell')::text,'');
@@ -151,13 +130,25 @@ begin
 			  raise 'Last Name is required';
 			end if;
 		  guest_rec.name_suffix                          := (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'name_suffix');
-		  guest_rec.address1                             := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'address1')::text,'');
-		  guest_rec.address2                             := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'address2')::text,'');
-		  guest_rec.address3                             := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'address3')::text,'');
-		  guest_rec.city                                 := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'city')::text,'');
-		  guest_rec.state                                := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'state')::text,'');
-		  guest_rec.zip                                  := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'zip')::text,'');
-		  guest_rec.country                              := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'country')::text,'');
+
+			if (p_params -> 'Children' -> (i - (adult_num +1)) ->> 'sameAs' = 'on')
+			then
+		    guest_rec.address1                           := coalesce((p_params -> 'Adults' -> (0) ->> 'address1')::text,'');
+		    guest_rec.address2                           := coalesce((p_params -> 'Adults' -> (0) ->> 'address2')::text,'');
+		    guest_rec.address3                           := coalesce((p_params -> 'Adults' -> (0) ->> 'address3')::text,'');
+		    guest_rec.city                               := coalesce((p_params -> 'Adults' -> (0) ->> 'city')::text,'');
+		    guest_rec.state                              := coalesce((p_params -> 'Adults' -> (0) ->> 'state')::text,'');
+		    guest_rec.zip                                := coalesce((p_params -> 'Adults' -> (0) ->> 'zip')::text,'');
+		    guest_rec.country                            := coalesce((p_params -> 'Adults' -> (0) ->> 'country')::text,'');
+			else
+		    guest_rec.address1                           := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'address1')::text,'');
+		    guest_rec.address2                           := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'address2')::text,'');
+		    guest_rec.address3                           := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'address3')::text,'');
+		    guest_rec.city                               := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'city')::text,'');
+		    guest_rec.state                              := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'state')::text,'');
+		    guest_rec.zip                                := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'zip')::text,'');
+		    guest_rec.country                            := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'country')::text,'');
+			end if;
 	    guest_rec.email                                := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'email')::text,'');
 	    guest_rec.phone                                := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'phone')::text,'');
 	    guest_rec.cell                                 := coalesce((p_params -> 'Children' -> (i - (adult_num +1)) ->> 'cell')::text,'');

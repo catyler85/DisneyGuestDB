@@ -26,14 +26,15 @@ session_start();
     <hr>
 		<div class="w3-container w3-center">
 			<button class="w3-btn w3-round-large w3-pink" onclick="document.getElementById('one_note_modal').style.display='block'">View for One Note</button>
-			<button class="w3-btn w3-round-large w3-pink" id="submit" onclick="form_submit('edit_lead_form',validationARR)">Submit</button>
+      <button class="w3-btn w3-round-large w3-pink" id="save" onclick="form_submit('edit_lead_form',validationARR,this.id)">Save</button>
+			<button class="w3-btn w3-round-large w3-pink" id="submit" onclick="form_submit('edit_lead_form',validationARR,this.id)">Submit</button>
 
 		</div>
 		<br>
 		<!-- ../disney-guest-db.php -->
 		<?php include_once("../forms/_lead_form.php"); ?>
-      <div id="loading" class="w3-modal">
-      	<i class="fa fa-spinner w3-spin w3-display-center"  style="font-size:50px"></i>
+      <div id="loading" class="w3-modal w3-display-container">
+      	<i class="fa fa-spinner w3-spin w3-display-middle"  style="font-size:50px"></i>
       </div>
 			<!--One Note modal     -->
 			<div id="one_note_modal" class="w3-modal">
@@ -177,93 +178,221 @@ session_start();
 	<footer>
 		<script type="text/javascript">
 
+		function childCheckbox(checkID, inputID,rowID){
+		 const table = document.querySelectorAll('table');
+		 var row, name, child_flag;
+		 var adult_num = 0;
+		 var guest_num, child_num = -1;
+		 //loop through each row in table
+		 //for (let t = 0; t < table.length; t++) {
+			 //row = table[0].rows[t];
+			 //console.log(table[0].rows[0]);
+		for (var i = 0; row = table[0].rows[i]; i++) {
+				 console.log("row:" +i);
+				 //var inputs = document.getElementById(rowID).getElementsByTagName('input');
+				 //var selects = document.getElementById(rowID).getElementsByTagName('select');
+				 //console.log(inputs[0]);
+			for (var j = 0; col = row.cells[j]; j++) {
+
+				var inputs = col.getElementsByTagName('input');
+				var selects = col.getElementsByTagName('select')
 
 
-		function childCheckbox(checkID, inputID){
- 		 const table = document.querySelectorAll('table');
- 		 var row, name, child_flag;
- 		 var guest_num, child_num = -1;
- 		 var adult_num = 0;
+				if (inputs[1].checked && inputs[1].type == 'checkbox') {
+						child_num++;
+						child_flag = true;
+					}else {
+						adult_num++;
+						child_flag = false;
+				}
+				console.log("adults:" +adult_num+ " children:" +child_num);
+				//loop through each input within a row
+				for (var q = 0; q < inputs.length; q++) {
+					name = inputs[q].name;
+					console.log(inputs[q].value + q);
 
- 		 //loop through each row in table
- 		 for (let t = 0; t <= table.length; t++) {
- 			 row = table[0].rows[(t)];
- 			 var inputs = row.getElementsByTagName('input');
- 			 var selects = row.getElementsByTagName('select');
- 			 //console.log("checkbox: " && inputs[0]);
- 			 //check if checkbox is checked
- 			 if (inputs[0].checked && inputs[0].type == 'checkbox') {
- 				 child_num++;
- 				 child_flag = true;
- 				 //rename each input in row
- 				 //for (var q = 0; q < inputs.length; q++) {
- 				 //	name = inputs[q].name;
- 				 //	name = name.replace('Adults', 'Children');
- 				 //	inputs[q].setAttribute('name', name);
- 				 //	//console.log(name);
- 				 // }
- 				//check if checkbox is unchecked
- 			}else if (!inputs[0].checked && inputs[0].type == 'checkbox') {
- 				 adult_num++;
- 				 child_flag = false;
- 				 //rename each input in row
- 				 //for (var w = 0; w < inputs.length; w++) {
- 				 //	name = inputs[w].name;
- 				 //	name = name.replace('Children', 'Adults');
- 				 //	inputs[w].setAttribute('name', name);
- 			 //		//console.log(name);
- 				 //}
- 			 }
+					console.log(child_flag);
+					if (child_flag) {
+						guest_num = child_num;
+						name = name.replace('Adults', 'Children');
+						inputs[q].setAttribute('name', name);
+					}else {
+						guest_num = adult_num;
+						name = name.replace('Children', 'Adults');
+						inputs[q].setAttribute('name', name);
+					}
+					//renumber guests
+					name = name.replace(/[0-9]/,(guest_num));
+					inputs[q].setAttribute('name', name);
+					//console.log(name);
+				}
 
- 			 //loop through each input within a row
- 			 for (var i = 0; i < inputs.length; i++) {
- 				 name = inputs[i].name;
+				//loop through each select within a row
+				for (var w = 0; w < selects.length; w++) {
+					name = selects[w].name;
 
- 				 if (child_flag) {
- 					 guest_num = child_num;
- 					 name = name.replace('Adults', 'Children');
- 					 inputs[i].setAttribute('name', name);
- 				 }else {
- 					 guest_num = adult_num;
- 					 name = name.replace('Children', 'Adults');
- 					 inputs[i].setAttribute('name', name);
- 				 }
- 				 //renumber guests
- 				 name = name.replace(/[0-9]/,(guest_num));
- 				 inputs[i].setAttribute('name', name);
- 				 //console.log(name);
- 			 }
+					if (child_flag) {
+						guest_num = child_num;
+						name = name.replace('Adults', 'Children');
+						selects[w].setAttribute('name', name);
+					}else {
+						guest_num = adult_num;
+						name = name.replace('Children', 'Adults');
+						selects[w].setAttribute('name', name);
+					}
+					//renumber guests
+					name = name.replace(/[0-9]/,(guest_num));
+					selects[w].setAttribute('name', name);
+					//console.log(name);
+				}
 
- 			 //loop through each select within a row
- 			 for (var q = 0; q < selects.length; q++) {
- 				 name = selects[q].name;
+			}
+				 //check if checkbox is checked
+				//if (inputs[1].checked && inputs[1].type == 'checkbox') {
+				//	 child_num++;
+				//	 child_flag = true;
+					//check if checkbox is unchecked
+				//}else if (!inputs[1].checked && inputs[1].type == 'checkbox') {
+				//	 adult_num++;
+				//	 child_flag = false;
+				// }
 
- 				 if (child_flag) {
- 					 guest_num = child_num;
- 					 name = name.replace('Adults', 'Children');
- 					 selects[q].setAttribute('name', name);
- 				 }else {
- 					 guest_num = adult_num;
- 					 name = name.replace('Children', 'Adults');
- 					 selects[q].setAttribute('name', name);
- 				 }
- 				 //renumber guests
- 				 name = name.replace(/[0-9]/,(guest_num));
- 				 selects[q].setAttribute('name', name);
- 				 //console.log(name);
- 			 }
+				 //loop through each input within a row
+				 //for (var i = 0; i < inputs.length; i++) {
+				//	 name = inputs[i].name;
+
+				//	 if (child_flag) {
+				//		 guest_num = child_num;
+				//		 name = name.replace('Adults', 'Children');
+				//		 inputs[i].setAttribute('name', name);
+				//	 }else {
+				//		 guest_num = adult_num;
+				//		 name = name.replace('Children', 'Adults');
+				//		 inputs[i].setAttribute('name', name);
+				//	 }
+				//	 //renumber guests
+				//	 name = name.replace(/[0-9]/,(guest_num));
+				//	 inputs[i].setAttribute('name', name);
+				//	 //console.log(name);
+				 //}
+
+				 //loop through each select within a row
+				 //for (var q = 0; q < selects.length; q++) {
+				//	 name = selects[q].name;
+
+				//	 if (child_flag) {
+				//		 guest_num = child_num;
+				//		 name = name.replace('Adults', 'Children');
+				//		 selects[q].setAttribute('name', name);
+				//	 }else {
+				//		 guest_num = adult_num;
+				//		 name = name.replace('Children', 'Adults');
+				//		 selects[q].setAttribute('name', name);
+				//	 }
+				//	 //renumber guests
+				//	 name = name.replace(/[0-9]/,(guest_num));
+				//	 selects[q].setAttribute('name', name);
+				//	 //console.log(name);
+				 //}
+
+		}
 
 
- 		 }
+
+		 if (document.getElementById(checkID).checked){
+				 document.getElementById(inputID).style.display = 'block';
+		 }
+		 else if (!document.getElementById(checkID).checked){
+				 document.getElementById(inputID).style.display = 'none';
+			 }
+
+		}
+
+	//	function childCheckbox(checkID, inputID){
+ 	//	 const table = document.querySelectorAll('table');
+ 	//	 var row, name, child_flag;
+ 	//	 var guest_num, child_num = -1;
+ 	//	 var adult_num = 0;
+
+ 	//	 //loop through each row in table
+ 	//	 for (let t = 0; t <= table.length; t++) {
+ 	//		 row = table[0].rows[(t)];
+ 	//		 var inputs = row.getElementsByTagName('input');
+ 	//		 var selects = row.getElementsByTagName('select');
+ 	//		 //console.log("checkbox: " && inputs[0]);
+ 	//		 //check if checkbox is checked
+ 	//		 if (inputs[0].checked && inputs[0].type == 'checkbox') {
+ 	//			 child_num++;
+ 	//			 child_flag = true;
+ 	//			 //rename each input in row
+ 	//			 //for (var q = 0; q < inputs.length; q++) {
+ 	//			 //	name = inputs[q].name;
+ 	//			 //	name = name.replace('Adults', 'Children');
+ 	//			 //	inputs[q].setAttribute('name', name);
+ 	//			 //	//console.log(name);
+ 	//			 // }
+ 	//			//check if checkbox is unchecked
+ 	//		}else if (!inputs[0].checked && inputs[0].type == 'checkbox') {
+ 	//			 adult_num++;
+ 	//			 child_flag = false;
+ 	//			 //rename each input in row
+ 	//			 //for (var w = 0; w < inputs.length; w++) {
+ 	//			 //	name = inputs[w].name;
+ 	//			 //	name = name.replace('Children', 'Adults');
+ 	//			 //	inputs[w].setAttribute('name', name);
+ 	//		 //		//console.log(name);
+ 	//			 //}
+ 	//		 }
+
+ 	//		 //loop through each input within a row
+ 	//		 for (var i = 0; i < inputs.length; i++) {
+ 	//			 name = inputs[i].name;
+
+ 	//			 if (child_flag) {
+ 	//				 guest_num = child_num;
+ 	//				 name = name.replace('Adults', 'Children');
+ 	//				 inputs[i].setAttribute('name', name);
+ 	//			 }else {
+ 	//				 guest_num = adult_num;
+ 	//				 name = name.replace('Children', 'Adults');
+ 	//				 inputs[i].setAttribute('name', name);
+ 	//			 }
+ 	//			 //renumber guests
+ 	//			 name = name.replace(/[0-9]/,(guest_num));
+ 	//			 inputs[i].setAttribute('name', name);
+ 	//			 //console.log(name);
+ 	//		 }
+
+ 	//		 //loop through each select within a row
+ 	//		 for (var q = 0; q < selects.length; q++) {
+ 	//			 name = selects[q].name;
+
+ 	//			 if (child_flag) {
+ 	//				 guest_num = child_num;
+ 	//				 name = name.replace('Adults', 'Children');
+ 	//				 selects[q].setAttribute('name', name);
+ 	//			 }else {
+ 	//				 guest_num = adult_num;
+ 	//				 name = name.replace('Children', 'Adults');
+ 	//				 selects[q].setAttribute('name', name);
+ 	//			 }
+ 	//			 //renumber guests
+ 	//			 name = name.replace(/[0-9]/,(guest_num));
+ 	//			 selects[q].setAttribute('name', name);
+ 	//			 //console.log(name);
+ 	//		 }
 
 
- 		 if (document.getElementById(checkID).checked){
- 				 document.getElementById(inputID).style.display = 'block';
- 		 }
- 		 else if (!document.getElementById(checkID).checked){
- 				 document.getElementById(inputID).style.display = 'none';
- 			 }
- 	 }
+ 	//	 }
+
+
+ 	//	 if (document.getElementById(checkID).checked){
+ 	//			 document.getElementById(inputID).style.display = 'block';
+ 	//	 }
+ 	//	 else if (!document.getElementById(checkID).checked){
+ 	//			 document.getElementById(inputID).style.display = 'none';
+ 	//		 }
+ 	// }
 
 
 						function createOption(ddl, text, value) {

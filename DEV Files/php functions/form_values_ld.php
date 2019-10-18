@@ -1,7 +1,10 @@
 <?php
 $my_obj =  new \stdClass();
 $my_obj ->lookup_key  = $_GET["lookup_key"];
-$my_obj ->lookup_value  = $_GET["lookup_value"];
+if (isset($_GET["lookup_value"])) {
+  $my_obj ->lookup_value  = $_GET["lookup_value"];
+}
+
 
 $form_json  =   json_encode($my_obj);
 $form_name  =   "get_form_values";
