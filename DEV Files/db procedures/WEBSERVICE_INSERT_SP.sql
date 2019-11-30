@@ -121,7 +121,7 @@ exception when others then
 	commit;
 	--
   insert into dgmain.webservice_trans
-		values (t_id, current_date, null, null, results_str)
+		values (t_id, current_date, p_params, p_trans_name, results_str)
 	on conflict ON CONSTRAINT webservice_trans_pkey do
 	update
 		set results     = results_str;

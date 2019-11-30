@@ -23,7 +23,7 @@ begin
   v_proc_step                                  := 'init section';
   --
   v_lookup_key                                 := p_params ->> 'lookup_key';
-  v_lookup_value                               := p_params ->> 'lookup_value';
+  v_lookup_value                               := coalesce(p_params ->> 'lookup_value','x');
   db_jsonb                                     := jsonb_build_object('form_ld_sp',null);
   -----------------------------------------
 
@@ -44,7 +44,12 @@ begin
 		then raise 'Lookup key does not match';
 		end if;
 		--
-    execute v_sql into v_lookup_rec using v_lookup_value::int;
+		if v_lookup_value = 'x'
+		then
+		  execute v_sql into v_lookup_rec;
+		else
+      execute v_sql into v_lookup_rec using v_lookup_value;
+		end if;
 
     db_jsonb                                   := db_jsonb || v_lookup_rec.jsonb_rtn;
     --raise notice '%', db_jsonb;
